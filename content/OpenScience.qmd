@@ -2,6 +2,10 @@
 title: Open Science
 ---
 
-This section is optional but we recommend creating this place to point to the [Open Science repository](https://sael-swfsc.github.io/OpenScience/). 
+The goal of Open Science is to ensure that science is accessible to everyone. Open Science accelerates scientific progress and strengthens trust between scientists and other communities. 
 
-[SAEL Example](https://sael-swfsc.github.io/SAEL-lab-manual/content/OpenScience.html)
+The following efforts will be made to align this research with Open Science values:
+- Confirmed detection of species will be made publicly available
+- 'Voucher' sound samples will be made publicly available
+- Emphasis will be made on using open source software 
+

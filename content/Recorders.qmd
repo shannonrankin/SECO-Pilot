@@ -1,0 +1,7 @@
+---
+title: Recorders
+---
+
+Pilot Studies use the low cost Audiomoth Recorder.
+
+Alternatives to the Audiomoth may provide improved recording quality, longer recording durations, multiple recording sensors (for localization), or more complicated sampling regimes. Below we provide a general comparison between several recording options. Ultimately, the best recorder will depend on the research study area and needs. 
