@@ -1,0 +1,61 @@
+---
+title: "Wetland_Dashboard"
+format: dashboard
+---
+
+# TO DO: Add code chunk for bits below
+
+```{r}
+#| echo: false
+#| include: false
+
+library(tidyverse)
+library(bslib)
+library(fontawesome)
+library(here)
+
+here()
+
+```
+# Add left sidebar for user selections (1)Project (2)Location (3)Site (4)Species (5)Date Range
+```{r sidebar}
+
+
+```
+
+# Value Cards- (1)Start/End Date (2)#Hrs/Tb, (2) #Species 
+```{r}
+value_box(
+  title = "Start & End Date",
+  value = textOutput("ss"),
+  showcase = bs_icon("calendar-range"),
+  theme = "purple"
+)
+
+value_box(
+  title = "Recording Size",
+  value = textOutput("ss"),
+  showcase = bs_icon("clipboard-data-fill"),
+  theme = "purple"
+)
+
+value_box(
+  title = "Species Detected",
+  value = textOutput("ss"),
+  showcase = bs_icon("tux"),
+  theme = "purple"
+)
+
+```
+
+# BoxPlot- plotDetectionBoxplot from Pamverse
+```{r}
+
+```
+
+# Scene - plotAcousticScene from Pamverse
+
+# Polar Plot- plotPolarDetections from Pamverse
+
+# Diel Plot- plotDiel from data/diel_Plot.R
+

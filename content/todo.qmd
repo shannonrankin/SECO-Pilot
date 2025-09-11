@@ -1,0 +1,199 @@
+---
+title: "todo"
+format: html
+---
+
+### Intro
+
+-   [ ] Add Intro
+
+### Methods- Intro
+
+-   \[ \]
+
+### Methods- Recorders
+
+-   \[ \]
+
+### Methods- Analysis
+
+-   \[ \]
+
+### Dashboard
+
+-   \[ \]
+
+### Data
+
+-   [ ] Map to satellite image
+
+### Sounds
+
+-   [ ] Scrolling Spectrogram
+
+-   [ ] Sample Sounds
+
+### Results
+
+-   [ ] Link to Dashboard
+
+-   [ ] Revise dielPlots to work for this data
+
+### Dashboard
+
+-   [ ] Value Boxes (Hrs Recording + Tb Data, \# Species Detected)
+-   \[ \]
+
+### Ancillary Data
+
+#### - BioDiversity
+
+-   \[ \]
+
+-   \[ \]
+
+#### - Bats
+
+-   \[ \]
+
+-   \[ \]
+
+### Future
+
+-   [ ] Expand on types of monitoring to meet managment needs
+
+### Bibliography
+
+## Data Prep
+
+### Deployments
+
+-   [ ] Data Checks (QAQC.r):
+
+    -   [ ] Check that all files have recording percursor (missing on SPP-DD10_48c_20250716)
+
+    -   [ ] Add precursor to those files that are missing it
+
+    -   [ ] Check start time for all files to ensure it is UTC and 'correct' (close to other deployments)
+
+    -   [ ] Check for missing data
+
+    -   [ ] Acoustic recording start/end: Using Raven, find official start/end, and add to SE_DeployDetails, also, ID number of bad files
+
+-   [ ] Update deployment spreadsheet and save primary sheet as a csv file to github/data
+
+-   [ ] DeployDetails QAQC
+
+    -   [ ] Create local Date/Time and create a date/time check for deploy/retrieve/start record/end recording
+
+    -   [ ] Check data for numeric, all caps, all lowercase, and other consistent formatting.
+
+    -   [ ] Create a Lat/Long check
+
+    -   [ ] Find length of deployment w/in bounds, same for recording deployment
+
+    -   [ ] Check if battery or storage limited recording?
+
+    -   [ ] QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
+
+    -   [ ] confirm that each deployment_ID is unique, and that the components of the deployment_ID match the appropriate column info
+
+    -   [ ] If a new upload, check to see if any previous entries are different than the current ones (to ID possible accidental modifications in the ODS file). Create a log of these.
+
+    -   [ ] Create a log of all the QAQC outputs with the date, etc.
+
+    -   [ ] Check for updates to the other sheets in the ODS workbook
+
+    -   \[ \]
+
+-   \[ \]
+
+-   [ ] Add all photos from phone to images folder on desktop, add photonames to deployDetails/Location_Site table
+
+### Birds
+
+For each recording:
+
+-   [ ] Rename BirdNET_SelectionTable.txt to append and add name of folder (deploymentName)
+
+-   [ ] Save BirdNET_SelectionTable_deploymentName.txt to SECO-Pilot/data folder in Github Repo
+
+-   [ ] Data Prep using *bird_birdnet.r* file
+
+    -   [ ] library(birdnetTools)
+
+    -   [ ] merge all BirdNet_SelectionTable_xxx.txt files and save as BirdNet_SelectionTables_ALL.csv **birdnet_combine( )**
+
+    -   [ ] UTC vs Local Time/Date **birdnet_add_datetime( )**
+
+    -   [ ] Calculate species specific confidence thresholds for BirdNet detections **birdnet_calc_threshold( )**
+
+    -   [ ] Code Name vs Scientific Name vs Common Name \[birdnetR/labels\]
+
+    -   [ ] Add Location, Site
+
+    -   [ ] Remove any detections before or after recording start/end date/time
+
+    -   [ ] Save as a csv in SECO-Pilot/data folder
+
+-   [ ] Data Analysis
+
+    -   [ ] Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
+
+    -   \[ \]
+
+-   \[ \]
+
+### Bats
+
+-   [ ] Review bat recordings to manually classify
+
+-   [ ] Merge all detections for a recording
+
+-   [ ] Modify *code/bat_kaleidoscope.r* file
+
+    -   [ ] Remove any detections before or after recording start/end date/time
+
+    -   [ ] Add columns for (1) Location, (2) Site
+
+-   [ ] save as csv in github data folder
+
+-   \[ \]
+
+### Noise
+
+## MoreInfo
+
+[ObservableJS Video by Allison Horst](https://youtu.be/0srggostAko?feature=shared) 0.40.00
+
+[Interactive Documents Github Pages+Quarto+Shiny](https://youtu.be/06H8k1nzZQ0?feature=shared) - great video
+
+RStudio Trick: add ' ' to multi lines- You can use multi-line cursors by pressing alt + click + dragging down the cursor. If you're looking for more RStudio tricks, check out my video on that <https://www.youtube.com/watch?v=XHT1m-LKTVY&t=64s>
+
+[Quarto Dashboards in 1 hr video by Mine](https://youtu.be/NoOU_nzeAGk?feature=shared)
+
+[ggiraph for Interactive plots](https://allisonhorst.github.io/ggiraph-demo/demo.html)
+
+[pamverse](https://nmfs-ost.github.io/PAMverse/content/AcousticDetections.html)
+
+### Papers with reproducible figures/analyses
+
+[Large-scale avian vocalization detection delivers reliable global biodiversity insights](https://www.pnas.org/doi/full/10.1073/pnas.2315933121)
+
+[adiv: An r package to analyse biodiversity in ecology](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13430)
+
+[BirdNET provides superior diversity estimates compared to observer-based surveys in long-term monitoring](https://www.sciencedirect.com/science/article/pii/S1470160X25006776)
+
+### Papers for Future Studies
+
+[Survey coverage, recording duration and community composition affect observed species richness in passive acoustic surveys](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13571)
+
+[A post-processing framework for assessing BirdNET identification accuracy and community composition](https://onlinelibrary.wiley.com/doi/full/10.1111/ibi.13357)
+
+[Advancing bird survey efforts through novel recorder technology and automated species identification](https://web.archive.org/web/20211203174336id_/https://nrm.dfg.ca.gov/FileHandler.ashx?DocumentID=193712&inline)
+
+Analysis Methods
+
+[Audiomoth Data Processing](https://github.com/ELBE223/audiomoth-data-processing/tree/main) (Diversity Analysis, PointCounts, etc)
+
+[SoundscapeR Package w/ Vignette](https://thomasluypaert.github.io/soundscapeR_vignette/)

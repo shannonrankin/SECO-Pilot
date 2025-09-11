@@ -1,0 +1,97 @@
+---
+title: "Future Research"
+format: html
+bibliography: references.bib
+---
+
+# Future of PAM research for Ridgeway's Rails and Southern California Wetland Habitats
+
+Historical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgeway's Rails in southern California. This survey design primarily relied on playback of duetting calls to elicit a response from local breeding pairs[@zembal2024]; however, specific field methods varied throughout the field season. Notably, [@thompson2024] noted that these playback methods work well when used sparingly. A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias[@stevens2024]. While historical call-response surveys have proven to be an effective approach to monitoring Ridgeway's Rails, recent advances in PAM monitoring using acoustic recorders may provide a more standardized approach to monitoring Ridgeway's Rails populations that may ultimately lead to more robust estimation of population trends.
+
+## Management Needs will Define Role of PAM
+
+While there is great potential for using passive acoustic monitoring to assess wildlife populations, how this is done will depend on the management needs.
+
+### Occupancy
+
+define occupancy and requirements to use PAM to define occupancy.
+
+### Distribution
+
+samesies
+
+### Abundance
+
+samesies
+
+### Trends
+
+samesies
+
+### Habitat Modeling
+
+samesies
+
+## Call-Response vs PAM
+
+Studies of species such as Ridgeway's Rails benefit from the animals' tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias[@stevens2024], but other research suggests that animals may habituate and render these methods futile[@zembal2024]. Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?
+
+While Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species' presence. It necessarily relies on the vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity, and
+
++-----------------------------------------------+-----------+---------------------------------------+
+| Call - Response                               |           | Passive Acoustics                     |
++===============================================+===========+=======================================+
+| -   High detection rate                       |           | -   Low detection rate                |
++-----------------------------------------------+-----------+---------------------------------------+
+| -   Potential impact on animals               |           | -   Non-invasive remote sensing       |
++-----------------------------------------------+-----------+---------------------------------------+
+| -   Increased sampling to reduce bias         |           | -   Increased sampling to reduce bias |
++-----------------------------------------------+-----------+---------------------------------------+
+| -   Animals may respond to increased sampling |           | -   No impact of increased sampling   |
++-----------------------------------------------+-----------+---------------------------------------+
+| -   Limited sampling to reduce habituation    |           | -   Long-term sampling                |
++-----------------------------------------------+-----------+---------------------------------------+
+|                                               |           |                                       |
++-----------------------------------------------+-----------+---------------------------------------+
+|                                               |           |                                       |
++-----------------------------------------------+-----------+---------------------------------------+
+|                                               |           |                                       |
++-----------------------------------------------+-----------+---------------------------------------+
+|                                               |           |                                       |
++-----------------------------------------------+-----------+---------------------------------------+
+|                                               |           |                                       |
++-----------------------------------------------+-----------+---------------------------------------+
+
+: Benefits and Limitations of Call-Response and PAM Sampling. Green check identifies beneficial characteristics of sampling method, and red X identifies limitation of that sampling method.
+
+## Anthropogenic Impacts
+
+## Additional Benefits of Passive Acoustic Monitoring
+
+-   Archived data allows for replication of studies and consideration of additional studies
+
+-   Soundscape monitoring provides a high-level view of changes to the environment
+
+-   
+
+## Open Science
+
+Open science is a global movement to make scientific research and its outcomes freely accessible to everyone. It accelerates scientific progress and strengthens trust in research. Here are some of the many ways I intend to conduct my research in an open science framework:
+
+***Transparency:***
+
+-   Rely primarily (or entirely) on open source software
+
+-   Make code and data products publicly available on Github
+
+***Sharing:***
+
+-   Make research results publicly available (Github Pages and accessible reports, publications)
+
+-   Share selected audio files publicly for their use in improving AI models
+
+***Inclusivity***
+
+-   Identify approaches to include public participation in data collection and analysis
+
+-   Seek collaborations to extend the scope of this research to take advantage of the great potential of passive acoustic data.

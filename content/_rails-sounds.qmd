@@ -1,0 +1,41 @@
+---
+title: "rails-sounds"
+format: html
+---
+
+To Do: Create scrolling spectrograms using dynaSpec in R Here is a [link](https://colab.research.google.com/github/maRce10/dynaSpec/blob/master/dynaSpec.ipynb)to a colab notebook on this
+
+```{r}
+#| echo: false
+#| include: false
+#remotes::install_github("maRce10/dynaSpec")  #If latest developmental version is needed
+library(tidyverse)
+library(dynaSpec)
+library(viridis)
+library(tuneR)
+library(seewave)
+library(here)
+
+```
+
+``` {r spectro}
+my_wave <- read_sound_file(here("output", "wav", "SPP-1N_48c_20250603_183902_LFRR.wav"))
+              
+
+scrolling_spectro(
+  wave = my_wave,
+  wl = 600,
+  t.display = 3,
+  ovlp = 95,
+  pal = cividis,
+  grid = FALSE,
+  flim = c(2, 8),
+  width = 700,
+  height = 250,
+  res = 100,
+  collevels = seq(-40, 0, 5),
+  file.name = "my_dynamic_spectro.mp4",
+  colbg = "#2d2d86",
+  lcol = "#FFFFFFE6"
+)
+```

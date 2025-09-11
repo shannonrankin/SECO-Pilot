@@ -1,0 +1,15 @@
+{
+  "hash": "56b104a2270a9842caa9d9a61e20af49",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Wetland_Dashboard\"\nformat: dashboard\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(here)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning: package 'here' was built under R version 4.5.1\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stderr}\n\n```\nhere() starts at C:/Users/Shannon/Documents/GitHub/SECO-Pilot\n```\n\n\n:::\n\n```{.r .cell-code}\n# To Do\n# YouTube https://youtu.be/HW7QbqI4fH0?feature=shared\n```\n:::\n\n\n\n\n\n\nSteps:\n1. Top Left Summary\n2. Map with Locations (TJ, LCDC)\n3. Species Plots: Choose Species, Project, Site, Date Range\n--> # Detections per Hour- horizontal histogram, organized by ##\n--> Hourly Polar Plot above Histogram by Hour of day\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

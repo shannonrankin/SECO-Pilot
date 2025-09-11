@@ -1,0 +1,78 @@
+---
+title: "Data"
+format: html
+---
+
+# Passive Acoustic Monitoring of San Diego Wetlands
+
+```{r}
+#| echo: false
+#| include: false
+library(tidyverse)
+library(here)
+library(DT)
+library(leaflet)
+here()
+
+
+```
+
+::::::::: columns
+::: {.column width="40%"}
+The primary purpose of this pilot study was to collect preliminary data to determine the potential for passive acoustic monitoring to study Light-Footed Ridgeway's Rails (LFRR) in San Diego. This pilot study was conducted in two regions: The Tijuana Estuary and the LFRR Proving Pens at the Living Coast Discovery Center. All recordings were made using Audiomoth recorders with varying settings (more information on recording methods can be found [here](https://github.io/shannonrankin/SECO/methods-recorders)).
+:::
+
+::: {.column width="60%"}
+```{r}
+#| echo: false
+#| warning: false
+deployTable <- readRDS(here("data", "deployTable_railPilot.RDS"))
+
+leaflet(data = deployTable) %>%
+  addTiles() %>%
+  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_ID))
+  
+
+
+```
+:::
+
+::: {.column width="60%"}
+## Tijuana Estuary
+
+Recorders were attached to a post situated near a small waterway at the Tijuana Estuary. This site was located near some Ridgeway's Rails (calls were heard during our deployment, as identified by Justyn Stahl).
+:::
+
+::: {.column width="40%"}
+![Audiomoth recorders attached to Solar Post near bridget at Tijuana Estuary](images/TJE-01_0250515_130112.jpg){width="258"}
+:::
+
+::: {.column width="60%"}
+## Living Coast Proving Pens
+
+The Proving Pens at the Living Coast Discovery Center are used for breeding and raising young Ridgeway's Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Preliminary recordings provided high quality recordings within close proximity to known Ridgeway's Rails, proving voucher ('ground truth') data that can be used to improve automated detectors and validate the systems.
+
+Additionally, we conducted an experiment to deploy recordings at distance from the two Proving Pens to obtain data to develop a detection function.
+:::
+
+::: {.column width="40%"}
+![Audiomoth recorders attached to LFRR Proving Pens at Living Coast Discovery Center](images/SPP-1N_20250515_135258.jpg){width="258"}
+:::
+:::::::::
+
+::: callout-important
+Note: All results are preliminary, data were not acoustically validated!
+:::
+
+```{r}
+#| label: rail_dataTable
+#| echo: false
+
+deployTable |>
+  DT::datatable(
+    caption = "Deployment of Acoustic Recorders for Rail-Wetland Pilot Study",
+    filter = "top" 
+  )|>
+DT::formatRound(6:7, digits = 4)
+
+```

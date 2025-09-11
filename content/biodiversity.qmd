@@ -1,0 +1,53 @@
+---
+title: "biodiversity"
+format: html
+---
+
+this is a summary of the results for the rails study from TJE
+
+# Diurnal vocalizations recorded near the Proving Pens
+Need to fix this so that I am using the appropriate data here
+
+```{r RailPrep}
+#| echo: false
+#| include: false
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+
+myDataset_TJE <- here("output", "birdnet_TJE.csv")
+
+myDataset_TJE_10 <- here("output", "birdnet_top10_TJE.csv")
+
+myData <- loadDetectionData(x=myDataset_TJE, source='csv', detectionType='detection', wide=FALSE, 
+                  tz='UTC', columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'))
+
+myData_10 <- loadDetectionData(x=myDataset_TJE_10, source='csv', detectionType='detection', wide=FALSE, 
+                  tz='UTC', columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'))
+
+```
+
+BoxPlot
+Need to fix this so that I am using the appropriate data here
+
+```{r RailBoxplot}
+#| echo: false
+#| warning: false
+
+
+plotDetectionBoxplot(x=myData,  group='species', facet = 'species', bin='hour/day', combineYears=FALSE, title = "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary")
+
+```
+
+Acoustic Scene
+Need to fix this so that I am using the appropriate data here
+
+```{r RailAcScene}
+#| echo: false
+#| warning: false
+
+
+plotAcousticScene(x=myData, combineYears=FALSE) #Note: this would only be good for TJ
+
+```
