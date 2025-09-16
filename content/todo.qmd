@@ -13,11 +13,14 @@ format: html
 
 ### Methods- Recorders
 
--   \[ \]
+-   [ ] Create prelim list of recorders, pros/cons, and links to comparative studies
 
 ### Methods- Analysis
 
--   \[ \]
+-   [ ] Bin Data (DRAFT COMPLETE)
+-   [ ] Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
+-   [ ] Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
+-   [ ] Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
 
 ### Dashboard
 
@@ -26,6 +29,27 @@ format: html
 ### Data
 
 -   [ ] Map to satellite image
+-   [ ] Add all photos from phone to images folder on desktop, add photonames to deployDetails/Location_Site table
+
+### QAQC
+
+-   [ ] Review recordings to find TRUE start/end time, add that to deployDetails, then create code to modify start/end time in datasets.
+-   [ ] Remove any detections before or after recording start/end date/time
+-   [ ] Check data for numeric, all caps, all lowercase, and other consistent formatting.
+-   [ ] Create a Lat/Long check
+-   [ ] Find length of deployment w/in bounds, same for recording deployment
+-   [ ] Check if battery or storage limited recording?
+-   [ ] QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
+-   [ ] confirm that each deployment_ID is unique, and that the components of the deployment_ID match the appropriate column info
+-   [ ] If a new upload, check to see if any previous entries are different than the current ones (to ID possible accidental modifications in the ODS file). Create a log of these.
+-   [ ] Create a log of all the QAQC outputs with the date, etc.
+-   [ ] Check for updates to the other sheets in the ODS workbook
+-   [ ] Check that all files have recording percursor (missing on SPP-DD10_48c_20250716)
+-   [ ] Add precursor to those files that are missing it
+-   [ ] Check start time for all files to ensure it is UTC and 'correct' (close to other deployments)
+-   [ ] Check for missing data
+-   [ ] Acoustic recording start/end: Using Raven, find official start/end, and add to SE_DeployDetails, also, ID number of bad files
+-   \[ \]
 
 ### Sounds
 
@@ -34,6 +58,14 @@ format: html
 -   [ ] Sample Sounds
 
 ### Results
+
+-   [ ] DD: Map of locations for DD Pilot
+
+-   [ ] DD: Table with SPP-1N, SPP-3S with distances to other recorders
+
+-   [ ] DD: Prelim analysis with a few calls to do prelim detection function
+
+-   [ ] DD: Warning note that further analysis is needed to fill out detection function, and that we need to do this for a wetland habitat (this is not typical habitat)
 
 -   [ ] Link to Dashboard
 
@@ -44,105 +76,9 @@ format: html
 -   [ ] Value Boxes (Hrs Recording + Tb Data, \# Species Detected)
 -   \[ \]
 
-### Ancillary Data
-
-#### - BioDiversity
-
--   \[ \]
-
--   \[ \]
-
-#### - Bats
-
--   \[ \]
-
--   \[ \]
-
-### Future
-
--   [ ] Expand on types of monitoring to meet managment needs
-
 ### Bibliography
 
-## Data Prep
-
-### Deployments
-
--   [ ] Data Checks (QAQC.r):
-
-    -   [ ] Check that all files have recording percursor (missing on SPP-DD10_48c_20250716)
-
-    -   [ ] Add precursor to those files that are missing it
-
-    -   [ ] Check start time for all files to ensure it is UTC and 'correct' (close to other deployments)
-
-    -   [ ] Check for missing data
-
-    -   [ ] Acoustic recording start/end: Using Raven, find official start/end, and add to SE_DeployDetails, also, ID number of bad files
-
--   [ ] Update deployment spreadsheet and save primary sheet as a csv file to github/data
-
--   [ ] DeployDetails QAQC
-
-    -   [ ] Create local Date/Time and create a date/time check for deploy/retrieve/start record/end recording
-
-    -   [ ] Check data for numeric, all caps, all lowercase, and other consistent formatting.
-
-    -   [ ] Create a Lat/Long check
-
-    -   [ ] Find length of deployment w/in bounds, same for recording deployment
-
-    -   [ ] Check if battery or storage limited recording?
-
-    -   [ ] QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
-
-    -   [ ] confirm that each deployment_ID is unique, and that the components of the deployment_ID match the appropriate column info
-
-    -   [ ] If a new upload, check to see if any previous entries are different than the current ones (to ID possible accidental modifications in the ODS file). Create a log of these.
-
-    -   [ ] Create a log of all the QAQC outputs with the date, etc.
-
-    -   [ ] Check for updates to the other sheets in the ODS workbook
-
-    -   \[ \]
-
--   \[ \]
-
--   [ ] Add all photos from phone to images folder on desktop, add photonames to deployDetails/Location_Site table
-
-### Birds
-
-For each recording:
-
--   [ ] Rename BirdNET_SelectionTable.txt to append and add name of folder (deploymentName)
-
--   [ ] Save BirdNET_SelectionTable_deploymentName.txt to SECO-Pilot/data folder in Github Repo
-
--   [ ] Data Prep using *bird_birdnet.r* file
-
-    -   [ ] library(birdnetTools)
-
-    -   [ ] merge all BirdNet_SelectionTable_xxx.txt files and save as BirdNet_SelectionTables_ALL.csv **birdnet_combine( )**
-
-    -   [ ] UTC vs Local Time/Date **birdnet_add_datetime( )**
-
-    -   [ ] Calculate species specific confidence thresholds for BirdNet detections **birdnet_calc_threshold( )**
-
-    -   [ ] Code Name vs Scientific Name vs Common Name \[birdnetR/labels\]
-
-    -   [ ] Add Location, Site
-
-    -   [ ] Remove any detections before or after recording start/end date/time
-
-    -   [ ] Save as a csv in SECO-Pilot/data folder
-
--   [ ] Data Analysis
-
-    -   [ ] Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
-
-    -   \[ \]
-
--   \[ \]
+### Biodiversity
 
 ### Bats
 
@@ -160,7 +96,7 @@ For each recording:
 
 -   \[ \]
 
-### Noise
+### 
 
 ## MoreInfo
 

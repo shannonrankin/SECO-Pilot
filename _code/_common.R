@@ -9,6 +9,10 @@ library(PAMpal)
 library(PAMscapes)
 library(fs)
 library(stringr)
+library(DT)
+library(leaflet)
+library(geosphere)
+library(kableExtra)
 
 ######################################################
 # save birdnet selection tables to github raw folder #
@@ -41,13 +45,13 @@ copy_birdnet_files <- function(root_path, dest_path) {
 # check for birdnet selection tables  #
 #######################################
 
-check_birdnet_selectionTables <- function(root_dir) {
+check_birdnet_selectionTables <- function(root_path) {
   # Find all subfolders containing "birdnetLocal"
-  subfolders <- list.dirs(root_dir, recursive = TRUE, full.names = TRUE) %>% 
+  subfolders <- list.dirs(root_path, recursive = TRUE, full.names = TRUE) %>% 
     str_subset("birdnetLocal")
   
   if (length(subfolders) == 0) {
-    warning(glue("No folders containing 'birdnetLocal' found in {root_dir}"))
+    warning(glue("No folders containing 'birdnetLocal' found in {root_path}"))
     return(invisible(NULL))
   }
   
@@ -79,7 +83,7 @@ check_birdnet_selectionTables <- function(root_dir) {
   # Apply to all subfolders
   walk(subfolders, process_folder)
   
-  message("✅ Finished processing all folders in ", root_dir)
+  message("✅ Finished processing all folders in ", root_path)
 }
 
 

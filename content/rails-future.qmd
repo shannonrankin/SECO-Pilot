@@ -30,7 +30,9 @@ samesies
 
 ### Habitat Modeling
 
-samesies
+Density Surface Models (dsm) for distance sampling data provide spatial models constructed from generalized additive models following methods developed by Hedley & Buckland (2004) and Miller et al. (2013).
+
+![](images/dsmExample_spatialEDA-1.png){width="446"}
 
 ## Call-Response vs PAM
 
@@ -38,29 +40,29 @@ Studies of species such as Ridgeway's Rails benefit from the animals' tendency t
 
 While Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species' presence. It necessarily relies on the vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity, and
 
-+-----------------------------------------------+-----------+---------------------------------------+
-| Call - Response                               |           | Passive Acoustics                     |
-+===============================================+===========+=======================================+
-| -   High detection rate                       |           | -   Low detection rate                |
-+-----------------------------------------------+-----------+---------------------------------------+
-| -   Potential impact on animals               |           | -   Non-invasive remote sensing       |
-+-----------------------------------------------+-----------+---------------------------------------+
-| -   Increased sampling to reduce bias         |           | -   Increased sampling to reduce bias |
-+-----------------------------------------------+-----------+---------------------------------------+
-| -   Animals may respond to increased sampling |           | -   No impact of increased sampling   |
-+-----------------------------------------------+-----------+---------------------------------------+
-| -   Limited sampling to reduce habituation    |           | -   Long-term sampling                |
-+-----------------------------------------------+-----------+---------------------------------------+
-|                                               |           |                                       |
-+-----------------------------------------------+-----------+---------------------------------------+
-|                                               |           |                                       |
-+-----------------------------------------------+-----------+---------------------------------------+
-|                                               |           |                                       |
-+-----------------------------------------------+-----------+---------------------------------------+
-|                                               |           |                                       |
-+-----------------------------------------------+-----------+---------------------------------------+
-|                                               |           |                                       |
-+-----------------------------------------------+-----------+---------------------------------------+
++-----------------------------------------------+---+---------------------------------------+
+| Call - Response                               |   | Passive Acoustics                     |
++===============================================+===+=======================================+
+| -   High detection rate                       |   | -   Low detection rate                |
++-----------------------------------------------+---+---------------------------------------+
+| -   Potential impact on animals               |   | -   Non-invasive remote sensing       |
++-----------------------------------------------+---+---------------------------------------+
+| -   Increased sampling to reduce bias         |   | -   Increased sampling to reduce bias |
++-----------------------------------------------+---+---------------------------------------+
+| -   Animals may respond to increased sampling |   | -   No impact of increased sampling   |
++-----------------------------------------------+---+---------------------------------------+
+| -   Limited sampling to reduce habituation    |   | -   Long-term sampling                |
++-----------------------------------------------+---+---------------------------------------+
+|                                               |   |                                       |
++-----------------------------------------------+---+---------------------------------------+
+|                                               |   |                                       |
++-----------------------------------------------+---+---------------------------------------+
+|                                               |   |                                       |
++-----------------------------------------------+---+---------------------------------------+
+|                                               |   |                                       |
++-----------------------------------------------+---+---------------------------------------+
+|                                               |   |                                       |
++-----------------------------------------------+---+---------------------------------------+
 
 : Benefits and Limitations of Call-Response and PAM Sampling. Green check identifies beneficial characteristics of sampling method, and red X identifies limitation of that sampling method.
 
@@ -72,7 +74,7 @@ While Passive acoustic monitoring (PAM) also relies on the vocal activity of spe
 
 -   Soundscape monitoring provides a high-level view of changes to the environment
 
--   
+-   Effect of helicopters and other sources of anthropogenic noise on species (ADS-B or Automatic Dependent Surveillance-Broadcast), auto-detect/classify noise
 
 ## Open Science
 

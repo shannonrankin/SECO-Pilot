@@ -3,6 +3,7 @@
 library(readODS)
 library(tidyverse)
 library(here)
+source(here::here("_code/_common.R"))
 here()
 
 ## Update secondary deployDetails sheets in Repo
@@ -34,7 +35,25 @@ saveRDS(deployments, file="data/deployTable_railPilot.rds")
 
 saveRDS(deployments_all, file="data/deployDetails.rds" )
 
-  
+############################
+# Detection Distance Table #
+############################
+readRDS(deployments_all, file="data/deployDetails.rds" )
+
+# Extract reference coordinates for DD01 and DD02
+ref1 <- deployments %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
+ref2 <- deployments %>% filter(site == "DD02") %>% select(longitude, latitude) %>% as.numeric()
+
+
+
+dd <- as_tibble(deployments) %>%
+  filter(location == "SPP-DD")%>%
+  mutate(
+    dist2SPP1 = distHaversine(cbind(longitude, latitude), ref1),
+    dist2SPP2 = distHaversine(cbind(longitude, latitude), ref2)
+  )
+
+saveRDS(dd, file="data/deployTable_DD.rds")
   
   # record_start_Local = %>% #extract record start time in local time
   # record_end_Local = %>% #extract record end time in local time
