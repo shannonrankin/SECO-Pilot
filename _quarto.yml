@@ -44,6 +44,7 @@ website:
           # - content/rails-dashboard.qmd
           - content/rails-data.qmd
           - content/rails-results.qmd
+          - content/rails-assessment.qmd
           - content/rails-future.qmd
       # - section: content/sci-intro.qmd
       #   text: "Pilot Study at San Clemente Islands"

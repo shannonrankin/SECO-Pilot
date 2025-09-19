@@ -1,0 +1,75 @@
+---
+title: "Population Assessment"
+format: html
+---
+```{r assessPrep}
+#| echo: false
+#| include: false
+library(here)
+library(DT)
+library(tidyverse)
+library(leaflet)
+here()
+
+source(here::here("_code/_common.R"))
+DDTable <- readRDS(here("data", "deployTable_DD.rds"))
+
+#need to add 
+lfrr <- readRDS(here("data", "birdnet_All.rds"))%>%
+  filter()
+
+
+
+```
+### Detection Range
+
+DD Pilot explanation
+
+::: columns
+::: {.column width="70%"}
+```{r DDmap}
+#| echo: false
+#| warning: true
+
+
+leaflet(data = DDTable) %>%
+  addProviderTiles(providers$Esri.WorldImagery) %>%
+  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(site))
+  
+
+
+```
+:::
+
+::: {.column width="30%"}
+```{r railDDtable}
+#| echo: false
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+
+detTable <- DDTable %>% 
+  select(site, dist2SPP1, dist2SPP2) %>%
+  rename(Site = site,
+         DD01 = dist2SPP1,
+         DD02 = dist2SPP2)
+
+kable(detTable, caption = "Distance to Proving Pen Recorders", digits = 1) %>% 
+  kable_classic()%>%
+  add_header_above(c(" " = 1, "Distance to Site" = 2)) %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"), full_width = F, position = "center")
+
+```
+:::
+
+-   Create subset of data for DD to use in this section
+
+-   Review just enough calls to sketch a detection function
+``` {r ddTimeSeries}
+#| echo: false
+plot(DDTable)
+
+```
+
+![](images/DD_Rails_spectrograms.png){width="1064"}

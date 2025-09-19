@@ -5,7 +5,7 @@ format: html
 
 Passive acoustic detection as a means of monitoring species requires that (1) the animals produce sounds that you can readily attribute to them and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. While their vocal behavior is well described in (cite papers), there is known variation between sites and there is great value in quantifying this variation to inform future studies.
 
-```{r RailPrep}
+```{r resultsPrep}
 #| echo: false
 #| include: false
 library(here)
@@ -62,52 +62,4 @@ plotPolarDetections(x=myData, group='species', facet='species', bin='detection/h
 
 ```
 
-### Detection Range
 
-DD Pilot explanation
-
-::::: columns
-::: {.column width="70%"}
-```{r DDmap}
-#| echo: false
-#| warning: true
-DDTable <- readRDS(here("data", "deployTable_DD.rds"))
-
-leaflet(data = DDTable) %>%
-  addProviderTiles(providers$Esri.WorldImagery) %>%
-  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(site))
-  
-
-
-```
-:::
-
-::: {.column width="30%"}
-```{r DDtable}
-#| label: rail_DDTable
-#| echo: false
-library(knitr)
-library(tidyverse)
-library(kableExtra)
-
-detTable <- DDTable %>% 
-  select(site, dist2SPP1, dist2SPP2) %>%
-  rename(Site = site,
-         DD01 = dist2SPP1,
-         DD02 = dist2SPP2)
-
-kable(detTable, caption = "Distance to Proving Pen Recorders", digits = 1) %>% 
-  kable_classic()%>%
-  add_header_above(c(" " = 1, "Distance to Site" = 2)) %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(bootstrap_options = c("condensed", "striped"), full_width = F, position = "center")
-
-```
-:::
-
--   Create subset of data for DD to use in this section
-
--   Review just enough calls to sketch a detection function
-:::::
-
-![](images/DD_Rails_spectrograms.png){width="1064"}

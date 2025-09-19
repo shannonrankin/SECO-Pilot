@@ -9,5 +9,4 @@
 /_site/
 
 # Data
-raw
-output/csv
+bigData

@@ -22,6 +22,11 @@ format: html
 -   [ ] Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
 -   [ ] Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
 
+### Methods- Detection Function
+
+-   [ ] create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
+-   [ ] ds(
+
 ### Dashboard
 
 -   \[ \]

@@ -8,7 +8,6 @@ editor_options:
 
 # Prep Code
 
-
 ```{r prep echo=TRUE include=FALSE}
 library(here)
 here()
@@ -16,8 +15,8 @@ here()
 source(here::here("_code/_common.R"))
 ```
 
-
 # Modify BirdNet_SelectionTable *in place*
+
 # ONLY Run if you have new data!
 
 ```{r modify-in-place}
@@ -34,18 +33,16 @@ rename_birdnet_files(root_path)
 add_deploymentID(root_path)
 
 # Copy birdNET_SelectionTables from root_path to raw folder in github directory
-dest_path <- here::here("raw") # Destination folder
+dest_path <- here::here("bigData/raw") # Destination folder
 
 #copy_birdnet_files (root_path, dest_path) #Note, This will fail if the files already exist. Eventually fix this.
 ```
-
-
 
 # Data Wrangling
 
 ```{r data-wrangling}
 # merge birdNET_SelectionTables (in 'raw' folder), save as rds in 'output' folder
-data <- birdnet_combine(here("raw")) 
+data <- birdnet_combine(here("bigData/raw")) 
 # read deploymentTable 
 deployments <- read_rds(here("data", "deployTable.rds")) 
 head(data)
@@ -62,13 +59,16 @@ birdnet_All <- birdnet_add_datetime(data, tz = "UTC") %>% #add UTC dateTime colu
   rename(Latitude = latitude,
          Longitude = longitude)
 
-write_csv(birdnet_All, here("output", "birdnet_All.csv"))
+saveRDS(birdnet_All, file=here("data", "birdnet_All.rds"))
+write_csv(birdnet_All, here("bigData", "birdnet_All.csv"))
 
 head(birdnet_All)
 ```
 
 # Hourly Bins
-Convert 
+
+Convert
+
 ```{r birdnet-bins}
 # call it birdnetBins_all
 birdnetBins <- birdnet_All %>%
@@ -89,17 +89,19 @@ binDetectionData(x = birdnetBins, bin = "hour", columns = c("Common.Name", "depl
 
 ```
 
-
 # Environmental Data
-* add environmental data to birdnet_all and birdnetBins_all using PAMverse
+
+-   add environmental data to birdnet_all and birdnetBins_all using
+    PAMverse
+
 ```{r env-data}
 test <- birdnet_All %>%
   rename(UTC = datetime_UTC)
 test <- matchGFS(test)
 ```
 
-
 # Create data subsets for analysis and save as csv (to read in by PAMverse)
+
 *Ideally, pamverse could accept an rds file, talk with Taiki about this*
 
 ```{r data-subsets}
@@ -108,7 +110,7 @@ birdnet_top10 <- birdnet_All %>%
   count(Common.Name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
   left_join(birdnet_All, by = "Common.Name") # join back to original data
-write_csv(birdnet_top10, here("output", "birdnet_top10.csv"))
+write_csv(birdnet_top10, here("bigData", "birdnet_top10.csv"))
 
 #top 10 species- TJE
 birdnet_top10_TJE <- birdnet_All %>% 
@@ -116,7 +118,7 @@ birdnet_top10_TJE <- birdnet_All %>%
   count(Common.Name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
   left_join(birdnet_All, by = "Common.Name") # join back to original data
-write_csv(birdnet_top10_TJE, here("output", "birdnet_top10_TJE.csv"))
+write_csv(birdnet_top10_TJE, here("bigData", "birdnet_top10_TJE.csv"))
   
 
 #top 10 species- SCI
@@ -125,7 +127,7 @@ birdnet_top10_SCI <- birdnet_All %>%
   count(Common.Name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
   left_join(birdnet_All, by = "Common.Name") # join back to original data
-write_csv(birdnet_top10_SCI, here("output", "birdnet_top10_SCI.csv"))
+write_csv(birdnet_top10_SCI, here("bigData", "birdnet_top10_SCI.csv"))
 
 
 #Priority Species
@@ -143,33 +145,30 @@ priority <- birdnet_TJE %>%
 
 #Ridgeway's Rails
 birdnet_LFRR <- birdnet_All %>% dplyr::filter(Common.Name == "Ridgway's Rail")
-write_csv(birdnet_LFRR, here("output", "birdnet_LFRR.csv"))
+write_csv(birdnet_LFRR, here("bigData", "birdnet_LFRR.csv"))
 
 # Ridgeway's Rails for Detection Distance
 birdnet_LFRR_DD <- birdnet_LFRR %>% filter(!Location == "TJE")
-write_csv(birdnet_LFRR_DD, here("output", "birdnet_LFRR_DD.csv"))
+write_csv(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.csv"))
 
 #by Location
 birdnet_TJE <- filter(birdnet_All, Location == "TJE")
-write_csv(birdnet_TJE, here("output", "birdnet_TJE.csv"))
+write_csv(birdnet_TJE, here("bigData", "birdnet_TJE.csv"))
 
 birdnet_SCI <- filter(birdnet_All, Location == "SCI")
-write_csv(birdnet_SCI, here("output", "birdnet_SCI.csv"))
+write_csv(birdnet_SCI, here("bigData", "birdnet_SCI.csv"))
 
 birdnet_SPP <- filter(birdnet_All, Location == c("SPP", "SGR"))
-write_csv(birdnet_SPP, here("output", "birdnet_SPP.csv"))
+write_csv(birdnet_SPP, here("bigData", "birdnet_SPP.csv"))
 
 
 ```
 
-
-
-
 # PAMverse Plots
 
-``` {r birdnet-pamPlots}
+```{r birdnet-pamPlots}
 # identify dataset
-myData <- here("output", "birdnet_SPP_LFRR.csv")
+myData <- here("bigData", "birdnet_SPP_LFRR.csv")
 
 #interactive shiny detection explorer (if needed)
 #runDetectionExplorer(myData)
@@ -185,9 +184,3 @@ plotPolarDetections(x=myData, group='species', facet='species', bin='detection/h
 plotDetectionBoxplot(x=myData, group='species', facet='species', bin='hour/day', combineYears=FALSE)
 
 ```
-
-
-
-
-
-
