@@ -70,7 +70,6 @@ head(birdnet_All)
 Convert
 
 ```{r birdnet-bins}
-# call it birdnetBins_all
 birdnetBins <- birdnet_All %>%
   rename(UTC = datetime_UTC)
 binDetectionData(x = birdnetBins, bin = "day", columns = c("Common.Name", "deployment_ID"), rematchGPS = TRUE, gpsGroup = "deployment_ID")
@@ -130,6 +129,30 @@ birdnet_top10_SCI <- birdnet_All %>%
 write_csv(birdnet_top10_SCI, here("bigData", "birdnet_top10_SCI.csv"))
 
 
+#Ridgeway's Rails
+birdnet_LFRR <- birdnet_All %>% dplyr::filter(Common.Name == "Ridgway's Rail")
+write_csv(birdnet_LFRR, here("bigData", "birdnet_LFRR.csv"))
+saveRDS(birdnet_LFRR, file=here("data", "birdnet_LFRR.rds"))
+
+# Ridgeway's Rails for Detection Distance
+birdnet_LFRR_DD <- birdnet_LFRR %>% filter(!Location == "TJE") %>%
+  filter(!Location == "SGR")%>%
+  filter(!Site == "1N") %>%
+  filter(!Site == "3S")
+write_csv(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.csv"))
+write_delim(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.txt"), delim = "\t" )
+
+
+#by Location
+birdnet_TJE <- filter(birdnet_All, Location == "TJE")
+write_csv(birdnet_TJE, here("bigData", "birdnet_TJE.csv"))
+
+birdnet_SCI <- filter(birdnet_All, Location == "SCI")
+write_csv(birdnet_SCI, here("bigData", "birdnet_SCI.csv"))
+
+birdnet_SPP <- filter(birdnet_All, Location == c("SPP", "SGR"))
+write_csv(birdnet_SPP, here("bigData", "birdnet_SPP.csv"))
+
 #Priority Species
 #Consider top 10 and one or more these species:
   #Bell's Sparrow, Beldings Savannah Sparrow, California Least Tern, western Snowy Plover, 
@@ -142,24 +165,6 @@ priority <- birdnet_TJE %>%
 
 priority <- birdnet_TJE %>%
   filter(Common.Name %in% priority)
-
-#Ridgeway's Rails
-birdnet_LFRR <- birdnet_All %>% dplyr::filter(Common.Name == "Ridgway's Rail")
-write_csv(birdnet_LFRR, here("bigData", "birdnet_LFRR.csv"))
-
-# Ridgeway's Rails for Detection Distance
-birdnet_LFRR_DD <- birdnet_LFRR %>% filter(!Location == "TJE")
-write_csv(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.csv"))
-
-#by Location
-birdnet_TJE <- filter(birdnet_All, Location == "TJE")
-write_csv(birdnet_TJE, here("bigData", "birdnet_TJE.csv"))
-
-birdnet_SCI <- filter(birdnet_All, Location == "SCI")
-write_csv(birdnet_SCI, here("bigData", "birdnet_SCI.csv"))
-
-birdnet_SPP <- filter(birdnet_All, Location == c("SPP", "SGR"))
-write_csv(birdnet_SPP, here("bigData", "birdnet_SPP.csv"))
 
 
 ```
