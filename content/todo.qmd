@@ -3,33 +3,45 @@ title: "todo"
 format: html
 ---
 
-### Intro
+### Next
 
--   [ ] Add Intro
+-   [ ] Revise RMDs
+    -   [ ] Separate new data rmd
+    -   [ ] rails analysis step by step from new data to site 
+    -   [ ] smart thinking re functions, libraries
+    -   [ ] janitor cleaning
+    -   [ ] smart thinking re days vs bidData vs output
+    -   [ ] gitignore update
+    -   [ ] revise pages
+    -   [ ] think through next steps and future updates
+-   [ ] Analysis: Bin Data (DRAFT COMPLETE)
+-   [ ] Janitor: clean_names
+-   [ ] Start/End for each Recording
+    -   Scan each recording for true START time and true END time
+    -   Delete unneeded recordings (bad data)
+    -   extract TRUE good data START and END times, add to deployDetails spreadsheet
+    -   Once this data is revised, assess recording length in hours (in R deployTable.R)
+    -   Determine if we need to revise data in bird_birdnet.Rmd? Or in other tables, figures?
 
-### Methods- Intro
+### Methods
 
--   \[ \]
-
-### Methods- Recorders
-
--   [ ] Create prelim list of recorders, pros/cons, and links to comparative studies
-
-### Methods- Analysis
-
--   [ ] Bin Data (DRAFT COMPLETE)
--   [ ] Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
--   [ ] Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
--   [ ] Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
-
-### Methods- Detection Function
-
--   [ ] create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
+-   [ ] Study Area- map buffer to default at slightly zoomed out, also decrease size of map
+-   [ ] Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
+-   [ ] Analysis: Bin Data (DRAFT COMPLETE)
+-   [ ] Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
+-   [ ] Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
+-   [ ] Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
+-   [ ] Analysis: Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
+-   [ ] Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
 -   [ ] ds(
 
 ### Dashboard
 
--   \[ \]
+-   [ ] do it!
+
+### Results- Assessment
+
+-   [ ] Review data to fix time series and ensure it is reasonable.
 
 ### Data
 
@@ -56,19 +68,11 @@ format: html
 -   [ ] Acoustic recording start/end: Using Raven, find official start/end, and add to SE_DeployDetails, also, ID number of bad files
 -   \[ \]
 
-### Sounds
-
--   [ ] Scrolling Spectrogram
-
--   [ ] Sample Sounds
-
 ### Results
 
--   [ ] DD: Map of locations for DD Pilot
+-   [ ] Intro: Scrolling Spectrogram, sample sounds
 
--   [ ] DD: Table with SPP-1N, SPP-3S with distances to other recorders
-
--   [ ] DD: Prelim analysis with a few calls to do prelim detection function
+-   [ ] Summary Results:
 
 -   [ ] DD: Warning note that further analysis is needed to fill out detection function, and that we need to do this for a wetland habitat (this is not typical habitat)
 
@@ -107,6 +111,10 @@ format: html
 
 [ObservableJS Video by Allison Horst](https://youtu.be/0srggostAko?feature=shared) 0.40.00
 
+[R Graph Gallery– Amazing!](https://r-graph-gallery.com/interactive-charts.html)
+
+[Birdnet w/ Raven Instructions](https://www.ravensoundsoftware.com/knowledge-base/acoustic-analysis-with-birdnet-and-almost-no-coding-practical-instructions/)
+
 [Interactive Documents Github Pages+Quarto+Shiny](https://youtu.be/06H8k1nzZQ0?feature=shared) - great video
 
 RStudio Trick: add ' ' to multi lines- You can use multi-line cursors by pressing alt + click + dragging down the cursor. If you're looking for more RStudio tricks, check out my video on that <https://www.youtube.com/watch?v=XHT1m-LKTVY&t=64s>
@@ -138,3 +146,14 @@ Analysis Methods
 [Audiomoth Data Processing](https://github.com/ELBE223/audiomoth-data-processing/tree/main) (Diversity Analysis, PointCounts, etc)
 
 [SoundscapeR Package w/ Vignette](https://thomasluypaert.github.io/soundscapeR_vignette/)
+
+[Automatic detection for bioacoustic research: a practical guide from and for biologists and computer scientists](https://onlinelibrary.wiley.com/doi/pdf/10.1111/brv.13155)
+
+## Notes
+
+Terminal\
+Ctrl-C to stop terminal
+
+cd C:/Users/Shannon/Documents/Github/SECO-Pilot
+
+quarto preview content/rails-results-new.qmd

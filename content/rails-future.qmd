@@ -4,6 +4,20 @@ format: html
 bibliography: references.bib
 ---
 
+```{r futurePrep}
+#| echo: false
+#| include: false
+library(here)
+library(DT)
+library(tidyverse)
+library(dssd)
+library(Distance)
+here()
+
+source(here::here("_code/_common.R"))
+
+
+```
 # Future of PAM research for Ridgeway's Rails and Southern California Wetland Habitats
 
 Historical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgeway's Rails in southern California. This survey design primarily relied on playback of duetting calls to elicit a response from local breeding pairs[@zembal2024]; however, specific field methods varied throughout the field season. Notably, [@thompson2024] noted that these playback methods work well when used sparingly. A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias[@stevens2024]. While historical call-response surveys have proven to be an effective approach to monitoring Ridgeway's Rails, recent advances in PAM monitoring using acoustic recorders may provide a more standardized approach to monitoring Ridgeway's Rails populations that may ultimately lead to more robust estimation of population trends.
@@ -12,21 +26,35 @@ Historical call-response surveys conducted since 1979 have provided a long time-
 
 While there is great potential for using passive acoustic monitoring to assess wildlife populations, how this is done will depend on the management needs.
 
-### Occupancy
 
-define occupancy and requirements to use PAM to define occupancy.
+### Distance Sampling for Density Estimation
 
-### Distribution
+::: columns
+::: {.column width="50%"}
 
-samesies
+```{r surveyDesignRandom}
+#| echo: false
+shapefile.location <- here("data", "TJR_RB_2010.shx")
+region <- make.region(region.name = "study area",
+                      shape = shapefile.location)
+design <- make.design(region = region, transect.type = "point", design = "random",
+                      truncation = 200)
+points <- generate.transects(design)
+print(points)
+```
 
-### Abundance
+:::
+::: {.column width="50%"}
 
-samesies
+```{r surveyDesignPlot}
+#| echo: false
+plot(region, points)
 
-### Trends
 
-samesies
+```
+
+:::
+:::
 
 ### Habitat Modeling
 

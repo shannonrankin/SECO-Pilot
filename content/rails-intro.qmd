@@ -1,5 +1,60 @@
 ---
-title: "Rails"
+title: "Passive Acoustic Pilot Study for Ridgway's Rails"
+subtitle: "Potential use of Passive Acoustic Monitoring of Ridgway's Rail's in San Diego County"
 format: html
+editor: 
+  markdown: 
+    wrap: 72
+bibliography: references.bib
 ---
 
+The habitat of the endangered light-footed Ridgway's rail (*Rallus
+obsoletus levipes*) includes wetlands and lagoons in southern California
+and northern Baja California, Mexico. This species is threatened by
+habitat degradation and loss, pollution, sea level rise, and non-native
+species.
+
+Historical call-response surveys conducted since 1979 have provided a
+long time-series monitoring of breeding pairs of Ridgway’s Rails in
+southern California. This survey design primarily relies on playback of
+duetting calls to elicit a response from local breeding pairs
+@zembal2024. A recent statistical examination of call-response survey
+design recommended repeated sampling to decrease sampling bias
+[@stevens2024]; however, @zembal2024 noted that these playback methods
+work well when used sparingly. While historical call-response surveys
+have proven to be an effective approach to monitoring Ridgway’s Rails,
+recent advances in Passive Acoustic Monitoring (PAM) using autonomous
+acoustic recorders may provide a more standardized approach to
+monitoring Ridgway’s Rails populations that may ultimately lead to more
+robust estimation of population trends.
+
+This pilot study serves to identify the potential for PAM surveys as an
+alternative approach to monitoring the populations of Ridgway's Rails in
+San Diego County. PAM has the added potential benefit of extending
+temporal monitoring with minimal interference during the sensitive
+breeding season, providing additional contextual information
+(anthropogenic impacts, biodiversity), and allowing for opportunities to
+study other local species.
+
+-   [Methods](https://github.io/shannonrankin/SECO/rails-methods-intro)
+
+    -   [Study
+        Area](https://github.io/shannonrankin/SECO/rails-studyArea)
+
+    -   [Recorders](https://github.io/shannonrankin/SECO/methods-recorders)
+
+    -   [Analysis
+        Methods](https://github.io/shannonrankin/SECO/rails-methodsAnalysis)
+
+-   [Results](https://github.io/shannonrankin/SECO/rails-results)
+
+    -   [Summary](https://github.io/shannonrankin/SECO/rails-summary)
+
+    -   [Population
+        Assessment](https://github.io/shannonrankin/SECO/rails-assessment)
+
+    -   [Biodiversity](https://github.io/shannonrankin/SECO/rails-biodiversity)
+
+-   [Future Research](https://github.io/shannonrankin/SECO/rails-future)
+
+-   [Recommendations](https://github.io/shannonrankin/SECO/rails-future)

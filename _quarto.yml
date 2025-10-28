@@ -29,23 +29,27 @@ website:
 
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 3
     contents:
       - href: index.qmd
         text: Home
-      - section: content/methods-intro.qmd
-        text: "Methods"
-        contents: 
-          - content/methods-recorders.qmd
-          - content/methods-analysis.qmd
       - section: content/rails-intro.qmd
-        text: "Pilot Study of Ridgeway's Rails in San Diego"
+        text: "Ridgway's Rails"
         contents:
           # - content/rails-dashboard.qmd
-          - content/rails-data.qmd
-          - content/rails-results.qmd
-          - content/rails-assessment.qmd
-          - content/rails-future.qmd
+        - href: content/rails-methods.qmd
+          text: "Methods"
+        - section: content/rails-results-new.qmd
+          text: "Results"
+          contents:
+            - href: content/rails-summary.qmd
+              text: "Summary"
+            - href: content/rails-assessment.qmd
+              text: "Population Assessment"
+            - href: content/rails-biodiversity.qmd
+              text: "Biodiversity"
+        - href: content/rails-future.qmd
+          text: "Recommendations"
       # - section: content/sci-intro.qmd
       #   text: "Pilot Study at San Clemente Islands"
       #     - content/sci-dashboard.qmd
@@ -67,6 +71,7 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: true
+    link-external-newwindow: true
 
 
 filters:

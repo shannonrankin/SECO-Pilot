@@ -1,6 +1,0 @@
----
-title: "methods-intro"
-format: html
----
-
-This the introduction to the Methods

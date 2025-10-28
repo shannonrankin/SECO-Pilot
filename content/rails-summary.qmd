@@ -1,0 +1,64 @@
+---
+title: "Summary Results"
+format: html
+---
+
+Passive acoustic detection as a means of monitoring species requires that (1) the animals produce sounds that you can readily attribute to them and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. While their vocal behavior is well described in (cite papers), there is known variation between sites and there is great value in quantifying this variation to inform future studies.
+
+```{r resultsPrep}
+#| echo: false
+#| include: false
+library(here)
+library(DT)
+library(tidyverse)
+library(leaflet)
+here()
+
+source(here::here("_code/_common.R"))
+
+myDataset <- here("bigData", "birdnet_LFRR.csv")
+
+myData <- loadDetectionData(x=myDataset, source='csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7',
+                  columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'), extraCols= c('Site', 'Location'))
+
+
+```
+
+::: callout-important
+Warning: *All results are preliminary, data were not acoustically validated! Need to validate recordings and assess species-specific confidence thresholds for detections*
+:::
+
+### Daily Variation
+
+There was considerable daily variation in detection of calls associated with Ridgway's Rails at both the Proving Pens and at the Tijuana Estuary. The variation in detection of calls were similar between the recorders at the two different proving pens (not shown here). While this data is limited in scope, we do not see a strong correlation between the two sites in relation to the higher number of hours of detections. This suggests that larger environmental variables (such as moon phase or weather conditions) may not be responsible for this variation, but this may be related to site-specific variables.
+
+This data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Future work should include manual review of these data to ensure that calls assigned to Ridgway's Rails are in fact calls from those species. This review will also provide a means of quantifying the accuracy (correct classification) of these models for future research.
+
+
+```{r RailBoxplot}
+#| echo: false
+#| warning: false
+# myData <- filter(myData, Site == c('SPP', 'TJE'))
+plotDetectionBoxplot(x=myData, group='species', facet='Location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
+
+
+
+```
+
+### Diurnal Variation
+
+There is significant research suggesting that Ridgway's Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Recordings from the Proving Pens also showed calling throughout the day and very little calling at night. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limiting recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, it would also limit additional data provided by passive acoustic monitoring that can provide information related to presence of other species, anthropogenic uses of the area, and potentially other acoustic behaviors that may occur at other times of the day.
+
+Again, acoustic detections were not manually reviewed, and it is possible that some of these calls are actually other sounds that were attributed to this species.
+
+```{r RailPolarPlot}
+#| echo: false
+#| warning: false
+
+
+
+plotPolarDetections(x=myData, group='species', facet='species', bin='detection/hour', quantity='count')
+
+```
+
+

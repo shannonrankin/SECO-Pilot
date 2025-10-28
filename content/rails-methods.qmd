@@ -1,0 +1,165 @@
+---
+title: "Methods"
+format: html
+---
+Please see right-hand sidebar to navigate to specific methods.
+
+## Study Area
+
+```{r railStudyMapPrep}
+#| echo: false
+#| include: false
+library(tidyverse)
+library(here)
+library(stringr)
+library(knitr)
+library(kableExtra)
+library(DT)
+library(leaflet)
+here()
+```
+
+::: columns
+::: {.column width="40%"}
+This pilot study used Audiomoth recorders to monitor a single location in Tijuana River National Estuarine Research Reserve (TRNERR) as well as a series of acoustic experiments at the Ridgway Rail proving pens at the San Diego Bay National Wildlife Refuge near the Living Coast Discovery Center.
+
+By zooming into the markers at the top of the map to see the spatial variation of the recorders at and around the proving pens.
+:::
+
+::: {.column width="60%"}
+```{r railStudyMap}
+#| echo: false
+#| warning: false
+
+goodCols <- c("deployment_ID","location", "site", "config_type", "deploy_date", "latitude", "longitude", "retrieve_date")
+
+deployTable <- as_tibble(readRDS(here("data/deployDetails.rds"))) %>%
+  select(all_of(goodCols)) %>%
+  filter(location %in% c("SPP-DD", "SPP", "TJE", "SGR"))
+
+leaflet(data = deployTable, padding = 20) %>%
+  #addProviderTiles(providers$Esri.WorldImagery) %>%
+  addTiles() %>%
+  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_ID))
+```
+:::
+:::
+
+### Tijuana Estuary
+
+::: columns
+::: {.column width="40%"}
+Recorders were attached to a post situated near a small waterway at the Tijuana Estuary. This site was located near a calling Ridgway's Rail (calls were heard during our deployment, as identified by Justyn Stahl, Jeff Crooks, and Aiyana Reissman).
+
+Three Audiomoth recorders were attached to allow for three different approaches to sampling (see below for more information). The three recorders were placed vertically along the post and the microphone was directed towards the waterway (the image on the right shows the back of the audiomoths zip-tied to the post).
+:::
+
+::: {.column width="60%"}
+![Audiomoth recorders attached to Solar Post near bridget at Tijuana Estuary](images/TJE-01_0250515_130112.jpg){width="258"}
+:::
+:::
+
+### Living Coast Proving Pens
+
+::: columns
+::: {.column width="40%"}
+The Proving Pens at the Living Coast Discovery Center are used for breeding and raising young Ridgway's Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Recordings provided high quality recordings within close proximity to known Ridgway's Rails, proving voucher ('ground truth') data that can be used to improve automated detectors and validate the systems.
+:::
+
+::: {.column width="60%"}
+![Audiomoth recorders attached to LFRR Proving Pens at Living Coast Discovery Center](images/SPP-1N_20250515_135258.jpg){width="258"}
+:::
+:::
+
+At the Living Coast Proving Pens, We used three alternative survey designs:
+
+1.   Sampling Design Test: Set of 3 recorders at each proving pen to provide 3 alternative sampling designs (similar to recorders at Tijuana Estuary), see image on the right
+
+2.  Preliminary Detection Range Test: Single recorder at each proving pen, plus a single recorder posted 118m from SPP-1N and 87m from SPP-3S. This provided a preliminary test to determine the distribution of recorders for the subsequent survey design
+
+3.  Detection Range Test: The final survey design included deployment of a single recorder at SPP-1N and SPP-3S as well as 8 additional recorders deployed in the surrounding region to provide data to estimate detection range of calls attributed to the Ridgway's Rails in the proving pens.
+
+
+### Deployment Table
+The table below includes all audiomoth deployments for the Tijuana Estuary (TJE) and the Sweetwater Proving Pens (SPP), including the exact location (latitude, longitude), deployment and retrieval dates, and the recording configuration. Details on the recording configurations are provided below.
+
+
+```{r}
+#| label: rail_dataTable
+#| echo: false
+
+deployTable |>
+  DT::datatable(
+    caption = "Deployment of Acoustic Recorders for Rail-Wetland Pilot Study",
+    filter = "top" 
+  )|>
+DT::formatRound(6:7, digits = 4)
+
+```
+
+## Recorders
+
+Pilot Studies use the low cost Audiomoth Recorder as temporary use of these recorders could be provided at no-cost to the pilot study. Alternatives to the Audiomoth may provide improved recording quality, longer recording durations, multiple recording sensors (for localization), or more complicated sampling options. Ultimately, identification of the most appropriate recording setup will depend on the specific study area and research needs.
+
+### Sampling Methods
+
+The initial pilot study included 1 recording site at Tijuana Estuary (TJE), and 2 primary recording sites at the Living Coast Proving Pens (SPP-1N, SPP-3S), and each site had a set of three recorders each with different sampling regimes:
+
+```{r railRecorderSpectable}
+#| echo: false
+# library(knitr)
+# library(tidyverse)
+# library(kableExtra)
+
+configTable <- readRDS(here("data", "configDetails.rds"))[1:3,] %>% 
+  select(config_id, config_type, sampling_rate, sleep_duration, record_duration, filter_type, filter_low, filter_high ) %>%
+  rename("Recording Type" = config_id,
+         "Recording Schedule" = config_type,
+         "Sampling Rate (kHz)" = sampling_rate,
+         "Record Off (s)" = sleep_duration,
+         "Record On (s)" = record_duration,
+         "Filter Type" = filter_type,
+         "High Pass Filter (kHz)" = filter_low,
+         "Low Pass Filter (kHz)" = filter_high
+  )
+
+kable(configTable, caption = "Initial Recording Specifications", digits = 1) %>% 
+  kable_classic()%>%
+  #add_header_above(c(" " = 1, "Distance to Site" = 2)) %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"), full_width = F, position = "center")
+
+```
+
+Each recording configuration provided valuable information to inform future studies:
+
+-   48 kHz Continuous Recording: Continuous recordings provide additional context to activities during the day and night with a trade-off between storage capacity.
+
+-   48 kHz Sunrise and Sunset: Previous research suggests that Ridgway's Rails are most vocally active during sunrise and sunset, and this more limited recording configuration allowed the recording duration to be extended. The limited recording period has reduced context, especially related to anthropogenic impacts and potential prey activity.
+
+-   192 kHz Sunset to Sunrise (bat): This high frequency recording allows for detection of bat echolocation. While bat species were not the primary focus of this pilot study, they are an important species in wetland habitats and provide valuable information related to biodiversity and health of the ecosystem. Due to the high sample rate, these recordings were storage limited and of shorter duration.
+
+## Analysis Methods
+
+### Bird Detection and Classification
+
+Birdnet Analyzer v2.4 was used to batch analyze recordings for each deployment, with detections were saved as csv files and formatted as Raven selection tables. Preliminary data were analyzed using R programming language and preliminary results are provided to assess the potential use of PAM for studying Ridgway's Rails. Preliminary data products and R code are made publicly available in this repository, however some data products exceeded the storage limitations. These data products can be reproduced from the preliminary data products using code saved within the repository.
+
+::: callout-important
+Note: All results are preliminary, data were not acoustically validated!
+:::
+
+*While this data provides sufficient preliminary recordings to allow for testing the accuracy of automated detection and classification models, this was not conducted due to time required to complete this analysis. As time allows, I intend to identify an alternative automated classifier that has a more flexible license (potentially Perch), manually validate calls, and assess the accuracy of this classifier for Ridgway's Rails and any other target species.*
+
+### Distance Sampling
+A subset of data from the Detection Range Test at the Living Coast Proving Pens was manually examined to provide a preliminary estimate the detection range of Ridgway's Rails calls from the semi-captive animals in the proving pens. This sample detection data was analyzed using the distance R package to develop a (preliminary) detection function. This data provides an initial assessment of the detection range to inform future studies. 
+
+Analysis of the entire dataset to improve the precision and accuracy of the detection function should be considered prior to implementing a proper distance sampling survey. 
+
+### Bat Detection and Classification
+Bats produce high frequency echolocation for communication, navigation, and foraging. Detection of these sounds requires a high sampling rate, which in turn has high storage requirements. High frequency sampling was conducted at both sites (Tijuana Estuary and the Living Coast Proving Pens), although recordings were shorter in duration. 
+
+High-frequency (192 kHz) recordings were analyzed using a trial evaluation of Kaleidoscope Pro software to detect echolocation clicks from bat species using the Western North America catalog. Again, manual analysis to evaluate the classifier performance, and all results are preliminary. To reduce the number of potentially false detections, all potential bat detections were filtered to eliminate detections with less than 10 echolocation clicks, with a high variability in species detections within events, and with species detections with low classification probabilities. While this approach likely reduces the number of false detections and inaccurate classifications, it should be considered preliminary until a thorough manual evaluation of the data can be conducted. 
+
+## Soundscape Analysis
+TBD

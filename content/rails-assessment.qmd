@@ -2,6 +2,11 @@
 title: "Population Assessment"
 format: html
 ---
+
+To date, population assessment of Ridgway's Rails has relied on call-response survey methods conducted by an expert ornithologist. While this long time series has been highly effective, recent research suggests that repeated sampling is required to improve the robustness of the results. Unfortunately, there if evidence that this species may habituate to repeated exposure to call-response surveys, which would lead to worsened outcomes.
+
+Distance sampling methods using visual or passive acoustic detections has proven successful for a wide range of species. Specifically, passive acoustic monitoring using acoustic recording devices placed throughout the habitat may be used as point transect or spatial capture-recapture models to assess population of cryptic species such as Ridgway's Rails.
+
 ```{r assessPrep}
 #| echo: false
 #| include: false
@@ -9,24 +14,38 @@ library(here)
 library(DT)
 library(tidyverse)
 library(leaflet)
+library(Distance)
 here()
 
 source(here::here("_code/_common.R"))
 DDTable <- readRDS(here("data", "deployTable_DD.rds"))
+distanceData <- readRDS(here("data/distanceData.rds"))
 
 #need to add 
 lfrr <- readRDS(here("data", "birdnet_All.rds"))%>%
   filter()
 
+#distData
+distData <- readRDS(here("data/distanceData.rds"))
+distdata <- distanceData %>%
+  rename(
+    distance = dist2source,
+    size = groupSize,
+    object = detection_ID
+  )
 
 
 ```
+
 ### Detection Range
 
-DD Pilot explanation
+Understanding the effective detection range is fundamental to adopting distance sampling methods for population assessment. The Detection Range Test at the Living Coast Proving Pens provided an opportunity to assess the effective detection range using Audiomoth recorders in this environment. In addition to locating a recorder on each of the proving pens (which we will assume is approximately 1 meters distance from known animals), 8 additional recorders were placed at distance from the pens. This data allowed us to identify the distance at which known calls (from either SPP-1N or SPP-3S) could be detected by the Birdnet Analyzer on the Audiomoth recorders.
 
-::: columns
+The map below shows the placement of the recorders on and near the pens (Click on the site to obtain the Site Code), and the table to the right shows the distance of each recorder to to the pen at SPP-01N (DD01) and SPP-03S (DD02). 
+
+::: columns 
 ::: {.column width="70%"}
+
 ```{r DDmap}
 #| echo: false
 #| warning: true
@@ -39,6 +58,7 @@ leaflet(data = DDTable) %>%
 
 
 ```
+
 :::
 
 ::: {.column width="30%"}
@@ -62,14 +82,52 @@ kable(detTable, caption = "Distance to Proving Pen Recorders", digits = 1) %>%
 
 ```
 :::
+:::
+    
+::: columns
+::: {.column width="40%"}
+    
+The spectrograms on the right show a Ridgway Rail call with color representing the intensity (amplitude) of the call at the DD01 proving pen site (assumed to be at distance 0m from the source), and at a selection of sites with increasing distance from the source.
 
--   Create subset of data for DD to use in this section
+As expected, the calls of the Ridgway's Rails are loud at the source (DD01, or proving pen SPP-01S), and the intensity of the call decreases with increasing distance, until the call can no longer be detected.
 
--   Review just enough calls to sketch a detection function
-``` {r ddTimeSeries}
+
+:::
+
+::: {.column width="60%"}
+![](images/DD_Rails_spectrograms.png){width="321"}
+:::
+:::
+
+ 
+The time series, below, shows how the number of calls detected on different recorders decreases with distance from the source (DD01).
+```{r ddTimeSeries}
 #| echo: false
-plot(DDTable)
+
+distanceData %>%
+  # Count detections per Site and time (e.g., per day)
+  count(Site, date = as.Date(datetime_local)) %>%
+  # Plot
+  ggplot(aes(x = date, y = n, color = Site)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Date", y = "Number of Detections", color = "Site") +
+  theme_minimal()
 
 ```
 
-![](images/DD_Rails_spectrograms.png){width="1064"}
+This data was then used to develop a detection function, which provides an estimate of the effective detection range for these calls. This can then be used to inform a survey design of a distance sampling approach to population assessment.
+
+```{r detfuncPrep}
+#| echo: false
+#| include: false
+df_hn <- ds(data = distdata, truncation = 200, key = "hn", adjustment = NULL)
+
+```
+
+```{r detfunc}
+#| echo: false
+plot(df_hn)
+```
+
+The range at which a call can be detected varies not only on the source amplitude of the call, but also the environment through which the call propagates. While the experiment at the proving pens provides an excellent preliminary estimate of detection range (and a preliminary detection function), the true detection range may vary by habitat, and the proving pens are different than typical habitat for Ridgway's Rails. Future research should develop a detection function for Ridgway's Rails in their preferred habitat.

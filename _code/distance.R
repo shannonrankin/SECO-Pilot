@@ -75,6 +75,7 @@ distanceData <- myData %>%
       is.na(source) ~ NA_real_
     )
   )
+saveRDS(distanceData, file = here("data/distanceData.rds"))
 
 glimpse(distanceData)
   

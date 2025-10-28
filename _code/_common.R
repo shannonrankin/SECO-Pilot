@@ -1,5 +1,6 @@
-# Load Libraries
+#Load Libraries
 library(tidyverse)
+library(janitor)
 library(glue)
 library(Rraven)  #Note, if not installed, use--> remotes::install_github("maRce10/Rraven")
 library(warbleR)  #Note, if not installed, use --> remotes::install_github("maRce10/warbleR")
@@ -13,32 +14,7 @@ library(DT)
 library(leaflet)
 library(geosphere)
 library(kableExtra)
-
-######################################################
-# save birdnet selection tables to github raw folder #
-######################################################
-copy_birdnet_files <- function(root_path, dest_path) {
-  # Find all files recursively
-  all_files <- dir_ls(root_path, recurse = TRUE)
-  
-  # Filter for files containing "BirdNET_SelectionTable_" (case insensitive)
-  files_to_copy <- all_files[str_detect(basename(all_files), regex("birdnet_selectiontable_", ignore_case = TRUE))]
-  
-  # Ensure destination folder exists
-  dir_create(dest_path)
-  
-  # Copy each file
-  walk(files_to_copy, ~ file_copy(.x, dest_path))
-  
-  # Print summary
-  message("Copied ", length(files_to_copy), " files to ", dest_path)
-  
-  # Return the list of copied files (invisibly)
-  invisible(files_to_copy)
-}
-
-
-
+library(readODS)
 
 
 #######################################
@@ -54,40 +30,8 @@ check_birdnet_selectionTables <- function(root_path) {
     warning(glue("No folders containing 'birdnetLocal' found in {root_path}"))
     return(invisible(NULL))
   }
-  
-  # Function to process each folder
-  process_folder <- function(folder) {
-    folder_name <- basename(folder)
-    output_file <- file.path(folder, "birdNET_SelectionTable.txt")
-    
-    # Case 1: Already exists
-    if (file.exists(output_file)) {
-      message(glue("{folder_name}: birdNET_SelectionTable.txt already exists."))
-      return(invisible(NULL))
-    }
-    
-    # Case 2: Look for BirdNET.selection.table files
-    files_to_merge <- list.files(folder, pattern = "BirdNET\\.selection\\.table", 
-                                 full.names = TRUE, ignore.case = FALSE)
-    
-    if (length(files_to_merge) > 0) {
-      merged <- map_dfr(files_to_merge, ~ read_tsv(.x, show_col_types = FALSE))
-      write_tsv(merged, output_file)
-      message(glue("{folder_name}: created birdNET_SelectionTable.txt by merging {length(files_to_merge)} file(s)."))
-    } else {
-      # Case 3: Nothing found
-      warning(glue("{folder_name}: no birdNET_SelectionTable.txt and no BirdNET.selection.table files found."))
-    }
-  }
-  
-  # Apply to all subfolders
-  walk(subfolders, process_folder)
-  
-  message("✅ Finished processing all folders in ", root_path)
-}
-
-
-
+ 
+   
 ##########################################
 # rename birdnet files to add foldername #
 ##########################################
@@ -145,6 +89,7 @@ rename_birdnet_files <- function(root_path) {
   }
 }
 
+
 ###########################################
 # add deploymentID column to birdnet file #
 ###########################################
@@ -184,6 +129,62 @@ add_deploymentID <- function(root_path) {
   }
 }
 
+######################################################
+# copy birdnet selection tables to github raw folder #
+######################################################
+copy_birdnet_files <- function(root_path, dest_path) {
+  # Find all files recursively
+  all_files <- dir_ls(root_path, recurse = TRUE)
+  
+  # Filter for files containing "BirdNET_SelectionTable_" (case insensitive)
+  files_to_copy <- all_files[str_detect(basename(all_files), regex("birdnet_selectiontable_", ignore_case = TRUE))]
+  
+  # Ensure destination folder exists
+  dir_create(dest_path)
+  
+  # Copy each file
+  walk(files_to_copy, ~ file_copy(.x, dest_path))
+  
+  # Print summary
+  message("Copied ", length(files_to_copy), " files to ", dest_path)
+  
+  # Return the list of copied files (invisibly)
+  invisible(files_to_copy)
+}
+
+
+####################################
+# Function to process each folder  #
+#################################### 
+process_folder <- function(folder) {
+  folder_name <- basename(folder)
+  output_file <- file.path(folder, "birdNET_SelectionTable.txt")
+  
+  # Case 1: Already exists
+  if (file.exists(output_file)) {
+    message(glue("{folder_name}: birdNET_SelectionTable.txt already exists."))
+    return(invisible(NULL))
+  }
+  
+  # Case 2: Look for BirdNET.selection.table files
+  files_to_merge <- list.files(folder, pattern = "BirdNET\\.selection\\.table", 
+                               full.names = TRUE, ignore.case = FALSE)
+  
+  if (length(files_to_merge) > 0) {
+    merged <- map_dfr(files_to_merge, ~ read_tsv(.x, show_col_types = FALSE))
+    write_tsv(merged, output_file)
+    message(glue("{folder_name}: created birdNET_SelectionTable.txt by merging {length(files_to_merge)} file(s)."))
+  } else {
+    # Case 3: Nothing found
+    warning(glue("{folder_name}: no birdNET_SelectionTable.txt and no BirdNET.selection.table files found."))
+  }
+}
+
+# Apply to all subfolders
+walk(subfolders, process_folder)
+
+message("✅ Finished processing all folders in ", root_path)
+}
 
 
 #####################################

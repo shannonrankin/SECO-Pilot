@@ -1,0 +1,35 @@
+---
+title: "rails_Pilot"
+---
+```{r prep echo=TRUE include=FALSE}
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+```
+
+First, if you have new data to add, run appropriate analysis in _code/newData.Rmd
+
+Update Outputs 
+
+#Prep birdnet Data
+
+# Create Detection Distance Data, Table
+``` {r rails-det-dist}
+deployments_all <- readRDS(here("data/delployments.rds"))
+# Extract reference coordinates for DD01 and DD02
+ref1 <- deployments_all %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
+ref2 <- deployments_all %>% filter(site == "DD02") %>% select(longitude, latitude) %>% as.numeric()
+
+dd <- as_tibble(deployments_all) %>%
+  filter(location == "SPP-DD")%>%
+  mutate(
+    dist2SPP1 = distHaversine(cbind(longitude, latitude), ref1),
+    dist2SPP2 = distHaversine(cbind(longitude, latitude), ref2)
+  )
+saveRDS(dd, file=here("data/deployTable_DD.rds"))
+
+```
+
+
+

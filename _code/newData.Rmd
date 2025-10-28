@@ -1,0 +1,156 @@
+---
+title: "Code for Ingesting New Data"
+---
+
+To Do:
+
+-   Rerun with clean slate to be sure everything is saving correctly
+
+-   If everything looks good, delete last code chunk for environmental data
+
+-   code to copy birdnet files over {birdnet_modify-in-place}: ensure that if there is an existing file, that it will be copied OVER (replaced).
+
+This code is to be run on new data, to ingest and modify data for use within the repository. Care should be taken as some of these scripts modify the raw data in place.
+
+# 1. User Input
+
+First, identify root path for data you want to add
+
+```{r rootPath}
+# Project Name
+projectID <- 'rails'
+
+# Root path to Birdnet data folders
+root_path <- "C:/Users/Shannon/Documents/audiomoth/Rails/birdnet/new"
+
+# Big Data Paths
+bigDataPath <- "bigData/rails"
+bigDataRawFiles <- "bigData/rails/rawBirdnetFiles"
+
+# Destination path to move Birdnet files TO:
+dest_path <- bigDataRawFiles
+
+```
+
+Add libraries, common functions
+
+```{r prep echo=TRUE include=FALSE}
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+```
+
+# 2. Update Deployment Details
+
+First, copy updated '**SE_DeployDetails.ODS**' sheet to the **data/** folder, then the following code chunk will update the files for each of the 4 sheets within the spreadsheet.
+
+```{r deployDetails}
+deployments_all <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 1)%>%
+  clean_names()  %>%
+  remove_empty(which=c("rows","cols"))
+deployments_select <-deployments_all[,c(1,10,11)]
+saveRDS(deployments_all, file= here("data/deployments.rds"))
+
+configDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 2) %>%
+  clean_names() %>%
+  remove_empty(which=c("rows","cols"))
+saveRDS(configDetails, file = here("data/configDetails.rds"))
+
+inventory <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 4) %>%
+  clean_names() %>%
+  remove_empty(which=c("rows","cols"))
+saveRDS(inventory, file = here("data/inventory.rds"))
+
+siteDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 5) %>%
+  clean_names() %>%
+  remove_empty(which=c("rows","cols"))
+saveRDS(siteDetails, file = here("data/siteDetails.rds"))
+
+```
+
+# 3. Modify in place: BirdNet_SelectionTable
+
+This code will modify Birdnet Selection Tables *in place* and will copy files over to the location identified in the dest_path, above. Note that the copy function does NOT replace existing files (at this time), so caution must be made to not create multiple files.
+
+::: callout-caution
+## This code chunk will modify the existing data in place! Ensure this is needed before you run data!
+:::
+
+```{r birdnet_modify-in-place}
+# Check that birdNET_SelectionTable exists; if not, create it by merging files
+check_birdnet_selectionTables(root_path)
+
+#rename birdNET_SelectionTables to add deploymentID
+rename_birdnet_files(root_path) 
+
+#add deployment_ID column
+add_deploymentID(root_path)
+
+# Copy birdNET_SelectionTables from root_path to raw folder in github directory. Note: This will fail if the files already exist. Eventually fix this.
+copy_birdnet_files(root_path, dest_path)
+
+
+```
+
+# 4. Clean Birdnet Data
+
+Combine raw Birdnet files, clean up, add environmental data, and save as birdnet_projectID file.
+
+```{r birdnet_clean}
+# merge birdNET_SelectionTables (in 'raw' folder), save as rds in 'output' folder
+data <- birdnet_combine(here(bigDataRawFiles))
+
+#Modify birdNET data as tibble 
+birdnet_all <- birdnet_add_datetime(data, tz = "UTC") %>% #add UTC dateTime columns
+  clean_names() %>%
+  remove_empty(which=c("rows","cols")) %>%
+  rename(datetime_UTC = datetime) %>% 
+  mutate(datetime_local = with_tz(datetime_UTC, "America/Los_Angeles") ) %>%
+  separate( col = deployment_id, into = c("location-site", "config",
+                                          "deploy_id_date"), sep = "_", remove = FALSE )%>%
+  separate("location-site", into = c("location", "site"), sep = "-" ) %>%
+  left_join(deployments_all, by = "deployment_id") %>%
+  select(-date, -month, -mday, -yday, -hour, -minute, -deploy_id_date) 
+
+birdnet_env <- birdnet_all %>%
+  rename(UTC = datetime_UTC, Latitude = latitude,Longitude = longitude)
+birdnet_all_env <- matchGFS(birdnet_env)
+
+birdnet_all <- birdnet_all_env %>%
+  clean_names() %>%
+  remove_empty(which=c("rows","cols"))
+
+birdnetFileName <- paste("birdnet_", projectID, sep = "" )
+
+saveRDS(birdnet_all, file= here(paste("data", birdnetFileName,".rds", sep="")))
+write_csv(birdnet_all, file= here(paste(bigDataRawFiles, birdnetFileName,".csv", sep="")))
+
+head(birdnet_all)
+```
+
+# 5. Create Birdnet Binned Data
+
+Create daily and hourly binned data, with environmental data.
+
+```{r birdnet_bins}
+birdnet_day <- birdnet_all %>%
+  rename(UTC = utc) 
+birdnet_bins_day <- binDetectionData(x = birdnet_day, bin = "day", columns = c("common_name", "deployment_id"), rematchGPS = TRUE, gpsGroup = "deployment_id") %>%
+  left_join(deployments_select, by = "deployment_id")%>%
+  rename(Latitude = latitude, Longitude = longitude)
+birdnet_bins_day_env <- matchGFS(birdnet_bins_day)
+
+saveRDS(birdnet_bins_day_env, file = here(paste("data/", birdnetFileName, "_bins_day.rds")))
+
+birdnet_hour <- birdnet_all %>%
+  rename(UTC = utc) 
+birdnet_bins_hour <- binDetectionData(x = birdnet_hour, bin = "hour", columns = c("common_name", "deployment_id"), rematchGPS = TRUE, gpsGroup = "deployment_id") %>%
+  left_join(deployments_select, by = "deployment_id")%>%
+  rename(Latitude = latitude, Longitude = longitude)
+birdnet_bins_hour_env <- matchGFS(birdnet_bins_hour)
+
+saveRDS(birdnet_bins_hour_env, file = here(paste("data/", birdnetFileName, "_bins_hour.rds")))
+```
+
+

@@ -3,63 +3,78 @@ title: "Results"
 format: html
 ---
 
-Passive acoustic detection as a means of monitoring species requires that (1) the animals produce sounds that you can readily attribute to them and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. While their vocal behavior is well described in (cite papers), there is known variation between sites and there is great value in quantifying this variation to inform future studies.
+To Do: 
+- Summary of data at top (hours of recordings at each site, total Tb of data, # species detected)
+- Create scrolling spectrograms using dynaSpec in R Here is a [link](https://colab.research.google.com/github/maRce10/dynaSpec/blob/master/dynaSpec.ipynb) to a colab notebook on this
 
-```{r resultsPrep}
-#| echo: false
+```{r setup}
 #| include: false
 library(here)
-library(DT)
-library(tidyverse)
-library(leaflet)
-here()
-
-source(here::here("_code/_common.R"))
-
-myDataset <- here("output", "birdnet_LFRR.csv")
-
-myData <- loadDetectionData(x=myDataset, source='csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7',
-                  columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'), extraCols= c('Site', 'Location'))
+library(jsonlite)
 
 
+video_dir <- here("output", "videos")
+video_files <- list.files(video_dir, pattern = "\\.(mp4|mov|webm)$", full.names = FALSE)
+
+# Pass data to OJS using ojs_define
+ojs_define(video_data = video_files)
 ```
 
-::: callout-important
-Warning: *All results are preliminary, data were not acoustically validated! Need to validate recordings and assess species-specific confidence thresholds for detections*
-:::
+```{ojs}
+//| echo: false
 
-### Daily Variation
+// Use the data directly
+videos = video_data
 
-There was considerable daily variation in detection of calls associated with Ridgeway's Rails at both the Sweetwater Proving Pens and at the Tijuana Estuary. The variation in detection of calls were similar between the recorders at the two different proving pens (not shown here). While this data is limited in scope, we do not see a strong correlation between the two sites in relation to the higher number of hours of detections. This suggests that larger environmental variables (such as moon phase or weather conditions) may not be responsible for this variation, but this may be related to site-specific variables.
+// Function to get MIME type from extension
+function getMimeType(filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  const mimeTypes = {
+    'mp4': 'video/mp4',
+    'webm': 'video/webm',
+    'mov': 'video/quicktime'
+  };
+  return mimeTypes[ext] || 'video/mp4';
+}
 
-This data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Future work should include manual review of these data to ensure that calls assigned to Ridgeway's Rails are in fact calls from those species. This review will also provide a means of quantifying the accuracy (correct classification) of these models for future research.
-
-***To Do: Add SPP from the DD Study to this graph to add more temporal variation!***
-
-```{r RailBoxplot}
-#| echo: false
-#| warning: false
-# myData <- filter(myData, Site == c('SPP', 'TJE'))
-plotDetectionBoxplot(x=myData, group='species', facet='Location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
-
-
-
+// Create dropdown and video player with vanilla HTML
+html`
+  <div>
+    <label for="video-select">Select a video:</label>
+    <select id="video-select" style="margin: 10px 0; padding: 5px; font-size: 14px;">
+      ${videos.map(v => `<option value="${v}">${v}</option>`).join('')}
+    </select>
+    
+    <h4 id="now-playing">Now Playing: ${videos[0]}</h4>
+    <video id="video-player" width="640" height="480" controls key="${videos[0]}">
+      <source src="${"../../output/videos/" + videos[0]}" type="${getMimeType(videos[0])}">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <script>
+    (function() {
+      const select = document.getElementById('video-select');
+      const player = document.getElementById('video-player');
+      const nowPlaying = document.getElementById('now-playing');
+      
+      select.addEventListener('change', function() {
+        const selectedVideo = this.value;
+        const ext = selectedVideo.split('.').pop().toLowerCase();
+        const mimeTypes = {
+          'mp4': 'video/mp4',
+          'webm': 'video/webm',
+          'mov': 'video/quicktime'
+        };
+        const mimeType = mimeTypes[ext] || 'video/mp4';
+        
+        // Update player source with correct relative path
+        player.innerHTML = '<source src="../../output/videos/' + selectedVideo + '" type="' + mimeType + '">Your browser does not support the video tag.';
+        nowPlaying.textContent = 'Now Playing: ' + selectedVideo;
+        player.load();
+        player.play().catch(e => console.log('Autoplay prevented'));
+      });
+    })();
+  </script>
+`
 ```
-
-### Diurnal Variation
-
-There is significant research suggesting that Ridgeway's Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Recordings from the Sweetwater Proving Pens also showed calling throughout the day and very little calling at night. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limiting recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, it would also limit additional data provided by passive acoustic monitoring that can provide information related to presence of other species, anthropogenic uses of the area, and potentially other acoustic behaviors that may occur at other times of the day.
-
-Again, acoustic detections were not manually reviewed, and it is possible that some of these calls are actually other sounds that were attributed to this species.
-
-```{r RailPolarPlot}
-#| echo: false
-#| warning: false
-
-
-
-plotPolarDetections(x=myData, group='species', facet='species', bin='detection/hour', quantity='count')
-
-```
-
-

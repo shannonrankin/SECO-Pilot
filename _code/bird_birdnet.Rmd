@@ -15,89 +15,7 @@ here()
 source(here::here("_code/_common.R"))
 ```
 
-# Modify BirdNet_SelectionTable *in place*
 
-# ONLY Run if you have new data!
-
-```{r modify-in-place}
-# Root path where your FolderName1, FolderName2, ... are located
-root_path <- "C:/Users/Shannon/Documents/audiomoth/Rails/birdnet/SPP-DD"
-
-# Check that birdNET_SelectionTable exists; if not, create it by merging files
-check_birdnet_selectionTables(root_path)
-
-#rename birdNET_SelectionTables to add deploymentID
-rename_birdnet_files(root_path) 
-
-#add deployment_ID column
-add_deploymentID(root_path)
-
-# Copy birdNET_SelectionTables from root_path to raw folder in github directory
-dest_path <- here::here("bigData/raw") # Destination folder
-
-#copy_birdnet_files (root_path, dest_path) #Note, This will fail if the files already exist. Eventually fix this.
-```
-
-# Data Wrangling
-
-```{r data-wrangling}
-# merge birdNET_SelectionTables (in 'raw' folder), save as rds in 'output' folder
-data <- birdnet_combine(here("bigData/raw")) 
-# read deploymentTable 
-deployments <- read_rds(here("data", "deployTable.rds")) 
-head(data)
-
-#Modify birdNET data as tibble 
-birdnet_All <- birdnet_add_datetime(data, tz = "UTC") %>% #add UTC dateTime columns 
-  rename( datetime_UTC = datetime) %>% 
-  mutate( datetime_local = with_tz(datetime_UTC, "America/Los_Angeles") ) %>%
-  separate( col = deployment_ID, into = c("Location-Site", "config",
-                                          "deployID_date"), sep = "_", remove = FALSE )%>%
-  separate("Location-Site", into = c("Location", "Site"), sep = "-" ) %>%
-  left_join(deployments, by = "deployment_ID") %>%
-  select(-date, -year, -month, -mday, -yday, -hour, -minute, -deployID_date) %>%
-  rename(Latitude = latitude,
-         Longitude = longitude)
-
-saveRDS(birdnet_All, file=here("data", "birdnet_All.rds"))
-write_csv(birdnet_All, here("bigData", "birdnet_All.csv"))
-
-head(birdnet_All)
-```
-
-# Hourly Bins
-
-Convert
-
-```{r birdnet-bins}
-birdnetBins <- birdnet_All %>%
-  rename(UTC = datetime_UTC)
-binDetectionData(x = birdnetBins, bin = "day", columns = c("Common.Name", "deployment_ID"), rematchGPS = TRUE, gpsGroup = "deployment_ID")
-
-birdnetBins_dID_hour <- birdnet_All %>%
-  rename(UTC = datetime_UTC)
-binDetectionData(x = birdnetBins, bin = "hour", columns = c("Common.Name", "deployment_ID"), rematchGPS = TRUE, gpsGroup = "deployment_ID")
-
-birdnetBins_All_day <- birdnet_All %>%
-  rename(UTC = datetime_UTC)
-binDetectionData(x = birdnetBins, bin = "day", columns = c("Common.Name", "deployment_ID"), rematchGPS = TRUE)
-
-birdnetBins_All_hour <- birdnet_All %>%
-  rename(UTC = datetime_UTC)
-binDetectionData(x = birdnetBins, bin = "hour", columns = c("Common.Name", "deployment_ID"), rematchGPS = TRUE)
-
-```
-
-# Environmental Data
-
--   add environmental data to birdnet_all and birdnetBins_all using
-    PAMverse
-
-```{r env-data}
-test <- birdnet_All %>%
-  rename(UTC = datetime_UTC)
-test <- matchGFS(test)
-```
 
 # Create data subsets for analysis and save as csv (to read in by PAMverse)
 
@@ -105,52 +23,52 @@ test <- matchGFS(test)
 
 ```{r data-subsets}
 #top 10 species
-birdnet_top10 <- birdnet_All %>% 
+birdnet_top10 <- birdnet_all %>% 
   count(Common.Name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
-  left_join(birdnet_All, by = "Common.Name") # join back to original data
+  left_join(birdnet_all, by = "Common.Name") # join back to original data
 write_csv(birdnet_top10, here("bigData", "birdnet_top10.csv"))
 
 #top 10 species- TJE
-birdnet_top10_TJE <- birdnet_All %>% 
+birdnet_top10_TJE <- birdnet_all %>% 
   filter(Location == "TJE") %>%
   count(Common.Name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
-  left_join(birdnet_All, by = "Common.Name") # join back to original data
+  left_join(birdnet_all, by = "Common.Name") # join back to original data
 write_csv(birdnet_top10_TJE, here("bigData", "birdnet_top10_TJE.csv"))
   
 
 #top 10 species- SCI
-birdnet_top10_SCI <- birdnet_All %>% 
+birdnet_top10_SCI <- birdnet_all %>% 
   filter(Location == "SCI") %>%
-  count(Common.Name, sort = TRUE) %>% # Count #detections per species 
+  count(common_name, sort = TRUE) %>% # Count #detections per species 
   slice_head(n = 10) %>% # Get top 10 species
-  left_join(birdnet_All, by = "Common.Name") # join back to original data
+  left_join(birdnet_all, by = "common_name") # join back to original data
 write_csv(birdnet_top10_SCI, here("bigData", "birdnet_top10_SCI.csv"))
 
 
 #Ridgeway's Rails
-birdnet_LFRR <- birdnet_All %>% dplyr::filter(Common.Name == "Ridgway's Rail")
+birdnet_LFRR <- birdnet_All %>% dplyr::filter(common_name == "Ridgway's Rail")
 write_csv(birdnet_LFRR, here("bigData", "birdnet_LFRR.csv"))
 saveRDS(birdnet_LFRR, file=here("data", "birdnet_LFRR.rds"))
 
 # Ridgeway's Rails for Detection Distance
-birdnet_LFRR_DD <- birdnet_LFRR %>% filter(!Location == "TJE") %>%
-  filter(!Location == "SGR")%>%
-  filter(!Site == "1N") %>%
-  filter(!Site == "3S")
+birdnet_LFRR_DD <- birdnet_LFRR %>% filter(!location == "TJE") %>%
+  filter(!location == "SGR")%>%
+  filter(!site == "1N") %>%
+  filter(!site == "3S")
 write_csv(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.csv"))
 write_delim(birdnet_LFRR_DD, here("bigData", "birdnet_LFRR_DD.txt"), delim = "\t" )
 
 
 #by Location
-birdnet_TJE <- filter(birdnet_All, Location == "TJE")
+birdnet_TJE <- filter(birdnet_all, location == "TJE")
 write_csv(birdnet_TJE, here("bigData", "birdnet_TJE.csv"))
 
-birdnet_SCI <- filter(birdnet_All, Location == "SCI")
+birdnet_SCI <- filter(birdnet_all, location == "SCI")
 write_csv(birdnet_SCI, here("bigData", "birdnet_SCI.csv"))
 
-birdnet_SPP <- filter(birdnet_All, Location == c("SPP", "SGR"))
+birdnet_SPP <- filter(birdnet_all, location == c("SPP", "SGR"))
 write_csv(birdnet_SPP, here("bigData", "birdnet_SPP.csv"))
 
 #Priority Species
