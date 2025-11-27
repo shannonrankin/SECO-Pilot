@@ -16,7 +16,7 @@ Update Outputs
 
 # Create Detection Distance Data, Table
 ``` {r rails-det-dist}
-deployments_all <- readRDS(here("data/delployments.rds"))
+deployments_all <- readRDS(here("data/deployments.rds"))
 # Extract reference coordinates for DD01 and DD02
 ref1 <- deployments_all %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
 ref2 <- deployments_all %>% filter(site == "DD02") %>% select(longitude, latitude) %>% as.numeric()
@@ -31,5 +31,53 @@ saveRDS(dd, file=here("data/deployTable_DD.rds"))
 
 ```
 
+
+#Run Detection Explorer
+
+```{r DetectionExplorer}
+myNewData <- readRDS("file I want to work with.rds")
+runDetectionExplorer(myNewData)#Will run shiny app
+
+#Prep data in shiny app, then copy the specific code below
+myData <- loadDetectionData(myNewData)
+
+#and then apply to your plots by copying the code to 'copyCodeHere'
+plotDetectionBoxplot(copyCodeHere)
+plotPolarDetections(copyCodeHere)
+plotAcousticScene(copyCodeHere)
+```
+
+
+# Soundscape
+```{r soundscape}
+
+
+```
+
+
+# Biodiversity Indices
+```{r biodiversity}
+# First, select two separate 5 min file from TJE and from SGR for analysis
+
+# For each dataset, run each of the analyses, below. Provide a means for comparison
+
+# Acoustic Complexity Index (ACI, seewave)
+ACI(wave, f, channel = 1, wl = 512, ovlp = 0,  wn = "hamming", flim = NULL, nbwindows = 1)
+
+# Acoustic Diversity Index (ADI, SoundEcology)
+# Soundecology Function = "acoustic_diversity". Minimum frequency = 0 kHz, maximum frequency = 10 kHz, FFT = 512, dB threshold = -50, Frequency band width = 1 kHz.
+acoustic_diversity(soundfile, max_freq = 10000, db_threshold = -50, 
+freq_step = 1000, shannon = TRUE)
+
+# Bioacoustic Index (BI, SoundEcology)
+# Soundecology Function = "bioacoustic_index". Minimum frequency = 2 kHz, maximum frequency = 8 kHz, FFT = 512. 
+bioacoustic_index(soundfile, min_freq = 2000, max_freq = 8000, fft_w = 512)
+
+# Acoustic Entropy Index
+# Seewave Function = "H". Minimum frequency = 0 kHz, maximum frequency = Nyquist of recording, FFT = 512.
+H(wave, f, channel = 1, wl = 512, envt="hil", msmooth = NULL, ksmooth = NULL)
+
+
+```
 
 

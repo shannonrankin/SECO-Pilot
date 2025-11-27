@@ -15,6 +15,7 @@ library(leaflet)
 library(geosphere)
 library(kableExtra)
 library(readODS)
+library(soundecology)
 
 
 #######################################

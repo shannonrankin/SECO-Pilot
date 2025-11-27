@@ -33,13 +33,14 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - section: content/rails-intro.qmd
+      - section: content/rails-dashboard.qmd
         text: "Ridgway's Rails"
         contents:
-          # - content/rails-dashboard.qmd
+        - href: content/rails-intro.qmd
+          text: "Intro"
         - href: content/rails-methods.qmd
           text: "Methods"
-        - section: content/rails-results-new.qmd
+        - section: content/rails-results.qmd
           text: "Results"
           contents:
             - href: content/rails-summary.qmd
@@ -72,6 +73,7 @@ format:
     code-overflow: wrap
     toc: true
     link-external-newwindow: true
+    
 
 
 filters:

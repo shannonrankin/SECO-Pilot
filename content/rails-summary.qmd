@@ -16,12 +16,18 @@ here()
 
 source(here::here("_code/_common.R"))
 
-myDataset <- here("bigData", "birdnet_LFRR.csv")
+birdnet_all <- readRDS(here("data/birdnet_rails.rds"))
 
-myData <- loadDetectionData(x=myDataset, source='csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7',
-                  columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'), extraCols= c('Site', 'Location'))
+birdnet_rails <- birdnet_all %>%
+  dplyr::filter(common_name == "Ridgway's Rail")
+
+birdnet_rails_sub <- birdnet_rails %>%
+  filter(location == c('SPP', 'TJE'))
 
 
+myData_rails <- loadDetectionData(x=birdnet_rails, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+
+myData_rails_sub <- loadDetectionData(x=birdnet_rails_sub, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
 ```
 
 ::: callout-important
@@ -38,8 +44,9 @@ This data is preliminary and has not been manually reviewed to confirm detection
 ```{r RailBoxplot}
 #| echo: false
 #| warning: false
-# myData <- filter(myData, Site == c('SPP', 'TJE'))
-plotDetectionBoxplot(x=myData, group='species', facet='Location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
+
+
+plotDetectionBoxplot(x=myData_rails_sub, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
 
 
 
@@ -57,8 +64,10 @@ Again, acoustic detections were not manually reviewed, and it is possible that s
 
 
 
-plotPolarDetections(x=myData, group='species', facet='species', bin='detection/hour', quantity='count')
+plotPolarDetections(x=myData_rails, group='species', facet='species', bin='detection/hour', quantity='count')
 
 ```
+
+
 
 

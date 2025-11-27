@@ -2,7 +2,7 @@
 title: "Sound Ecology"
 subtitle: "Pilot Studies using Technology for Regional Wildlife Studies in San Diego"
 page-layout: full
----
+--- 
 
 # Passive Acoustic Pilot Studies in the San Diego Region
 

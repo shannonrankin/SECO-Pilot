@@ -6,6 +6,7 @@ format: html
 this is a summary of the results for the rails study from TJE
 
 # Diurnal vocalizations recorded near the Proving Pens
+
 Need to fix this so that I am using the appropriate data here
 
 ```{r RailPrep}
@@ -16,38 +17,97 @@ here()
 
 source(here::here("_code/_common.R"))
 
-myDataset_TJE <- here("bigData", "birdnet_TJE.csv")
+birdnet_all <- readRDS(here("data/birdnet_rails.rds"))
 
-myDataset_TJE_10 <- here("bigData", "birdnet_top10_TJE.csv")
+priority <- birdnet_all %>%
+  filter(location == "TJE") %>%
+  count(common_name, sort = TRUE) %>% 
+  slice_head(n = 10) %>%
+  pull(common_name) %>% 
+  union("Ridgway's Rail") 
 
-myData <- loadDetectionData(x=myDataset_TJE, source='csv', detectionType='detection', wide=FALSE, 
-                  tz='UTC', columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'))
+birdnet_top_TJE <- birdnet_all %>%
+  filter(location == "TJE") %>%
+  filter(common_name %in% priority)
 
-myData_10 <- loadDetectionData(x=myDataset_TJE_10, source='csv', detectionType='detection', wide=FALSE, 
-                  tz='UTC', columnMap=list(UTC='datetime_UTC', species='Common.Name', Latitude='latitude', Longitude='longitude'))
+myData_priority_TJE <- loadDetectionData(x=birdnet_top_TJE, source='csv', detectionType='detection', wide=FALSE,  tz='UTC', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
 
 ```
 
-BoxPlot
-Need to fix this so that I am using the appropriate data here
+BoxPlot Need to fix this so that I am using the appropriate data here
 
 ```{r RailBoxplot}
 #| echo: false
 #| warning: false
 
 
-plotDetectionBoxplot(x=myData,  group='species', facet = 'species', bin='hour/day', combineYears = FALSE, title = "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary")
+plotDetectionBoxplot(x=myData_priority_TJE,  group='species', facet = 'species', bin='hour/day', combineYears = FALSE, title = "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary")
 
 ```
 
-Acoustic Scene
-Need to fix this so that I am using the appropriate data here
+Acoustic Scene Need to fix this so that I am using the appropriate data here
 
 ```{r RailAcScene}
 #| echo: false
 #| warning: false
 
 
-plotAcousticScene(x=myData, combineYears=FALSE) #Note: this would only be good for TJ
+plotAcousticScene(x=myData_priority_TJE, combineYears=FALSE) #Note: this would only be good for TJ
+
+```
+
+# Biodiversity Indices
+
+In theory, long term acoustic recordings may provide a means of assessing biodiversity and habitat quality; or, at the least, changes in these metrics over time and in different regions.
+
+Acoustic indices are quantitative metrics reflecting changes in the amplitude and frequency content of the soundscape over time (Sueur, 2018). Biodiversity indices, on their own, are of marginal value. Their value lies in their ability to quantify variation in the soundscape that may be indicative of *a change in the habitat or biodiversity over time or space*.
+
+Many methods are sensitive to spectrogram dimensions and standard methods are required for interpretation. Here we provide examples of biodiversity indices for consideration; selection of specific measures will vary depending on research objectives.
+
+cite: 10.1111/2041-210X.13254
+
+## Acoustic Complexity Index
+
+The Acoustic Complexity Index (ACI) uses a linear scale of sound intensity from sound spectrograms to analyze a soundscape. It is sensitive to irregularites in the biological soundscape (and other discrete sounds) while filtering out persistant anthropogenic sounds.
+
+cite: 10.1016/j.ecolind.2010.11.005, 10.1016/j.ecoinf.2011.07.004
+
+```{r ACI}
+# Seewave Function = "ACI"
+# Build in rails_Pilot.Rmd, then output here
+
+```
+
+## Acoustic Diversity Index
+
+The Acoustic Diversity Index (ADI) uses the Shannon Index to measure the distribution of sound energy across frequency bins and was intended to serve as a proxy for habitat quality.
+
+cite: 10.1007/s10980-011-9636-9
+
+```{r ADI}
+# Soundecology Function = "acoustic_diversity". 
+# Build in rails_Pilot.Rmd, then output here
+```
+
+## Bioacoustic Index
+
+Intended to serve as a measure of birdsong complexity (and a proxy for relative bird abundance), it is a product of the amplitude and the number of occupied frequency bands, relative to the quietest 1 kHz frequency band.
+
+cite:10.1890/07-0004.1
+
+```{r BI}
+# Soundecology Function = "bioacoustic_index". 
+# Build in rails_Pilot.Rmd, then output here
+```
+
+## Acoustic Entropy Index (AEI)
+The Acoustic Entropy Index is based on the entropy in both time and space (based on the Shannon Index).
+
+
+cite: 10.1371/journal.pone.0004065
+
+```{r AEI}
+# Seewave Function = "H". Minimum frequency = 0 kHz, maximum frequency = Nyquist of recording, FFT = 512. 
+# Build in rails_Pilot.Rmd, then output here
 
 ```

@@ -1,0 +1,29 @@
+---
+title: "sci-results"
+format: html
+---
+
+```{r prep}
+#| echo: true
+#| include: false
+
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+
+birdnet_sci <- readRDS(here("data/birdnet_SCI.rds"))
+```
+
+
+```{r top10}
+
+#top 10 species- SCI
+birdnet_top10_SCI <- birdnet_sci %>% 
+  filter(location == "SCI") %>%
+  count(common_name, sort = TRUE) %>% # Count #detections per species 
+  slice_head(n = 10) %>% # Get top 10 species
+  left_join(birdnet_sci, by = "common_name") # join back to original data
+write_csv(birdnet_top10_SCI, here("bigData", "birdnet_top10_SCI.csv"))
+
+```

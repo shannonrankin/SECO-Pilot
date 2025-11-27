@@ -12,6 +12,7 @@ library(tidyverse)
 library(here)
 library(DT)
 library(leaflet)
+library(geosphere)
 here()
 
 
@@ -26,12 +27,23 @@ The primary purpose of this pilot study was to collect preliminary data to deter
 ```{r}
 #| echo: false
 #| warning: false
-deployTable <- readRDS(here("data", "deployTable_railPilot.RDS"))
+deployments_all <- readRDS(here("data/deployments.rds"))
+# Extract reference coordinates for DD01 and DD02
+ref1 <- deployments_all %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
+ref2 <- deployments_all %>% filter(site == "DD02") %>% select(longitude, latitude) %>% as.numeric()
+
+deployTable <- as_tibble(deployments_all) %>%
+  filter(location == "SPP-DD")%>%
+  mutate(
+    dist2SPP1 = distHaversine(cbind(longitude, latitude), ref1),
+    dist2SPP2 = distHaversine(cbind(longitude, latitude), ref2)
+  )
+saveRDS(deployTable, file=here("data/deployTable_DD.rds"))
 
 leaflet(data = deployTable, padding = 100) %>%
   #addProviderTiles(providers$Esri.WorldImagery) %>%
   addTiles() %>%
-  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_ID))
+  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))
 
 
 ```

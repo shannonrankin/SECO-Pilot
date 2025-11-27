@@ -5,35 +5,49 @@ format: html
 
 ### Next
 
--   [ ] Revise RMDs
-    -   [ ] Separate new data rmd
-    -   [ ] rails analysis step by step from new data to site 
-    -   [ ] smart thinking re functions, libraries
-    -   [ ] janitor cleaning
-    -   [ ] smart thinking re days vs bidData vs output
-    -   [ ] gitignore update
-    -   [ ] revise pages
-    -   [ ] think through next steps and future updates
--   [ ] Analysis: Bin Data (DRAFT COMPLETE)
--   [ ] Janitor: clean_names
+-   [ ] Model Birdnet Performance Evaluation:
+    -   [ ] Plot confidence scores (x) vs Frequency (n, on y axis)
+    -   [ ] Random selection of clips from different confidence intervals
+    -   [ ] Use Raven Review mode to review clips
+-   [ ] Detection Review
+    -   [ ] DD: measures incl. amplitude for all calls
+    -   [ ] Eliminate false positives
+    -   [ ] Identify false negatives
+    -   [ ] Label Noise?
 -   [ ] Start/End for each Recording
     -   Scan each recording for true START time and true END time
+
+        -   For DD, only include data when both pen recordings were working
+
     -   Delete unneeded recordings (bad data)
+
     -   extract TRUE good data START and END times, add to deployDetails spreadsheet
+
     -   Once this data is revised, assess recording length in hours (in R deployTable.R)
+
     -   Determine if we need to revise data in bird_birdnet.Rmd? Or in other tables, figures?
+
+    -   Start/End for each Recording
+
+### Acoustic Indices
+
+-   First, complete Start/End for each Recording
+-   First, complete Detection Review
 
 ### Methods
 
 -   [ ] Study Area- map buffer to default at slightly zoomed out, also decrease size of map
 -   [ ] Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
--   [ ] Analysis: Bin Data (DRAFT COMPLETE)
 -   [ ] Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
 -   [ ] Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
 -   [ ] Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
 -   [ ] Analysis: Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
 -   [ ] Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
--   [ ] ds(
+-   [ ] Manual Review to assess classifier
+    -   [ ] Review subset of data, determine if detection was true or false
+    -   [ ] Create a plot of all manually reviewed detections where x axis is the confidence scores (from birdnet) and Y is Correct (true positives) or Wrong (false positives).
+    -   [ ] What is the best threshold? Assess Precision & Recall and decide what is best for our study case.
+    -   [ ] OR, model true detection as a function of model scores. (Do this above).
 
 ### Dashboard
 

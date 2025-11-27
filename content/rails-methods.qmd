@@ -31,16 +31,16 @@ By zooming into the markers at the top of the map to see the spatial variation o
 #| echo: false
 #| warning: false
 
-goodCols <- c("deployment_ID","location", "site", "config_type", "deploy_date", "latitude", "longitude", "retrieve_date")
+goodCols <- c("deployment_id","location", "site", "config_type", "deploy_date", "latitude", "longitude", "retrieve_date")
 
-deployTable <- as_tibble(readRDS(here("data/deployDetails.rds"))) %>%
+deployTable <- as_tibble(readRDS(here("data/deployments.rds"))) %>%
   select(all_of(goodCols)) %>%
   filter(location %in% c("SPP-DD", "SPP", "TJE", "SGR"))
 
 leaflet(data = deployTable, padding = 20) %>%
   #addProviderTiles(providers$Esri.WorldImagery) %>%
   addTiles() %>%
-  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_ID))
+  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))
 ```
 :::
 :::
@@ -143,13 +143,39 @@ Each recording configuration provided valuable information to inform future stud
 
 ### Bird Detection and Classification
 
-Birdnet Analyzer v2.4 was used to batch analyze recordings for each deployment, with detections were saved as csv files and formatted as Raven selection tables. Preliminary data were analyzed using R programming language and preliminary results are provided to assess the potential use of PAM for studying Ridgway's Rails. Preliminary data products and R code are made publicly available in this repository, however some data products exceeded the storage limitations. These data products can be reproduced from the preliminary data products using code saved within the repository.
+Birdnet Analyzer v2.4 was used to batch analyze recordings for each deployment, with detections were saved as csv files and formatted as Raven selection tables. Settings include: Minimum confidence = .25, Sensitivity = 1, Overlap = 0, Merge consecutive detections = 1, Audo speed modification = 1, minimum bandpass = 0 Hz, Maximum bandpass = 15 kHz; species list based on location (33N, -117W) and year-round with minium occurrence probability of 0.03 for a species to be included. Detection data was output to a Raven selection table, and selection tables were combined into a single table for each recording.
+
+Birdnet provides a confidence score associated with each detection. These scores are not probabilities but do positively relate to predication accuracy (though this relationship varies by species). Manual validation is required to translate these scores to a predication accuracy
 
 ::: callout-important
 Note: All results are preliminary, data were not acoustically validated!
 :::
 
 *While this data provides sufficient preliminary recordings to allow for testing the accuracy of automated detection and classification models, this was not conducted due to time required to complete this analysis. As time allows, I intend to identify an alternative automated classifier that has a more flexible license (potentially Perch), manually validate calls, and assess the accuracy of this classifier for Ridgway's Rails and any other target species.*
+
+```{r railThreshold}
+#| echo: false
+# plot confidence scores (x axis) by frequency (y axis) for rails
+rails <- readRDS(here("data/birdnet_rails.rds"))%>%
+  dplyr::filter(common_name == "Ridgway's Rail")
+rails <- round(rails$confidence, 2)
+  
+freq_table <- table(rails)
+freq_df <- as.data.frame(freq_table) 
+names(freq_df) <- c("confidence", "frequency")
+freq_df$confidence <- as.numeric(as.character(freq_df$confidence))
+
+  
+ggplot(freq_df, aes(x = confidence, y = frequency)) +
+  geom_point(position = position_jitter(width = 0.02), alpha = 0.5) +
+  labs(title = "Jittered Scatterplot of Confidence Values",
+       x = "Confidence",
+       y = "Frequency")+
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1))
+
+```
+
+Preliminary data were analyzed using R programming language and preliminary results are provided to assess the potential use of PAM for studying Ridgway's Rails. Preliminary data products and R code are made publicly available in this repository.
 
 ### Distance Sampling
 A subset of data from the Detection Range Test at the Living Coast Proving Pens was manually examined to provide a preliminary estimate the detection range of Ridgway's Rails calls from the semi-captive animals in the proving pens. This sample detection data was analyzed using the distance R package to develop a (preliminary) detection function. This data provides an initial assessment of the detection range to inform future studies. 

@@ -3,77 +3,121 @@ title: "Results"
 format: html
 ---
 
-To Do: 
-- Summary of data at top (hours of recordings at each site, total Tb of data, # species detected)
-- Create scrolling spectrograms using dynaSpec in R Here is a [link](https://colab.research.google.com/github/maRce10/dynaSpec/blob/master/dynaSpec.ipynb) to a colab notebook on this
-
-```{r setup}
+```{r}
+#| echo: false
 #| include: false
 library(here)
-library(jsonlite)
+source(here::here("_code/_common.R"))
+```
 
-
-video_dir <- here("output", "videos")
+```{r videoSetup}
+#| include: false
+video_dir <- here("videos")
 video_files <- list.files(video_dir, pattern = "\\.(mp4|mov|webm)$", full.names = FALSE)
 
-# Pass data to OJS using ojs_define
-ojs_define(video_data = video_files)
+# Path relative to the server root
+video_path <- "videos"
+
+#Note, ojs_define will run on RENDER, not when running code chunk!
+ojs_define(video_data = video_files, video_path = video_path)
 ```
 
 ```{ojs}
 //| echo: false
 
-// Use the data directly
 videos = video_data
+videoPath = video_path
 
-// Function to get MIME type from extension
-function getMimeType(filename) {
-  const ext = filename.split('.').pop().toLowerCase();
-  const mimeTypes = {
-    'mp4': 'video/mp4',
-    'webm': 'video/webm',
-    'mov': 'video/quicktime'
-  };
-  return mimeTypes[ext] || 'video/mp4';
-}
-
-// Create dropdown and video player with vanilla HTML
 html`
   <div>
+    <p style="background: lightblue; padding: 10px;">
+      <strong>Debug Info:</strong><br>
+      Videos found: ${videos.join(', ')}<br>
+      Number of videos: ${videos.length}<br>
+      Video path from R: ${videoPath}
+    </p>
+    
     <label for="video-select">Select a video:</label>
     <select id="video-select" style="margin: 10px 0; padding: 5px; font-size: 14px;">
       ${videos.map(v => `<option value="${v}">${v}</option>`).join('')}
     </select>
     
-    <h4 id="now-playing">Now Playing: ${videos[0]}</h4>
-    <video id="video-player" width="640" height="480" controls key="${videos[0]}">
-      <source src="${"../../output/videos/" + videos[0]}" type="${getMimeType(videos[0])}">
+    <h4 id="now-playing">Now Playing: ${videos.length > 0 ? videos[0] : 'No videos found'}</h4>
+    
+    <video id="video-player" width="640" height="480" controls>
+      <source id="video-source" src="${videoPath}/${videos.length > 0 ? videos[0] : ''}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+    
+    <div id="debug-path" style="background: lightyellow; padding: 10px; margin-top: 10px;">
+      Loading debug info...
+    </div>
+    
+    <p id="error-info" style="background: lightcoral; padding: 10px; margin-top: 10px; display: none;">
+      Error: <span id="error-message"></span>
+    </p>
   </div>
   
   <script>
     (function() {
-      const select = document.getElementById('video-select');
+      const sel = document.getElementById('video-select');
       const player = document.getElementById('video-player');
+      const source = document.getElementById('video-source');
       const nowPlaying = document.getElementById('now-playing');
+      const debugPath = document.getElementById('debug-path');
+      const errorInfo = document.getElementById('error-info');
+      const errorMessage = document.getElementById('error-message');
       
-      select.addEventListener('change', function() {
-        const selectedVideo = this.value;
-        const ext = selectedVideo.split('.').pop().toLowerCase();
-        const mimeTypes = {
-          'mp4': 'video/mp4',
-          'webm': 'video/webm',
-          'mov': 'video/quicktime'
-        };
-        const mimeType = mimeTypes[ext] || 'video/mp4';
-        
-        // Update player source with correct relative path
-        player.innerHTML = '<source src="../../output/videos/' + selectedVideo + '" type="' + mimeType + '">Your browser does not support the video tag.';
-        nowPlaying.textContent = 'Now Playing: ' + selectedVideo;
-        player.load();
-        player.play().catch(e => console.log('Autoplay prevented'));
+      const videosArray = ${JSON.stringify(videos)};
+      const basePath = "${videoPath}";
+      
+      // Add error listeners
+      player.addEventListener('error', function(e) {
+        errorInfo.style.display = 'block';
+        errorMessage.textContent = 'Video player error. Check console for details.';
+        console.error('Player error:', e);
       });
+      
+      source.addEventListener('error', function(e) {
+        errorInfo.style.display = 'block';
+        errorMessage.textContent = 'Source error: Cannot load video from path shown above.';
+        console.error('Source error:', e);
+      });
+      
+      function loadVideo(filename) {
+        try {
+          const relativePath = basePath + '/' + filename;
+          const fullUrl = new URL(relativePath, window.location.href).href;
+          
+          errorInfo.style.display = 'none';
+          source.src = relativePath;
+          nowPlaying.textContent = 'Now Playing: ' + filename;
+          
+          debugPath.innerHTML = 
+            '<strong>Relative path:</strong> ' + relativePath + '<br>' +
+            '<strong>Full URL:</strong> ' + fullUrl + '<br>' +
+            '<strong>Current page URL:</strong> ' + window.location.href;
+          
+          player.load();
+          
+          console.log('Attempting to load video from:', fullUrl);
+        } catch (err) {
+          errorInfo.style.display = 'block';
+          errorMessage.textContent = 'JavaScript error: ' + err.message;
+          console.error('Load error:', err);
+        }
+      }
+      
+      sel.addEventListener('change', function() {
+        loadVideo(this.value);
+      });
+      
+      // Load first video on page load
+      if (videosArray.length > 0) {
+        loadVideo(videosArray[0]);
+      } else {
+        debugPath.textContent = 'No videos found!';
+      }
     })();
   </script>
 `

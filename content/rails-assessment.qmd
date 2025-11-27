@@ -19,15 +19,9 @@ here()
 
 source(here::here("_code/_common.R"))
 DDTable <- readRDS(here("data", "deployTable_DD.rds"))
-distanceData <- readRDS(here("data/distanceData.rds"))
+# distanceData <- readRDS(here("data/distanceData.rds"))
 
-#need to add 
-lfrr <- readRDS(here("data", "birdnet_All.rds"))%>%
-  filter()
-
-#distData
-distData <- readRDS(here("data/distanceData.rds"))
-distdata <- distanceData %>%
+distData <- readRDS(here("data/distanceData.rds"))%>%
   rename(
     distance = dist2source,
     size = groupSize,
@@ -104,7 +98,7 @@ The time series, below, shows how the number of calls detected on different reco
 ```{r ddTimeSeries}
 #| echo: false
 
-distanceData %>%
+distData %>%
   # Count detections per Site and time (e.g., per day)
   count(Site, date = as.Date(datetime_local)) %>%
   # Plot
@@ -121,7 +115,7 @@ This data was then used to develop a detection function, which provides an estim
 ```{r detfuncPrep}
 #| echo: false
 #| include: false
-df_hn <- ds(data = distdata, truncation = 200, key = "hn", adjustment = NULL)
+df_hn <- ds(data = distData, truncation = 200, key = "hn", adjustment = NULL)
 
 ```
 
