@@ -45,8 +45,8 @@ DDTable <- readRDS(here("data", "deployTable_DD.rds"))
 ```
 
 # Deployments
-
 ## Row - Value boxes {height="30%"}
+
 ```{r vBox_dataSize}
 #| echo: false
 data_size_tb <- deployments %>%
@@ -90,9 +90,18 @@ value_box(
 
 ## Recording Dates, Sites
 
+## Row {.tabset}
+
+### Timeline
+
+::: {.row}
+
+::: {.col-lg-7}
+
 ```{r recordingSite}
 #| echo: false
-#| title: Recordings by Site
+#| fig-width: 8
+#| fig-height: 5
 # Ensure date columns are in Date format
 deployments <- deployments %>%
   mutate(
@@ -124,9 +133,25 @@ ggplot(deployments_map, aes(x = record_start_utc, xend = record_end_utc, y = sit
 
 ```
 
+:::
+
+::: {.col-lg-5}
+
+<div class="card"> <div class="card-body"> <h5 class="card-title">About this table</h5> <p class="card-text"> Recording specifications varied according to details laid out in this table. </p> </div> </div>
+
+:::
+:::
+
+### Map
+
+::: {.row}
+
+::: {.col-lg-7}
 
 ``` {r siteMap}
 #| warning: false
+#| fig-width: 8
+#| fig-height: 5
 
 goodCols <- c("deployment_id","location", "site", "config_type", "deploy_date", "latitude", "longitude", "retrieve_date")
 
@@ -140,6 +165,81 @@ leaflet(data = deployTable, padding = 20) %>%
   addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))
 
 ```
+
+:::
+::: {.col-lg-5}
+
+<div class="card"> <div class="card-body"> <h5 class="card-title">About this table</h5> <p class="card-text"> Recording specifications varied according to details laid out in this table. </p> </div> </div>
+
+:::
+:::
+
+### Deployment Table
+
+::: {.row}
+
+::: {.col-lg-7}
+
+```{r dataTable}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+deployTable |>
+  DT::datatable(
+    caption = "Deployment of Acoustic Recorders for Rail-Wetland Pilot Study",
+    filter = "top" 
+  )|>
+DT::formatRound(6:7, digits = 4)
+
+```
+:::
+
+::: {.col-lg-5}
+
+<div class="card"> <div class="card-body"> <h5 class="card-title">About this table</h5> <p class="card-text"> Recording specifications varied according to details laid out in this table. </p> </div> </div>
+
+:::
+:::
+
+### Recording Specifications
+
+::: {.row}
+
+::: {.col-lg-7}
+
+```{r railRecorderSpectable}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+configTable <- readRDS(here("data", "configDetails.rds"))[1:3,] %>% 
+  select(config_id, config_type, sampling_rate, sleep_duration, record_duration, filter_type, filter_low, filter_high ) %>%
+  rename("Recording Type" = config_id,
+         "Recording Schedule" = config_type,
+         "Sampling Rate (kHz)" = sampling_rate,
+         "Record Off (s)" = sleep_duration,
+         "Record On (s)" = record_duration,
+         "Filter Type" = filter_type,
+         "High Pass Filter (kHz)" = filter_low,
+         "Low Pass Filter (kHz)" = filter_high
+  )
+
+kable(configTable, caption = "Initial Recording Specifications", digits = 1) %>% 
+  kable_classic()%>%
+  #add_header_above(c(" " = 1, "Distance to Site" = 2)) %>%
+  row_spec(0, bold = TRUE) %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"), full_width = F, position = "center")
+
+```
+
+:::
+
+::: {.col-lg-5}
+
+<div class="card"> <div class="card-body"> <h5 class="card-title">About this table</h5> <p class="card-text"> Recording specifications varied according to details laid out in this table. </p> </div> </div>
+
+:::
+:::
+
 
 # Rails
 ## Row - Value boxes {height="30%"}
@@ -200,19 +300,29 @@ myData_rails_sub <- loadDetectionData(x=birdnet_rails_sub, source = 'csv', detec
 
 ## Row {.tabset}
 
+
 ```{r RailBoxplot}
 #| echo: false
 #| warning: false
-#| title: "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary"
+#| title: "Daily Detection"
+#| results: asis
 
-plotDetectionBoxplot(x=myData_rails_sub, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
+library(htmltools)
+library(knitr)
+DetBox <- plotDetectionBoxplot(x=myData_rails_sub, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
+
+two_col_card(
+  left_content = DetBox,
+  title = "Detection BoxPlot",
+  text = "This shows my Detections in a Boxplot"
+  )
 ```
 
 
 ```{r RailPolarPlot}
 #| echo: false
 #| warning: false
-#| title: "Polar Plot of Rail Detections by Time of Day"
+#| title: "Diurnal Detections"
 
 plotPolarDetections(x=myData_rails, group='species', facet='species', bin='detection/hour', quantity='count')
 ```
@@ -283,10 +393,11 @@ birdnet_top_TJE <- birdnet_all %>%
 
 myData_priority_TJE <- loadDetectionData(x=birdnet_top_TJE, source='csv', detectionType='detection', wide=FALSE,  tz='UTC', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
 ```
+
 ```{r bioBoxplot}
 #| echo: false
 #| warning: false
-#| title: "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary"
+#| title: "TJ Top 10 Species"
 
 
 plotDetectionBoxplot(x=myData_priority_TJE,  group='species', facet = 'species', bin='hour/day', combineYears = FALSE, title = "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary")
@@ -296,7 +407,7 @@ plotDetectionBoxplot(x=myData_priority_TJE,  group='species', facet = 'species',
 ```{r bioAcScene}
 #| echo: false
 #| warning: false
-#| title: "Acoustic Scene for top 10 species detected at Tijuana Estuary"
+#| title: "TJ Acoustic Scene"
 
 
 plotAcousticScene(x=myData_priority_TJE, combineYears=FALSE) #Note: this would only be good for TJ

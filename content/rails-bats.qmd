@@ -1,0 +1,6 @@
+---
+title: "rails-bats"
+format: html
+---
+
+Add info about bat detections here

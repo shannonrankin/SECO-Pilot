@@ -142,6 +142,7 @@ Each recording configuration provided valuable information to inform future stud
 ## Analysis Methods
 
 ### Bird Detection and Classification
+Data were first scanned to determine the appropriate RECORDING START and RECORDING END, as the beginning of most recordings contained excessive noise. 
 
 Birdnet Analyzer v2.4 was used to batch analyze recordings for each deployment, with detections were saved as csv files and formatted as Raven selection tables. Settings include: Minimum confidence = .25, Sensitivity = 1, Overlap = 0, Merge consecutive detections = 1, Audo speed modification = 1, minimum bandpass = 0 Hz, Maximum bandpass = 15 kHz; species list based on location (33N, -117W) and year-round with minium occurrence probability of 0.03 for a species to be included. Detection data was output to a Raven selection table, and selection tables were combined into a single table for each recording.
 

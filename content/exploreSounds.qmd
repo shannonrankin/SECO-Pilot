@@ -1,0 +1,51 @@
+---
+title: "Explore Sounds"
+format: html
+---
+
+```{r}
+#| echo: false
+#| include: false
+library(here)
+source(here::here("_code/_common.R"))
+
+videoList <- create_video_list()
+```
+
+```{r videoList}
+#| echo: false
+#| include: false
+
+#Note, ojs_define will run on RENDER, not when running code chunk!
+ojs_define(videoList_ojs = videoList)
+
+```
+
+```{ojs}
+//| expandable: false
+//| 
+// Transpose data to make it useable in ojs
+videoList = transpose(videoList_ojs)
+
+// Create dropdown menu of videos
+viewof videoDropdown = Inputs.select(
+  videoList.map(d => d.species),
+  {
+  label: "Choose a Sound",
+  unique: true
+  }
+)
+
+// Get the selected video data
+selectedVideo = videoList.find(d => d.species === videoDropdown)
+
+// Display the video
+html`<video width="640" height="480" controls key="${selectedVideo.filename}">
+  <source src="${selectedVideo.filename}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>`
+
+// Display the caption
+html`<p style="margin-top: 20px; font-style: italic;">${selectedVideo.caption}</p>`
+```
+

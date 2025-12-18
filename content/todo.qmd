@@ -5,6 +5,7 @@ format: html
 
 ### Next
 
+-   [ ] Dashboard errors: work with chatgpt to use two_col_card function in \_common but it is not outputing correctly (rails- boxplot). Keep testing to fix. My text is not showing up correctly. Need a fix with the function.
 -   [ ] Model Birdnet Performance Evaluation:
     -   [ ] Plot confidence scores (x) vs Frequency (n, on y axis)
     -   [ ] Random selection of clips from different confidence intervals
@@ -18,16 +19,15 @@ format: html
     -   Scan each recording for true START time and true END time
 
         -   For DD, only include data when both pen recordings were working
+        -   TJE-01(in progress); finished: SPP-DD
 
-    -   Delete unneeded recordings (bad data)
+    -   Delete unneeded recordings (folder named 'bad')
 
     -   extract TRUE good data START and END times, add to deployDetails spreadsheet
 
+    -   Add data size and number of files to deployDetails
+
     -   Once this data is revised, assess recording length in hours (in R deployTable.R)
-
-    -   Determine if we need to revise data in bird_birdnet.Rmd? Or in other tables, figures?
-
-    -   Start/End for each Recording
 
 ### Acoustic Indices
 

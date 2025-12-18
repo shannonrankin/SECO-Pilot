@@ -4,3 +4,9 @@
 
 $font-family: "Atkinson Hyperlegible", sans-serif;
 
+/* Force side-by-side layout for all screen sizes */
+.column-screen-lg-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+

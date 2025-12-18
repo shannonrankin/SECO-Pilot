@@ -38,7 +38,32 @@ here()
 source(here::here("_code/_common.R"))
 ```
 
-# 2. Update Deployment Details
+# 2. Modify Recording Names
+BEFORE renaming files, check that folder-name and file-name components match the DeployDetails.ods file
+```{r recordingDataCheck}
+# Define paths
+#folderPath <- "E:/Rails/recordings/test/SPP-DD10_48c_20250716" # Update this path
+folderPath <- "E:/Rails/recordings/TJE-01/TJE-01_192b_20250608"  # Update this path
+ods_file <- "E:/Rails/SE_DeployDetails.ods"
+
+recordingDataCheck(
+  folderPath = folderPath,
+  ods_file = ods_file)
+
+```
+
+
+WARNING: Before running next code chunk, ensure success with recordingDataCheck!!
+
+```{r recordingRename}
+#Double-check that folderPath (above) is correct!
+#Note: If device_ID not in filename, then use recordingRenameNOdevice_ID instead 
+
+recordingRename(folderPath)
+
+```
+
+# 3. Update Deployment Details
 
 First, copy updated '**SE_DeployDetails.ODS**' sheet to the **data/** folder, then the following code chunk will update the files for each of the 4 sheets within the spreadsheet.
 

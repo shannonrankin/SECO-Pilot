@@ -24,3 +24,22 @@ $popover-bg: #242424;
 
 // Bootstrap inputs
 $input-bg: #242424;
+
+/* Force side-by-side layout for all screen sizes */
+.column-screen-lg-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.two-col {
+  display: flex;
+  gap: 1rem;
+}
+
+.two-col-left {
+  flex: 0 0 60%;
+}
+
+.two-col-right {
+  flex: 0 0 40%;
+}
