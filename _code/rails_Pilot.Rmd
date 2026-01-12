@@ -1,6 +1,7 @@
 ---
-title: "rails_Pilot"
+title: "Instructions for analysing PAM data for SECO Pilot Studies"
 ---
+
 ```{r prep echo=TRUE include=FALSE}
 library(here)
 here()
@@ -8,14 +9,37 @@ here()
 source(here::here("_code/_common.R"))
 ```
 
-First, if you have new data to add, run appropriate analysis in _code/newData.Rmd
+This RMarkdown file is intended as a 'how to' for working with PAM data for the SECO Pilot Studies.
 
-Update Outputs 
+***To Do:***
 
-#Prep birdnet Data
+-   Modify detection distance table
+
+    -   Run
+
+    -   Review data and create a function to identify
+
+-   Soundscape
+
+-   Biodiversity
+
+-   Bats
+
+-   Insects
+
+# New Data
+
+For new data, there are two RMarkdown files that need to be run on the new data.
+
+First, we need to make modifications to the data IN PLACE. This code literally modifies the original data, so it must be used with caution, and run only once per dataset. This markdown file can be found here: **/\_code/newData_modifyInPlace.Rmd**
+
+Next, we need to copy relevant data to our repository and modify it within the repository so that it is ready for downstream analyses. This markdown file can be found here: **/\_code/newData.Rmd**
+
+At this point, the data should be ready for the analysis shown below.
 
 # Create Detection Distance Data, Table
-``` {r rails-det-dist}
+
+```{r rails-det-dist}
 deployments_all <- readRDS(here("data/deployments.rds"))
 # Extract reference coordinates for DD01 and DD02
 ref1 <- deployments_all %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
@@ -30,7 +54,6 @@ dd <- as_tibble(deployments_all) %>%
 saveRDS(dd, file=here("data/deployTable_DD.rds"))
 
 ```
-
 
 #Run Detection Explorer
 
@@ -47,15 +70,15 @@ plotPolarDetections(copyCodeHere)
 plotAcousticScene(copyCodeHere)
 ```
 
-
 # Soundscape
+
 ```{r soundscape}
 
 
 ```
 
-
 # Biodiversity Indices
+
 ```{r biodiversity}
 # First, select two separate 5 min file from TJE and from SGR for analysis
 
@@ -79,5 +102,3 @@ H(wave, f, channel = 1, wl = 512, envt="hil", msmooth = NULL, ksmooth = NULL)
 
 
 ```
-
-

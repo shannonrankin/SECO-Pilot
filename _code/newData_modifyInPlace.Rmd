@@ -1,0 +1,166 @@
+---
+title: "Modify Data IN PLACE: Code for Ingesting New Data"
+---
+
+Note: Take care in running this code as it WILL modify your existing data. This should only be run ONCE per dataset.
+
+To Do:
+
+-   Modify User Input to make sure it is relevant for 'Modify In Place' code chunks
+
+-   code to copy birdnet files over {birdnet_modify-in-place}: ensure that if there is an existing file, that it will be copied OVER (replaced).
+
+-   Run Birdnet from R. Temporarily working on this in \_testCode.Rmd. once is it complete, then add to #3. below (and then modify #4. etc).
+
+    -   Standardize info (lat/long, year round, etc). May want to rename birdNET_SelectionTable to include foldername info.
+
+    -   Create a datacheck for Birdnet per folder to ensure the values are as expected. Then rename using foldername info, and merge into a birdnet_params for the repo. Can I also add in the other user selected parameters? Also, for datacheck ensure there is a compiled text file (if not, then create it by compiling all the individual files)
+
+    -   birdNET_SelectionTable.txt- remove any rows where 'Begin Path' includes 'bad' in it (where it came from the 'bad' folder). Add measures to it using rRaven/WarbleR.
+
+# 1. User Input
+
+Add libraries, common functions
+
+```{r prep echo=TRUE include=FALSE}
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+```
+
+# 2. Modify in Place: Recording Names
+
+BEFORE renaming files, run a Data Check to ensure folder-name and file-name components match the DeployDetails.ods file
+
+```{r recordingDataCheck}
+# Define paths
+folderPath <- "E:/Rails/recordings/test/SPP-DD10_48c_20250716" # Update this path
+#folderPath <- "E:/Rails/recordings/TJE-01/TJE-01_192b_20250608"  # Update this path
+ods_file <- "E:/Rails/SE_DeployDetails.ods"
+
+recordingDataCheck(
+  folderPath = folderPath,
+  ods_file = ods_file)
+
+```
+
+Next, we will modify the filenames of the wav files to ensure that the filenames have the information identified in the foldername (location, site, recording configuration) in addition to the date/time of the recording for each file. Before running next code chunk, ensure success with recordingDataCheck!! If there was no 'device_ID' found in the filename during the recordingDataCheck, then DO NOT run this code as presented below (there is an alternative function 'recordingRenameNOdevice_ID).
+
+::: callout-caution
+## This code chunk will modify the existing data in place! Ensure this is needed before you run data!
+:::
+
+```{r recordingRename}
+#Double-check that folderPath (above) is correct!
+#Note: If device_ID not in filename, then use recordingRenameNOdevice_ID instead 
+
+recordingRename(folderPath)
+
+```
+
+# 3. Run BirdNET
+
+First, for your new folder(s) of data, create a subfolder for the birdNET data (this will be named birdnetLocal\_ followed by the foldername for that dataset)
+
+```{r birdnetLocalFolder}
+library(fs)
+
+# Define the path to your main folder
+fPath <- "E:/Rails/recordings/TJE-01"  # Replace with your actual path
+
+# List the first-level folders within fPath
+folders <- dir_ls(fPath, type = "directory")
+
+# For each folder, create a new subfolder with the specified naming convention
+for (folder in folders) {
+  new_folder_name <- paste0("birdnetLocal_", path_file(folder))
+  new_folder_path <- path(folder, new_folder_name)
+  dir_create(new_folder_path)
+}
+
+```
+
+Next, run BirdNET from the GUI interface. Note: In the future this should be run either from R/Python (to ensure consistency), or a model using PERCH would be preferred (it has fewer use restrictions). For now, the GUI interface was used with these specifications:
+
+-   Batch Analysis, with input directory as your recorder foldername and the output directory will be the new birdnetLocal_foldername.
+
+-   Inference Settings (minimum confidence = 0.25, sensitivity = 1.0, overlap = 0, merge consecutive detections = 1, speed modification = 1, minimum bandpass = 0, maximum bandpass = 15000):
+
+    ![](/content/images/birdnetGUI_inferenceSettings.jpg)
+
+-   Species Selection (by location, year-round for 32.7, -117.1):
+
+    ![](/content/images/birdnetGUI_speciesSelection.jpg)
+
+-   Output Settings (Raven selection table, Combine selection tables):
+
+    ![](/content/images/birdnetGUI_outputSettings.jpg)
+
+Then run the Analyzer, and birdNET data will be saved to the birdnetLocal folder.
+
+# 4. Modify in place: BirdNet_SelectionTable
+
+This code will modify Birdnet Selection Tables *in place* and will copy files over to the location identified in the dest_path, above. Note that the copy function does NOT replace existing files (at this time), so caution must be made to not create multiple files.
+
+::: callout-caution
+## This code chunk will modify the existing data in place! Ensure this is needed before you run data!
+:::
+
+Next, check your birdnet selection tables (confirm that they exist for all folders), rename to add the deployment ID, add the deploymentID column. Before we move the files, we need to add the other measures to these selection tables while the relatives paths to the recordings remain the same. This function (below) is set up to run on individual (compiled) "BirdNET_SelectionTable_deploymentID.txt" files. This will create a new file called "Appended_BirdNET_SelectionTable_deploymentID.txt" file with measurements added from the spectro_analysis function in warbleR, the SNR (usually NA, this is not yet working for most cases), and several amplitude measures from seewave. 
+
+```{r birdnet_modify-in-place}
+# Root path to Birdnet data folders
+root_path <- "E:/Rails/recordings/SPP-DD/SPP-DD10_48c_20250716"
+
+# Check that birdNET_SelectionTable exists; if not, create it by merging files
+check_birdnet_selectionTables(root_path) #Will give a warning if folder/files do not exist
+
+#rename birdNET_SelectionTables to add deploymentID
+rename_birdnet_files(root_path) 
+
+###NOTE###: Need to make this next line automated (for consistency, and to allow this code chunk to be run as a whole)
+#Copy new (renamed) path from output (below) to selection table path (This takes TIME!):
+selection_table_path <-  "E:/Rails/recordings/SPP-DD/SPP-DD10_48c_20250716/birdnetLocal_SPP-DD10_48c_20250716/BirdNET_SelectionTable_SPP-DD10_48c_20250716.txt"
+
+#add deployment_ID column
+add_deploymentID(root_path)
+
+#Processing birdnet selection tables can take time-- ensure your computer won't stop processing mid-way.
+process_birdnet_table(selection_table_path)
+
+```
+
+
+Data is now ready to move to repository.
+
+```{r birdnetMove2Repo}
+
+# Root path to Birdnet data folders
+root_path <- "E:/Rails/recordings/"
+
+# Destination Path (bigData folder in Repo)
+dest_path <- here("bigData/rails/rawBirdnetFiles/")
+
+# Copy over Birdnet data (with filename prefix "Appended_BirdNET_SelectionTable")
+copy_birdnet_files(root_path, dest_path)
+
+# Check that all Birdnet files exist
+files_in_folder <- list.files(dest_path)
+deploy <- readRDS(here("data/deployments.rds")) 
+deployment_ids <- unique(deploy$deployment_id)
+
+# Check if any Birdnet files are missing from your dest_path
+missing <- deployment_ids[!map_lgl(deployment_ids, ~any(str_detect(files_in_folder, fixed(.x))))]
+
+if(length(missing) == 0) {
+  cat("✓ All deployment IDs have corresponding files!\n")
+} else {
+  cat("✗ Missing files for these deployment IDs:\n")
+  print(missing)
+}
+
+```
+
+We are now ready to work with our data!!
+Next step, go to /_code/newData.Rmd

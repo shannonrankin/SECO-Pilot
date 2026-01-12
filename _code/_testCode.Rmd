@@ -13,6 +13,57 @@ library(here)
 here()
 
 source(here::here("_code/_common.R"))
+
+selection_table_path <-  "E:/Rails/recordings/test/SPP-DD10_48c_20250716/birdnetLocal_SPP-DD10_48c_20250716/BirdNET_SelectionTable_SPP-DD10_48c_20250716.txt"
+
+test <- process_birdnet_table(selection_table_path)
+
+```
+
+```{r old}
+
+myBirdnetFile <-  "E:/Rails/recordings/test/SPP-DD10_48c_20250716/birdnetLocal_SPP-DD10_48c_20250716/Appended_BirdNET_SelectionTable_SPP-DD10_48c_20250716.txt"
+
+# Read selection table
+myBirdnet <- read_delim(myBirdnetFile, delim = "\t")%>%
+  clean_names()
+
+first <- "E:/Rails/recordings/TJE-01/TJE-01_48c_20250515/birdnetLocal_TJE-01_48c_20250515/BirdNET_SelectionTable_TJE-01_48c_20250515.txt"
+second <- "E:/Rails/recordings/TJE-01/TJE-01_48c_20250515/birdnetLocal_TJE-01_48c_20250515/Appended_BirdNET_SelectionTable_TJE-01_48c_20250515.txt"
+
+# Read selection table
+table1 <- read_delim(first, delim = "\t")
+table2 <- read_delim(second, delim = "\t")
+
+identical(table1, table2)
 ```
 
 
+
+
+Next Test:
+
+Run Birdnet from R. Temporarily working on this in \_testCode.Rmd, then
+move to newData.Rmd (#3)
+
+-   Standardize info (lat/long, year round, etc). May want to rename
+    birdNET_SelectionTable to include foldername info.
+
+-   Create a datacheck for Birdnet per folder to ensure the values are
+    as expected. Then rename using foldername info, and merge into a
+    birdnet_params for the repo. Can I also add in the other user
+    selected parameters? Also, for datacheck ensure there is a compiled
+    text file (if not, then create it by compiling all the individual
+    files)
+
+-   birdNET_SelectionTable.txt- remove any rows where 'Begin Path'
+    includes 'bad' in it (where it came from the 'bad' folder). Add
+    measures to it using rRaven/WarbleR.
+
+```{r birdnetCheck}
+#remove any rows from the 'bad' folder
+
+#
+
+
+```

@@ -1,0 +1,438 @@
+[
+  {
+    "objectID": "content/rails-results-new.html",
+    "href": "content/rails-results-new.html",
+    "title": "Results",
+    "section": "",
+    "text": "videos = video_data\nvideoPath = video_path\n\nhtml`\n  &lt;div&gt;\n    &lt;p style=\"background: lightblue; padding: 10px;\"&gt;\n      &lt;strong&gt;Debug Info:&lt;/strong&gt;&lt;br&gt;\n      Videos found: ${videos.join(', ')}&lt;br&gt;\n      Number of videos: ${videos.length}&lt;br&gt;\n      Video path from R: ${videoPath}\n    &lt;/p&gt;\n    \n    &lt;label for=\"video-select\"&gt;Select a video:&lt;/label&gt;\n    &lt;select id=\"video-select\" style=\"margin: 10px 0; padding: 5px; font-size: 14px;\"&gt;\n      ${videos.map(v =&gt; `&lt;option value=\"${v}\"&gt;${v}&lt;/option&gt;`).join('')}\n    &lt;/select&gt;\n    \n    &lt;h4 id=\"now-playing\"&gt;Now Playing: ${videos.length &gt; 0 ? videos[0] : 'No videos found'}&lt;/h4&gt;\n    \n    &lt;video id=\"video-player\" width=\"640\" height=\"480\" controls&gt;\n      &lt;source id=\"video-source\" src=\"${videoPath}/${videos.length &gt; 0 ? videos[0] : ''}\" type=\"video/mp4\"&gt;\n      Your browser does not support the video tag.\n    &lt;/video&gt;\n    \n    &lt;div id=\"debug-path\" style=\"background: lightyellow; padding: 10px; margin-top: 10px;\"&gt;\n      Loading debug info...\n    &lt;/div&gt;\n    \n    &lt;p id=\"error-info\" style=\"background: lightcoral; padding: 10px; margin-top: 10px; display: none;\"&gt;\n      Error: &lt;span id=\"error-message\"&gt;&lt;/span&gt;\n    &lt;/p&gt;\n  &lt;/div&gt;\n  \n  &lt;script&gt;\n    (function() {\n      const sel = document.getElementById('video-select');\n      const player = document.getElementById('video-player');\n      const source = document.getElementById('video-source');\n      const nowPlaying = document.getElementById('now-playing');\n      const debugPath = document.getElementById('debug-path');\n      const errorInfo = document.getElementById('error-info');\n      const errorMessage = document.getElementById('error-message');\n      \n      const videosArray = ${JSON.stringify(videos)};\n      const basePath = \"${videoPath}\";\n      \n      // Add error listeners\n      player.addEventListener('error', function(e) {\n        errorInfo.style.display = 'block';\n        errorMessage.textContent = 'Video player error. Check console for details.';\n        console.error('Player error:', e);\n      });\n      \n      source.addEventListener('error', function(e) {\n        errorInfo.style.display = 'block';\n        errorMessage.textContent = 'Source error: Cannot load video from path shown above.';\n        console.error('Source error:', e);\n      });\n      \n      function loadVideo(filename) {\n        try {\n          const relativePath = basePath + '/' + filename;\n          const fullUrl = new URL(relativePath, window.location.href).href;\n          \n          errorInfo.style.display = 'none';\n          source.src = relativePath;\n          nowPlaying.textContent = 'Now Playing: ' + filename;\n          \n          debugPath.innerHTML = \n            '&lt;strong&gt;Relative path:&lt;/strong&gt; ' + relativePath + '&lt;br&gt;' +\n            '&lt;strong&gt;Full URL:&lt;/strong&gt; ' + fullUrl + '&lt;br&gt;' +\n            '&lt;strong&gt;Current page URL:&lt;/strong&gt; ' + window.location.href;\n          \n          player.load();\n          \n          console.log('Attempting to load video from:', fullUrl);\n        } catch (err) {\n          errorInfo.style.display = 'block';\n          errorMessage.textContent = 'JavaScript error: ' + err.message;\n          console.error('Load error:', err);\n        }\n      }\n      \n      sel.addEventListener('change', function() {\n        loadVideo(this.value);\n      });\n      \n      // Load first video on page load\n      if (videosArray.length &gt; 0) {\n        loadVideo(videosArray[0]);\n      } else {\n        debugPath.textContent = 'No videos found!';\n      }\n    })();\n  &lt;/script&gt;\n`",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results"
+    ]
+  },
+  {
+    "objectID": "content/todo.html",
+    "href": "content/todo.html",
+    "title": "todo",
+    "section": "",
+    "text": "Dashboard errors: work with chatgpt to use two_col_card function in _common but it is not outputing correctly (rails- boxplot). Keep testing to fix. My text is not showing up correctly. Need a fix with the function.\nModel Birdnet Performance Evaluation:\n\nPlot confidence scores (x) vs Frequency (n, on y axis)\nRandom selection of clips from different confidence intervals\nUse Raven Review mode to review clips\n\nDetection Review\n\nDD: measures incl. amplitude for all calls\nEliminate false positives\nIdentify false negatives\nLabel Noise?\n\nStart/End for each Recording\n\nScan each recording for true START time and true END time\n\nFor DD, only include data when both pen recordings were working\n\nDelete unneeded recordings (bad data)\nextract TRUE good data START and END times, add to deployDetails spreadsheet\nOnce this data is revised, assess recording length in hours (in R deployTable.R)\nDetermine if we need to revise data in bird_birdnet.Rmd? Or in other tables, figures?\nStart/End for each Recording"
+  },
+  {
+    "objectID": "content/todo.html#moreinfo",
+    "href": "content/todo.html#moreinfo",
+    "title": "todo",
+    "section": "MoreInfo",
+    "text": "MoreInfo\nObservableJS Video by Allison Horst 0.40.00\nR Graph Gallery– Amazing!\nBirdnet w/ Raven Instructions\nInteractive Documents Github Pages+Quarto+Shiny - great video\nRStudio Trick: add ’ ’ to multi lines- You can use multi-line cursors by pressing alt + click + dragging down the cursor. If you’re looking for more RStudio tricks, check out my video on that https://www.youtube.com/watch?v=XHT1m-LKTVY&t=64s\nQuarto Dashboards in 1 hr video by Mine\nggiraph for Interactive plots\npamverse\n\nPapers with reproducible figures/analyses\nLarge-scale avian vocalization detection delivers reliable global biodiversity insights\nadiv: An r package to analyse biodiversity in ecology\nBirdNET provides superior diversity estimates compared to observer-based surveys in long-term monitoring\n\n\nPapers for Future Studies\nSurvey coverage, recording duration and community composition affect observed species richness in passive acoustic surveys\nA post-processing framework for assessing BirdNET identification accuracy and community composition\nAdvancing bird survey efforts through novel recorder technology and automated species identification\nAnalysis Methods\nAudiomoth Data Processing (Diversity Analysis, PointCounts, etc)\nSoundscapeR Package w/ Vignette\nAutomatic detection for bioacoustic research: a practical guide from and for biologists and computer scientists"
+  },
+  {
+    "objectID": "content/todo.html#notes",
+    "href": "content/todo.html#notes",
+    "title": "todo",
+    "section": "Notes",
+    "text": "Notes\nTerminal\nCtrl-C to stop terminal\ncd C:/Users/Shannon/Documents/Github/SECO-Pilot\nquarto preview content/rails-results-new.qmd"
+  },
+  {
+    "objectID": "content/rails-studyArea.html",
+    "href": "content/rails-studyArea.html",
+    "title": "Study Area",
+    "section": "",
+    "text": "The primary purpose of this pilot study was to collect preliminary data to determine the potential for passive acoustic monitoring to study Ridgway’s Rails in San Diego. This pilot study was conducted in two regions: The Tijuana Estuary and the Proving Pens at the Living Coast Discovery Center. All recordings were made using Audiomoth recorders with varying settings (Recording Methods can be found here).\n\n\n\n\n\n\n\n\n\n\nRecorders were attached to a post situated near a small waterway at the Tijuana Estuary. This site was located near some Ridgway’s Rails (calls were heard during our deployment, as identified by Justyn Stahl, Jeff Crooks, and Aiyana Reissman).\n\n\n\n\n\nAudiomoth recorders attached to Solar Post near bridget at Tijuana Estuary\n\n\n\n\n\nThe Proving Pens at the Living Coast Discovery Center are used for breeding and raising young Ridgway’s Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Preliminary recordings provided high quality recordings within close proximity to known Ridgway’s Rails, proving voucher (‘ground truth’) data that can be used to improve automated detectors and validate the systems.\nAdditionally, we conducted an experiment to deploy recorders at distance from these known sound sources to develop a preliminary detection function to inform future survey designs.\n\n\n\n\n\nAudiomoth recorders attached to LFRR Proving Pens at Living Coast Discovery Center\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nNote: All results are preliminary, data were not acoustically validated!"
+  },
+  {
+    "objectID": "content/rails-studyArea.html#tijuana-estuary",
+    "href": "content/rails-studyArea.html#tijuana-estuary",
+    "title": "Study Area",
+    "section": "",
+    "text": "Recorders were attached to a post situated near a small waterway at the Tijuana Estuary. This site was located near some Ridgway’s Rails (calls were heard during our deployment, as identified by Justyn Stahl, Jeff Crooks, and Aiyana Reissman)."
+  },
+  {
+    "objectID": "content/rails-studyArea.html#living-coast-proving-pens",
+    "href": "content/rails-studyArea.html#living-coast-proving-pens",
+    "title": "Study Area",
+    "section": "",
+    "text": "The Proving Pens at the Living Coast Discovery Center are used for breeding and raising young Ridgway’s Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Preliminary recordings provided high quality recordings within close proximity to known Ridgway’s Rails, proving voucher (‘ground truth’) data that can be used to improve automated detectors and validate the systems.\nAdditionally, we conducted an experiment to deploy recorders at distance from these known sound sources to develop a preliminary detection function to inform future survey designs."
+  },
+  {
+    "objectID": "content/rails-methods.html",
+    "href": "content/rails-methods.html",
+    "title": "Methods",
+    "section": "",
+    "text": "Please see right-hand sidebar to navigate to specific methods.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Methods"
+    ]
+  },
+  {
+    "objectID": "content/rails-methods.html#study-area",
+    "href": "content/rails-methods.html#study-area",
+    "title": "Methods",
+    "section": "Study Area",
+    "text": "Study Area\n\n\nThis pilot study used Audiomoth recorders to monitor a single location in Tijuana River National Estuarine Research Reserve (TRNERR) as well as a series of acoustic experiments at the Ridgway Rail proving pens at the San Diego Bay National Wildlife Refuge near the Living Coast Discovery Center.\nBy zooming into the markers at the top of the map to see the spatial variation of the recorders at and around the proving pens.\n\n\n\n\n\n\n\n\n\n\nTijuana Estuary\n\n\nRecorders were attached to a post situated near a small waterway at the Tijuana Estuary. This site was located near a calling Ridgway’s Rail (calls were heard during our deployment, as identified by Justyn Stahl, Jeff Crooks, and Aiyana Reissman).\nThree Audiomoth recorders were attached to allow for three different approaches to sampling (see below for more information). The three recorders were placed vertically along the post and the microphone was directed towards the waterway (the image on the right shows the back of the audiomoths zip-tied to the post).\n\n\n\n\nAudiomoth recorders attached to Solar Post near bridget at Tijuana Estuary\n\n\n\n\n\n\nLiving Coast Proving Pens\n\n\nThe Proving Pens at the Living Coast Discovery Center are used for breeding and raising young Ridgway’s Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Recordings provided high quality recordings within close proximity to known Ridgway’s Rails, proving voucher (‘ground truth’) data that can be used to improve automated detectors and validate the systems.\n\n\n\n\nAudiomoth recorders attached to LFRR Proving Pens at Living Coast Discovery Center\n\n\n\n\nAt the Living Coast Proving Pens, We used three alternative survey designs:\n\nSampling Design Test: Set of 3 recorders at each proving pen to provide 3 alternative sampling designs (similar to recorders at Tijuana Estuary), see image on the right\nPreliminary Detection Range Test: Single recorder at each proving pen, plus a single recorder posted 118m from SPP-1N and 87m from SPP-3S. This provided a preliminary test to determine the distribution of recorders for the subsequent survey design\nDetection Range Test: The final survey design included deployment of a single recorder at SPP-1N and SPP-3S as well as 8 additional recorders deployed in the surrounding region to provide data to estimate detection range of calls attributed to the Ridgway’s Rails in the proving pens.\n\n\n\nDeployment Table\nThe table below includes all audiomoth deployments for the Tijuana Estuary (TJE) and the Sweetwater Proving Pens (SPP), including the exact location (latitude, longitude), deployment and retrieval dates, and the recording configuration. Details on the recording configurations are provided below.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Methods"
+    ]
+  },
+  {
+    "objectID": "content/rails-methods.html#recorders",
+    "href": "content/rails-methods.html#recorders",
+    "title": "Methods",
+    "section": "Recorders",
+    "text": "Recorders\nPilot Studies use the low cost Audiomoth Recorder as temporary use of these recorders could be provided at no-cost to the pilot study. Alternatives to the Audiomoth may provide improved recording quality, longer recording durations, multiple recording sensors (for localization), or more complicated sampling options. Ultimately, identification of the most appropriate recording setup will depend on the specific study area and research needs.\n\nSampling Methods\nThe initial pilot study included 1 recording site at Tijuana Estuary (TJE), and 2 primary recording sites at the Living Coast Proving Pens (SPP-1N, SPP-3S), and each site had a set of three recorders each with different sampling regimes:\n\n\n\nInitial Recording Specifications\n\n\nRecording Type\nRecording Schedule\nSampling Rate (kHz)\nRecord Off (s)\nRecord On (s)\nFilter Type\nHigh Pass Filter (kHz)\nLow Pass Filter (kHz)\n\n\n\n\n48continuous_def\ncontinuous\n48\n00.00.05\n00.00.55\nNA\nNA\nNA\n\n\n48sunrise+set_def\nsunriseset\n48\n00.00.05\n00.00.55\nNA\nNA\nNA\n\n\n192bat_def\nbat\n192\n00.00.05\n00.00.55\nbandpass\n12\n96\n\n\n\n\n\nEach recording configuration provided valuable information to inform future studies:\n\n48 kHz Continuous Recording: Continuous recordings provide additional context to activities during the day and night with a trade-off between storage capacity.\n48 kHz Sunrise and Sunset: Previous research suggests that Ridgway’s Rails are most vocally active during sunrise and sunset, and this more limited recording configuration allowed the recording duration to be extended. The limited recording period has reduced context, especially related to anthropogenic impacts and potential prey activity.\n192 kHz Sunset to Sunrise (bat): This high frequency recording allows for detection of bat echolocation. While bat species were not the primary focus of this pilot study, they are an important species in wetland habitats and provide valuable information related to biodiversity and health of the ecosystem. Due to the high sample rate, these recordings were storage limited and of shorter duration.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Methods"
+    ]
+  },
+  {
+    "objectID": "content/rails-methods.html#analysis-methods",
+    "href": "content/rails-methods.html#analysis-methods",
+    "title": "Methods",
+    "section": "Analysis Methods",
+    "text": "Analysis Methods\n\nBird Detection and Classification\nBirdnet Analyzer v2.4 was used to batch analyze recordings for each deployment, with detections were saved as csv files and formatted as Raven selection tables. Settings include: Minimum confidence = .25, Sensitivity = 1, Overlap = 0, Merge consecutive detections = 1, Audo speed modification = 1, minimum bandpass = 0 Hz, Maximum bandpass = 15 kHz; species list based on location (33N, -117W) and year-round with minium occurrence probability of 0.03 for a species to be included. Detection data was output to a Raven selection table, and selection tables were combined into a single table for each recording.\nBirdnet provides a confidence score associated with each detection. These scores are not probabilities but do positively relate to predication accuracy (though this relationship varies by species). Manual validation is required to translate these scores to a predication accuracy\n\n\n\n\n\n\nImportant\n\n\n\nNote: All results are preliminary, data were not acoustically validated!\n\n\nWhile this data provides sufficient preliminary recordings to allow for testing the accuracy of automated detection and classification models, this was not conducted due to time required to complete this analysis. As time allows, I intend to identify an alternative automated classifier that has a more flexible license (potentially Perch), manually validate calls, and assess the accuracy of this classifier for Ridgway’s Rails and any other target species.\n\n\n\n\n\n\n\n\n\nPreliminary data were analyzed using R programming language and preliminary results are provided to assess the potential use of PAM for studying Ridgway’s Rails. Preliminary data products and R code are made publicly available in this repository.\n\n\nDistance Sampling\nA subset of data from the Detection Range Test at the Living Coast Proving Pens was manually examined to provide a preliminary estimate the detection range of Ridgway’s Rails calls from the semi-captive animals in the proving pens. This sample detection data was analyzed using the distance R package to develop a (preliminary) detection function. This data provides an initial assessment of the detection range to inform future studies.\nAnalysis of the entire dataset to improve the precision and accuracy of the detection function should be considered prior to implementing a proper distance sampling survey.\n\n\nBat Detection and Classification\nBats produce high frequency echolocation for communication, navigation, and foraging. Detection of these sounds requires a high sampling rate, which in turn has high storage requirements. High frequency sampling was conducted at both sites (Tijuana Estuary and the Living Coast Proving Pens), although recordings were shorter in duration.\nHigh-frequency (192 kHz) recordings were analyzed using a trial evaluation of Kaleidoscope Pro software to detect echolocation clicks from bat species using the Western North America catalog. Again, manual analysis to evaluate the classifier performance, and all results are preliminary. To reduce the number of potentially false detections, all potential bat detections were filtered to eliminate detections with less than 10 echolocation clicks, with a high variability in species detections within events, and with species detections with low classification probabilities. While this approach likely reduces the number of false detections and inaccurate classifications, it should be considered preliminary until a thorough manual evaluation of the data can be conducted.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Methods"
+    ]
+  },
+  {
+    "objectID": "content/rails-methods.html#soundscape-analysis",
+    "href": "content/rails-methods.html#soundscape-analysis",
+    "title": "Methods",
+    "section": "Soundscape Analysis",
+    "text": "Soundscape Analysis\nTBD",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Methods"
+    ]
+  },
+  {
+    "objectID": "content/rails-future.html",
+    "href": "content/rails-future.html",
+    "title": "Future Research",
+    "section": "",
+    "text": "Historical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgeway’s Rails in southern California. This survey design primarily relied on playback of duetting calls to elicit a response from local breeding pairs(Zembal, Hoffman, and Stahl 2024); however, specific field methods varied throughout the field season. Notably, (Thompson et al. 2024) noted that these playback methods work well when used sparingly. A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias(Stevens et al. 2024). While historical call-response surveys have proven to be an effective approach to monitoring Ridgeway’s Rails, recent advances in PAM monitoring using acoustic recorders may provide a more standardized approach to monitoring Ridgeway’s Rails populations that may ultimately lead to more robust estimation of population trends.\n\n\nWhile there is great potential for using passive acoustic monitoring to assess wildlife populations, how this is done will depend on the management needs.\n\n\n\n\n\n#| echo: false\nshapefile.location &lt;- here(\"data\", \"TJR_RB_2010.shx\")\nregion &lt;- make.region(region.name = \"study area\",\n                      shape = shapefile.location)\ndesign &lt;- make.design(region = region, transect.type = \"point\", design = \"random\",\n                      truncation = 200)\npoints &lt;- generate.transects(design)\nprint(points)\n\n\n   Strata study area:\n   ___________________\nDesign:  randomly located transects\nNumber of samplers:  20\nDesign angle:  0\nEdge protocol:  minus\nCovered area:  2352730\nStrata coverage: 25.36%\nStrata area:  9278511\n\n   Study Area Totals:\n   _________________\nNumber of samplers:  20\nCovered area:  2352730\nAverage coverage: 25.36%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDensity Surface Models (dsm) for distance sampling data provide spatial models constructed from generalized additive models following methods developed by Hedley & Buckland (2004) and Miller et al. (2013).\n\n\n\n\nStudies of species such as Ridgeway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias(Stevens et al. 2024), but other research suggests that animals may habituate and render these methods futile(Zembal, Hoffman, and Stahl 2024). Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?\nWhile Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species’ presence. It necessarily relies on the vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity, and\n\nBenefits and Limitations of Call-Response and PAM Sampling. Green check identifies beneficial characteristics of sampling method, and red X identifies limitation of that sampling method.\n\n\n\n\n\n\n\nCall - Response\n\nPassive Acoustics\n\n\n\n\n\nHigh detection rate\n\n\n\nLow detection rate\n\n\n\n\nPotential impact on animals\n\n\n\nNon-invasive remote sensing\n\n\n\n\nIncreased sampling to reduce bias\n\n\n\nIncreased sampling to reduce bias\n\n\n\n\nAnimals may respond to increased sampling\n\n\n\nNo impact of increased sampling\n\n\n\n\nLimited sampling to reduce habituation\n\n\n\nLong-term sampling\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nArchived data allows for replication of studies and consideration of additional studies\nSoundscape monitoring provides a high-level view of changes to the environment\nEffect of helicopters and other sources of anthropogenic noise on species (ADS-B or Automatic Dependent Surveillance-Broadcast), auto-detect/classify noise\n\n\n\n\nOpen science is a global movement to make scientific research and its outcomes freely accessible to everyone. It accelerates scientific progress and strengthens trust in research. Here are some of the many ways I intend to conduct my research in an open science framework:\nTransparency:\n\nRely primarily (or entirely) on open source software\nMake code and data products publicly available on Github\n\nSharing:\n\nMake research results publicly available (Github Pages and accessible reports, publications)\nShare selected audio files publicly for their use in improving AI models\n\nInclusivity\n\nIdentify approaches to include public participation in data collection and analysis\nSeek collaborations to extend the scope of this research to take advantage of the great potential of passive acoustic data.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Recommendations"
+    ]
+  },
+  {
+    "objectID": "content/rails-future.html#management-needs-will-define-role-of-pam",
+    "href": "content/rails-future.html#management-needs-will-define-role-of-pam",
+    "title": "Future Research",
+    "section": "",
+    "text": "While there is great potential for using passive acoustic monitoring to assess wildlife populations, how this is done will depend on the management needs.\n\n\n\n\n\n#| echo: false\nshapefile.location &lt;- here(\"data\", \"TJR_RB_2010.shx\")\nregion &lt;- make.region(region.name = \"study area\",\n                      shape = shapefile.location)\ndesign &lt;- make.design(region = region, transect.type = \"point\", design = \"random\",\n                      truncation = 200)\npoints &lt;- generate.transects(design)\nprint(points)\n\n\n   Strata study area:\n   ___________________\nDesign:  randomly located transects\nNumber of samplers:  20\nDesign angle:  0\nEdge protocol:  minus\nCovered area:  2352730\nStrata coverage: 25.36%\nStrata area:  9278511\n\n   Study Area Totals:\n   _________________\nNumber of samplers:  20\nCovered area:  2352730\nAverage coverage: 25.36%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDensity Surface Models (dsm) for distance sampling data provide spatial models constructed from generalized additive models following methods developed by Hedley & Buckland (2004) and Miller et al. (2013).\n\n\n\n\nStudies of species such as Ridgeway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias(Stevens et al. 2024), but other research suggests that animals may habituate and render these methods futile(Zembal, Hoffman, and Stahl 2024). Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?\nWhile Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species’ presence. It necessarily relies on the vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity, and\n\nBenefits and Limitations of Call-Response and PAM Sampling. Green check identifies beneficial characteristics of sampling method, and red X identifies limitation of that sampling method.\n\n\n\n\n\n\n\nCall - Response\n\nPassive Acoustics\n\n\n\n\n\nHigh detection rate\n\n\n\nLow detection rate\n\n\n\n\nPotential impact on animals\n\n\n\nNon-invasive remote sensing\n\n\n\n\nIncreased sampling to reduce bias\n\n\n\nIncreased sampling to reduce bias\n\n\n\n\nAnimals may respond to increased sampling\n\n\n\nNo impact of increased sampling\n\n\n\n\nLimited sampling to reduce habituation\n\n\n\nLong-term sampling\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nArchived data allows for replication of studies and consideration of additional studies\nSoundscape monitoring provides a high-level view of changes to the environment\nEffect of helicopters and other sources of anthropogenic noise on species (ADS-B or Automatic Dependent Surveillance-Broadcast), auto-detect/classify noise\n\n\n\n\nOpen science is a global movement to make scientific research and its outcomes freely accessible to everyone. It accelerates scientific progress and strengthens trust in research. Here are some of the many ways I intend to conduct my research in an open science framework:\nTransparency:\n\nRely primarily (or entirely) on open source software\nMake code and data products publicly available on Github\n\nSharing:\n\nMake research results publicly available (Github Pages and accessible reports, publications)\nShare selected audio files publicly for their use in improving AI models\n\nInclusivity\n\nIdentify approaches to include public participation in data collection and analysis\nSeek collaborations to extend the scope of this research to take advantage of the great potential of passive acoustic data.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Recommendations"
+    ]
+  },
+  {
+    "objectID": "content/rails-future.html#call-response-vs-pam",
+    "href": "content/rails-future.html#call-response-vs-pam",
+    "title": "Future Research",
+    "section": "",
+    "text": "Studies of species such as Ridgeway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias(Stevens et al. 2024), but other research suggests that animals may habituate and render these methods futile(Zembal, Hoffman, and Stahl 2024). Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?\nWhile Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species’ presence. It necessarily relies on the vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity, and\n\nBenefits and Limitations of Call-Response and PAM Sampling. Green check identifies beneficial characteristics of sampling method, and red X identifies limitation of that sampling method.\n\n\n\n\n\n\n\nCall - Response\n\nPassive Acoustics\n\n\n\n\n\nHigh detection rate\n\n\n\nLow detection rate\n\n\n\n\nPotential impact on animals\n\n\n\nNon-invasive remote sensing\n\n\n\n\nIncreased sampling to reduce bias\n\n\n\nIncreased sampling to reduce bias\n\n\n\n\nAnimals may respond to increased sampling\n\n\n\nNo impact of increased sampling\n\n\n\n\nLimited sampling to reduce habituation\n\n\n\nLong-term sampling",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Recommendations"
+    ]
+  },
+  {
+    "objectID": "content/rails-future.html#additional-benefits-of-passive-acoustic-monitoring",
+    "href": "content/rails-future.html#additional-benefits-of-passive-acoustic-monitoring",
+    "title": "Future Research",
+    "section": "",
+    "text": "Archived data allows for replication of studies and consideration of additional studies\nSoundscape monitoring provides a high-level view of changes to the environment\nEffect of helicopters and other sources of anthropogenic noise on species (ADS-B or Automatic Dependent Surveillance-Broadcast), auto-detect/classify noise",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Recommendations"
+    ]
+  },
+  {
+    "objectID": "content/rails-future.html#open-science",
+    "href": "content/rails-future.html#open-science",
+    "title": "Future Research",
+    "section": "",
+    "text": "Open science is a global movement to make scientific research and its outcomes freely accessible to everyone. It accelerates scientific progress and strengthens trust in research. Here are some of the many ways I intend to conduct my research in an open science framework:\nTransparency:\n\nRely primarily (or entirely) on open source software\nMake code and data products publicly available on Github\n\nSharing:\n\nMake research results publicly available (Github Pages and accessible reports, publications)\nShare selected audio files publicly for their use in improving AI models\n\nInclusivity\n\nIdentify approaches to include public participation in data collection and analysis\nSeek collaborations to extend the scope of this research to take advantage of the great potential of passive acoustic data.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Recommendations"
+    ]
+  },
+  {
+    "objectID": "content/rails-assessment.html",
+    "href": "content/rails-assessment.html",
+    "title": "Population Assessment",
+    "section": "",
+    "text": "To date, population assessment of Ridgway’s Rails has relied on call-response survey methods conducted by an expert ornithologist. While this long time series has been highly effective, recent research suggests that repeated sampling is required to improve the robustness of the results. Unfortunately, there if evidence that this species may habituate to repeated exposure to call-response surveys, which would lead to worsened outcomes.\nDistance sampling methods using visual or passive acoustic detections has proven successful for a wide range of species. Specifically, passive acoustic monitoring using acoustic recording devices placed throughout the habitat may be used as point transect or spatial capture-recapture models to assess population of cryptic species such as Ridgway’s Rails.\n\nDetection Range\nUnderstanding the effective detection range is fundamental to adopting distance sampling methods for population assessment. The Detection Range Test at the Living Coast Proving Pens provided an opportunity to assess the effective detection range using Audiomoth recorders in this environment. In addition to locating a recorder on each of the proving pens (which we will assume is approximately 1 meters distance from known animals), 8 additional recorders were placed at distance from the pens. This data allowed us to identify the distance at which known calls (from either SPP-1N or SPP-3S) could be detected by the Birdnet Analyzer on the Audiomoth recorders.\nThe map below shows the placement of the recorders on and near the pens (Click on the site to obtain the Site Code), and the table to the right shows the distance of each recorder to to the pen at SPP-01N (DD01) and SPP-03S (DD02).\n\n\n\n\n\n\n\n\n\n\n\n\nDistance to Proving Pen Recorders\n\n\n\n\n\n\n\n\n\nDistance to Site\n\n\n\nSite\nDD01\nDD02\n\n\n\n\nDD01\n0.0\n35.6\n\n\nDD02\n35.6\n0.0\n\n\nDD03\n73.2\n37.9\n\n\nDD04\n14.0\n32.9\n\n\nDD05\n33.2\n22.0\n\n\nDD06\n118.1\n87.2\n\n\nDD07\n143.8\n109.6\n\n\nDD08\n112.3\n78.0\n\n\nDD09\n88.0\n58.7\n\n\nDD10\n58.6\n36.3\n\n\n\n\n\n\n\n\n\nThe spectrograms on the right show a Ridgway Rail call with color representing the intensity (amplitude) of the call at the DD01 proving pen site (assumed to be at distance 0m from the source), and at a selection of sites with increasing distance from the source.\nAs expected, the calls of the Ridgway’s Rails are loud at the source (DD01, or proving pen SPP-01S), and the intensity of the call decreases with increasing distance, until the call can no longer be detected.\n\n\n\n\nThe time series, below, shows how the number of calls detected on different recorders decreases with distance from the source (DD01).\n\n\n\n\n\n\n\n\n\nThis data was then used to develop a detection function, which provides an estimate of the effective detection range for these calls. This can then be used to inform a survey design of a distance sampling approach to population assessment.\n\n\n\n\n\n\n\n\n\nThe range at which a call can be detected varies not only on the source amplitude of the call, but also the environment through which the call propagates. While the experiment at the proving pens provides an excellent preliminary estimate of detection range (and a preliminary detection function), the true detection range may vary by habitat, and the proving pens are different than typical habitat for Ridgway’s Rails. Future research should develop a detection function for Ridgway’s Rails in their preferred habitat.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Population Assessment"
+    ]
+  },
+  {
+    "objectID": "content/OpenScience.html",
+    "href": "content/OpenScience.html",
+    "title": "Open Science",
+    "section": "",
+    "text": "The goal of Open Science is to ensure that science is accessible to everyone. Open Science accelerates scientific progress and strengthens trust between scientists and other communities.\nThe following efforts will be made to align this research with Open Science values: - Confirmed detection of species will be made publicly available - ‘Voucher’ sound samples will be made publicly available - Emphasis will be made on using open source software"
+  },
+  {
+    "objectID": "content/rails-biodiversity.html",
+    "href": "content/rails-biodiversity.html",
+    "title": "Biodiversity",
+    "section": "",
+    "text": "this is a summary of the results for the rails study from TJE",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Biodiversity"
+    ]
+  },
+  {
+    "objectID": "content/rails-intro.html",
+    "href": "content/rails-intro.html",
+    "title": "Passive Acoustic Pilot Study for Ridgway’s Rails",
+    "section": "",
+    "text": "The habitat of the endangered light-footed Ridgway’s rail (Rallus obsoletus levipes) includes wetlands and lagoons in southern California and northern Baja California, Mexico. This species is threatened by habitat degradation and loss, pollution, sea level rise, and non-native species.\nHistorical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgway’s Rails in southern California. This survey design primarily relies on playback of duetting calls to elicit a response from local breeding pairs Zembal, Hoffman, and Stahl (2024). A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias (Stevens et al. 2024); however, Zembal, Hoffman, and Stahl (2024) noted that these playback methods work well when used sparingly. While historical call-response surveys have proven to be an effective approach to monitoring Ridgway’s Rails, recent advances in Passive Acoustic Monitoring (PAM) using autonomous acoustic recorders may provide a more standardized approach to monitoring Ridgway’s Rails populations that may ultimately lead to more robust estimation of population trends.\nThis pilot study serves to identify the potential for PAM surveys as an alternative approach to monitoring the populations of Ridgway’s Rails in San Diego County. PAM has the added potential benefit of extending temporal monitoring with minimal interference during the sensitive breeding season, providing additional contextual information (anthropogenic impacts, biodiversity), and allowing for opportunities to study other local species.\n\nMethods\n\nStudy Area\nRecorders\nAnalysis Methods\n\nResults\n\nSummary\nPopulation Assessment\nBiodiversity\n\nFuture Research\nRecommendations\n\n\n\n\n\nReferences\n\nStevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, Lauren Kershek, Giselle Block, Sandra Hamilton, and Rebecca Kolstrom. 2024. “Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway’s Rail.” Biodiversity and Conservation 33 (13): 3703–26. https://doi.org/10.1007/s10531-024-02919-5.\n\n\nZembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. “Light-Footed Ridgeway’s (Clapper) Rail in California.” https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "content/rails-results.html",
+    "href": "content/rails-results.html",
+    "title": "Results",
+    "section": "",
+    "text": "videos = video_data\nvideoPath = video_path\n\nhtml`\n  &lt;div&gt;\n    &lt;p style=\"background: lightblue; padding: 10px;\"&gt;\n      &lt;strong&gt;Debug Info:&lt;/strong&gt;&lt;br&gt;\n      Videos found: ${videos.join(', ')}&lt;br&gt;\n      Number of videos: ${videos.length}&lt;br&gt;\n      Video path from R: ${videoPath}\n    &lt;/p&gt;\n    \n    &lt;label for=\"video-select\"&gt;Select a video:&lt;/label&gt;\n    &lt;select id=\"video-select\" style=\"margin: 10px 0; padding: 5px; font-size: 14px;\"&gt;\n      ${videos.map(v =&gt; `&lt;option value=\"${v}\"&gt;${v}&lt;/option&gt;`).join('')}\n    &lt;/select&gt;\n    \n    &lt;h4 id=\"now-playing\"&gt;Now Playing: ${videos.length &gt; 0 ? videos[0] : 'No videos found'}&lt;/h4&gt;\n    \n    &lt;video id=\"video-player\" width=\"640\" height=\"480\" controls&gt;\n      &lt;source id=\"video-source\" src=\"${videoPath}/${videos.length &gt; 0 ? videos[0] : ''}\" type=\"video/mp4\"&gt;\n      Your browser does not support the video tag.\n    &lt;/video&gt;\n    \n    &lt;div id=\"debug-path\" style=\"background: lightyellow; padding: 10px; margin-top: 10px;\"&gt;\n      Loading debug info...\n    &lt;/div&gt;\n    \n    &lt;p id=\"error-info\" style=\"background: lightcoral; padding: 10px; margin-top: 10px; display: none;\"&gt;\n      Error: &lt;span id=\"error-message\"&gt;&lt;/span&gt;\n    &lt;/p&gt;\n  &lt;/div&gt;\n  \n  &lt;script&gt;\n    (function() {\n      const sel = document.getElementById('video-select');\n      const player = document.getElementById('video-player');\n      const source = document.getElementById('video-source');\n      const nowPlaying = document.getElementById('now-playing');\n      const debugPath = document.getElementById('debug-path');\n      const errorInfo = document.getElementById('error-info');\n      const errorMessage = document.getElementById('error-message');\n      \n      const videosArray = ${JSON.stringify(videos)};\n      const basePath = \"${videoPath}\";\n      \n      // Add error listeners\n      player.addEventListener('error', function(e) {\n        errorInfo.style.display = 'block';\n        errorMessage.textContent = 'Video player error. Check console for details.';\n        console.error('Player error:', e);\n      });\n      \n      source.addEventListener('error', function(e) {\n        errorInfo.style.display = 'block';\n        errorMessage.textContent = 'Source error: Cannot load video from path shown above.';\n        console.error('Source error:', e);\n      });\n      \n      function loadVideo(filename) {\n        try {\n          const relativePath = basePath + '/' + filename;\n          const fullUrl = new URL(relativePath, window.location.href).href;\n          \n          errorInfo.style.display = 'none';\n          source.src = relativePath;\n          nowPlaying.textContent = 'Now Playing: ' + filename;\n          \n          debugPath.innerHTML = \n            '&lt;strong&gt;Relative path:&lt;/strong&gt; ' + relativePath + '&lt;br&gt;' +\n            '&lt;strong&gt;Full URL:&lt;/strong&gt; ' + fullUrl + '&lt;br&gt;' +\n            '&lt;strong&gt;Current page URL:&lt;/strong&gt; ' + window.location.href;\n          \n          player.load();\n          \n          console.log('Attempting to load video from:', fullUrl);\n        } catch (err) {\n          errorInfo.style.display = 'block';\n          errorMessage.textContent = 'JavaScript error: ' + err.message;\n          console.error('Load error:', err);\n        }\n      }\n      \n      sel.addEventListener('change', function() {\n        loadVideo(this.value);\n      });\n      \n      // Load first video on page load\n      if (videosArray.length &gt; 0) {\n        loadVideo(videosArray[0]);\n      } else {\n        debugPath.textContent = 'No videos found!';\n      }\n    })();\n  &lt;/script&gt;\n`",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results"
+    ]
+  },
+  {
+    "objectID": "content/rails-summary.html",
+    "href": "content/rails-summary.html",
+    "title": "Summary Results",
+    "section": "",
+    "text": "Passive acoustic detection as a means of monitoring species requires that (1) the animals produce sounds that you can readily attribute to them and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. While their vocal behavior is well described in (cite papers), there is known variation between sites and there is great value in quantifying this variation to inform future studies.\n\n\n\n\n\n\nImportant\n\n\n\nWarning: All results are preliminary, data were not acoustically validated! Need to validate recordings and assess species-specific confidence thresholds for detections\n\n\n\nDaily Variation\nThere was considerable daily variation in detection of calls associated with Ridgway’s Rails at both the Proving Pens and at the Tijuana Estuary. The variation in detection of calls were similar between the recorders at the two different proving pens (not shown here). While this data is limited in scope, we do not see a strong correlation between the two sites in relation to the higher number of hours of detections. This suggests that larger environmental variables (such as moon phase or weather conditions) may not be responsible for this variation, but this may be related to site-specific variables.\nThis data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Future work should include manual review of these data to ensure that calls assigned to Ridgway’s Rails are in fact calls from those species. This review will also provide a means of quantifying the accuracy (correct classification) of these models for future research.\n\n\n\n\n\n\n\n\n\n\n\nDiurnal Variation\nThere is significant research suggesting that Ridgway’s Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Recordings from the Proving Pens also showed calling throughout the day and very little calling at night. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limiting recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, it would also limit additional data provided by passive acoustic monitoring that can provide information related to presence of other species, anthropogenic uses of the area, and potentially other acoustic behaviors that may occur at other times of the day.\nAgain, acoustic detections were not manually reviewed, and it is possible that some of these calls are actually other sounds that were attributed to this species.",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Summary"
+    ]
+  },
+  {
+    "objectID": "content/sci-results.html",
+    "href": "content/sci-results.html",
+    "title": "sci-results",
+    "section": "",
+    "text": "#top 10 species- SCI\nbirdnet_top10_SCI &lt;- birdnet_sci %&gt;% \n  filter(location == \"SCI\") %&gt;%\n  count(common_name, sort = TRUE) %&gt;% # Count #detections per species \n  slice_head(n = 10) %&gt;% # Get top 10 species\n  left_join(birdnet_sci, by = \"common_name\") # join back to original data\nwrite_csv(birdnet_top10_SCI, here(\"bigData\", \"birdnet_top10_SCI.csv\"))"
+  },
+  {
+    "objectID": "content/rails-biodiversity.html#acoustic-complexity-index",
+    "href": "content/rails-biodiversity.html#acoustic-complexity-index",
+    "title": "Biodiversity",
+    "section": "Acoustic Complexity Index",
+    "text": "Acoustic Complexity Index\nThe Acoustic Complexity Index (ACI) uses a linear scale of sound intensity from sound spectrograms to analyze a soundscape. It is sensitive to irregularites in the biological soundscape (and other discrete sounds) while filtering out persistant anthropogenic sounds.\ncite: 10.1016/j.ecolind.2010.11.005, 10.1016/j.ecoinf.2011.07.004\n\n# Seewave Function = \"ACI\"\n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Biodiversity"
+    ]
+  },
+  {
+    "objectID": "content/rails-biodiversity.html#acoustic-diversity-index",
+    "href": "content/rails-biodiversity.html#acoustic-diversity-index",
+    "title": "Biodiversity",
+    "section": "Acoustic Diversity Index",
+    "text": "Acoustic Diversity Index\nThe Acoustic Diversity Index (ADI) uses the Shannon Index to measure the distribution of sound energy across frequency bins and was intended to serve as a proxy for habitat quality.\ncite: 10.1007/s10980-011-9636-9\n\n# Soundecology Function = \"acoustic_diversity\". \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Biodiversity"
+    ]
+  },
+  {
+    "objectID": "content/rails-biodiversity.html#bioacoustic-index",
+    "href": "content/rails-biodiversity.html#bioacoustic-index",
+    "title": "Biodiversity",
+    "section": "Bioacoustic Index",
+    "text": "Bioacoustic Index\nIntended to serve as a measure of birdsong complexity (and a proxy for relative bird abundance), it is a product of the amplitude and the number of occupied frequency bands, relative to the quietest 1 kHz frequency band.\ncite:10.1890/07-0004.1\n\n# Soundecology Function = \"bioacoustic_index\". \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Biodiversity"
+    ]
+  },
+  {
+    "objectID": "content/rails-biodiversity.html#acoustic-entropy-index-aei",
+    "href": "content/rails-biodiversity.html#acoustic-entropy-index-aei",
+    "title": "Biodiversity",
+    "section": "Acoustic Entropy Index (AEI)",
+    "text": "Acoustic Entropy Index (AEI)\nThe Acoustic Entropy Index is based on the entropy in both time and space (based on the Shannon Index).\ncite: 10.1371/journal.pone.0004065\n\n# Seewave Function = \"H\". Minimum frequency = 0 kHz, maximum frequency = Nyquist of recording, FFT = 512. \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Results",
+      "Biodiversity"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html",
+    "href": "content/rails-dashboard.html",
+    "title": "SD Wetland Dashboard",
+    "section": "",
+    "text": "Data Size (TB)\n0.42\n\n\n\n\n\n\n\n\n\n\n\n\n\nTotal # of Files\n87654\n\n\n\n\n\n\n\n\n\n\n\n\n# Species\n285\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngoodCols &lt;- c(\"deployment_id\",\"location\", \"site\", \"config_type\", \"deploy_date\", \"latitude\", \"longitude\", \"retrieve_date\")\n\ndeployTable &lt;- as_tibble(readRDS(here(\"data/deployments.rds\"))) %&gt;%\n  select(all_of(goodCols)) %&gt;%\n  filter(location %in% c(\"SPP-DD\", \"SPP\", \"TJE\", \"SGR\"))\n\nleaflet(data = deployTable, padding = 20) %&gt;%\n  #addProviderTiles(providers$Esri.WorldImagery) %&gt;%\n  addTiles() %&gt;%\n  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#value-boxes-height-25",
+    "href": "content/rails-dashboard.html#value-boxes-height-25",
+    "title": "SD Wetland Dashboard",
+    "section": "Value Boxes {height = 25%}",
+    "text": "Value Boxes {height = 25%}\n(1)Start/End Date (2)#Hrs/Tb, (2) #Species\n\n\n\n\n\n0.42\n\nData Size (TB)\n0.42\n\n\n\n\n\n\n\n\n\n\n\n\n87654\n\n# Files\n87654\n\n\n\n\n\n\n\n\n\n\n\n\n285\n\n# Species\n285",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#boxplot--plotdetectionboxplot-from-pamverse",
+    "href": "content/rails-dashboard.html#boxplot--plotdetectionboxplot-from-pamverse",
+    "title": "SD Wetland Dashboard",
+    "section": "BoxPlot- plotDetectionBoxplot from Pamverse",
+    "text": "BoxPlot- plotDetectionBoxplot from Pamverse\n\n\n\n\n\n\n\n\n\n\ngoodCols &lt;- c(\"deployment_id\",\"location\", \"site\", \"config_type\", \"deploy_date\", \"latitude\", \"longitude\", \"retrieve_date\")\n\ndeployTable &lt;- as_tibble(readRDS(here(\"data/deployments.rds\"))) %&gt;%\n  select(all_of(goodCols)) %&gt;%\n  filter(location %in% c(\"SPP-DD\", \"SPP\", \"TJE\", \"SGR\"))\n\nleaflet(data = deployTable, padding = 20) %&gt;%\n  #addProviderTiles(providers$Esri.WorldImagery) %&gt;%\n  addTiles() %&gt;%\n  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#value-boxesheight-25",
+    "href": "content/rails-dashboard.html#value-boxesheight-25",
+    "title": "SD Wetland Dashboard",
+    "section": "Value Boxes{height = 25%}",
+    "text": "Value Boxes{height = 25%}\n(1)Start/End Date (2)#Hrs/Tb, (2) #Species\n\n\n\n\n\n0.42\n\nData Size (TB)\n0.42\n\n\n\n\n\n\n\n\n\n\n87654\n\n# Files\n87654\n\n\n\n\n\n\n\n\n\n\n285\n\n# Species\n285\n\n\n\n\n\n\n\n\n\n\n\n\n285\n\n# Species\n285",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#section-1",
+    "href": "content/rails-dashboard.html#section-1",
+    "title": "SD Wetland Dashboard",
+    "section": "",
+    "text": "# plotDetectionBoxplot(x=myData_rails_sub, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = \"Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary\")",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row---value-boxes",
+    "href": "content/rails-dashboard.html#row---value-boxes",
+    "title": "SD Wetland Dashboard",
+    "section": "",
+    "text": "Data Size (TB)\n0.42\n\n\n\n\n\n\n\n\n\n\n\n\n\nTotal # of Files\n87654\n\n\n\n\n\n\n\n\n\n\n\n\n# Species\n285",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#deployments",
+    "href": "content/rails-dashboard.html#deployments",
+    "title": "SD Wetland Dashboard",
+    "section": "",
+    "text": "goodCols &lt;- c(\"deployment_id\",\"location\", \"site\", \"config_type\", \"deploy_date\", \"latitude\", \"longitude\", \"retrieve_date\")\n\ndeployTable &lt;- as_tibble(readRDS(here(\"data/deployments.rds\"))) %&gt;%\n  select(all_of(goodCols)) %&gt;%\n  filter(location %in% c(\"SPP-DD\", \"SPP\", \"TJE\", \"SGR\"))\n\nleaflet(data = deployTable, padding = 20) %&gt;%\n  #addProviderTiles(providers$Esri.WorldImagery) %&gt;%\n  addTiles() %&gt;%\n  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row---value-boxes-1",
+    "href": "content/rails-dashboard.html#row---value-boxes-1",
+    "title": "SD Wetland Dashboard",
+    "section": "Row - Value boxes",
+    "text": "Row - Value boxes\n\n\n\n\n\n\n\nTotal # Rail Detections\n6331\n\n\n\n\n\n\n\n\n\n\n\n\n# Rail Calls per Hour\n4.3\n\n\n\n\n\n\n\n\n\n\n\n\n% Recordings with Rail Calls\n3.2%",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#rail-plots",
+    "href": "content/rails-dashboard.html#rail-plots",
+    "title": "SD Wetland Dashboard",
+    "section": "Rail Plots",
+    "text": "Rail Plots",
+    "crumbs": [
+      "Ridgway's Rails",
+      "Dashboard"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row",
+    "href": "content/rails-dashboard.html#row",
+    "title": "SD Wetland Dashboard",
+    "section": "",
+    "text": "goodCols &lt;- c(\"deployment_id\",\"location\", \"site\", \"config_type\", \"deploy_date\", \"latitude\", \"longitude\", \"retrieve_date\")\n\ndeployTable &lt;- as_tibble(readRDS(here(\"data/deployments.rds\"))) %&gt;%\n  select(all_of(goodCols)) %&gt;%\n  filter(location %in% c(\"SPP-DD\", \"SPP\", \"TJE\", \"SGR\"))\n\nleaflet(data = deployTable, padding = 20) %&gt;%\n  #addProviderTiles(providers$Esri.WorldImagery) %&gt;%\n  addTiles() %&gt;%\n  addCircleMarkers(~longitude, ~latitude, popup = ~as.character(deployment_id))",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#summary-rail-detections",
+    "href": "content/rails-dashboard.html#summary-rail-detections",
+    "title": "SD Wetland Dashboard",
+    "section": "Summary Rail Detections",
+    "text": "Summary Rail Detections",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row-1",
+    "href": "content/rails-dashboard.html#row-1",
+    "title": "SD Wetland Dashboard",
+    "section": "Row",
+    "text": "Row",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row---value-boxes-2",
+    "href": "content/rails-dashboard.html#row---value-boxes-2",
+    "title": "SD Wetland Dashboard",
+    "section": "Row - Value boxes",
+    "text": "Row - Value boxes\n\n\n\n\n\n\n\n# Species\n285\n\n\n\n\n\n\n\n\n\n\n\n\nTotal # Detections\n510593\n\n\n\n\n\n\n\n\n\n\n\n\n% Recordings with Detections\n133.5%",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-dashboard.html#row-2",
+    "href": "content/rails-dashboard.html#row-2",
+    "title": "SD Wetland Dashboard",
+    "section": "Row",
+    "text": "Row\n\npriority &lt;- birdnet_all %&gt;%\n  filter(location == \"TJE\") %&gt;%\n  count(common_name, sort = TRUE) %&gt;% \n  slice_head(n = 10) %&gt;%\n  pull(common_name) %&gt;% \n  union(\"Ridgway's Rail\") \n\nbirdnet_top_TJE &lt;- birdnet_all %&gt;%\n  filter(location == \"TJE\") %&gt;%\n  filter(common_name %in% priority)\n\nmyData_priority_TJE &lt;- loadDetectionData(x=birdnet_top_TJE, source='csv', detectionType='detection', wide=FALSE,  tz='UTC', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))",
+    "crumbs": [
+      "Ridgway's Rails"
+    ]
+  },
+  {
+    "objectID": "content/rails-soundExplore.html",
+    "href": "content/rails-soundExplore.html",
+    "title": "Explore Sounds",
+    "section": "",
+    "text": "videoList = transpose(videoList_ojs)\n\n// Create dropdown menu of videos\nviewof videoDropdown = Inputs.select(\n  videoList.map(d =&gt; d.species),\n  {\n  label: \"Choose a Sound\",\n  unique: true\n  }\n)\n\n// Get the selected video data\nselectedVideo = videoList.find(d =&gt; d.species === videoDropdown)\n\n// Display the video\nhtml`&lt;video width=\"640\" height=\"480\" controls key=\"${selectedVideo.filename}\"&gt;\n  &lt;source src=\"${selectedVideo.filename}\" type=\"video/mp4\"&gt;\n  Your browser does not support the video tag.\n&lt;/video&gt;`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhtml`&lt;p style=\"margin-top: 20px; font-style: italic;\"&gt;${selectedVideo.caption}&lt;/p&gt;`"
+  }
+]

@@ -1,0 +1,18 @@
+---
+title: "detDistance"
+output: html_document
+---
+
+Add libraries, common functions
+
+```{r prep echo=TRUE include=FALSE}
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+```
+
+Modify detection data to identify sound source as DD01 vs DD02
+```{r DDdataPrep}
+
+```

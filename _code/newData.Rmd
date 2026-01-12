@@ -2,32 +2,27 @@
 title: "Code for Ingesting New Data"
 ---
 
-To Do:
+***To Do:***
 
--   Rerun with clean slate to be sure everything is saving correctly
+-   ***Ensure you run janitor/clean_names() on all files***
 
--   If everything looks good, delete last code chunk for environmental data
+-   ***Birdnet Data for Detection Distance***
 
--   code to copy birdnet files over {birdnet_modify-in-place}: ensure that if there is an existing file, that it will be copied OVER (replaced).
+    -   *Create a function to identify the primary source of calls (DD01 vs DD02) for each call.*
 
-This code is to be run on new data, to ingest and modify data for use within the repository. Care should be taken as some of these scripts modify the raw data in place.
+    -   *Create a function to identify unique calls and how to determine if they were detected on each of the DD recorders.*
+
+    -   *Determine if we can use calls after one of the recorders stopped (what are the typical SNRs for source recorder and for alternative PP recorder, and can this be used to identify if sounds were heard on one or the other?).*
+
+-   *Modify User Input to ensure only components needed for this script are included.*
+
+-   *Rerun with clean slate to be sure everything is saving correctly*
+
+-   *This code is to be run on new data, to ingest and modify data for use within the repository.*
+
+The RMarkdown is intended to modify original data saved in the '/data' folder for use in downstream analyses. These modified datasets will be saved as RDS files or csv files for use in downstream analyses. These should only need to be run once for each new dataset.
 
 # 1. User Input
-
-First, identify root path for data you want to add
-
-```{r rootPath}
-# Project Name
-projectID <- 'SCI'
-
-# Root path to Birdnet data folders
-root_path <- "C:/Users/Shannon/Documents/audiomoth/Rails/birdnet/new"
-
-# Big Data Paths
-bigDataPath <- "bigData/SCI/"
-bigDataRawFiles <- "bigData/SCI/rawBirdnetFiles/"
-
-```
 
 Add libraries, common functions
 
@@ -38,32 +33,7 @@ here()
 source(here::here("_code/_common.R"))
 ```
 
-# 2. Modify Recording Names
-BEFORE renaming files, check that folder-name and file-name components match the DeployDetails.ods file
-```{r recordingDataCheck}
-# Define paths
-#folderPath <- "E:/Rails/recordings/test/SPP-DD10_48c_20250716" # Update this path
-folderPath <- "E:/Rails/recordings/TJE-01/TJE-01_192b_20250608"  # Update this path
-ods_file <- "E:/Rails/SE_DeployDetails.ods"
-
-recordingDataCheck(
-  folderPath = folderPath,
-  ods_file = ods_file)
-
-```
-
-
-WARNING: Before running next code chunk, ensure success with recordingDataCheck!!
-
-```{r recordingRename}
-#Double-check that folderPath (above) is correct!
-#Note: If device_ID not in filename, then use recordingRenameNOdevice_ID instead 
-
-recordingRename(folderPath)
-
-```
-
-# 3. Update Deployment Details
+# 2. Update Deployment Details
 
 First, copy updated '**SE_DeployDetails.ODS**' sheet to the **data/** folder, then the following code chunk will update the files for each of the 4 sheets within the spreadsheet.
 
@@ -73,11 +43,13 @@ deployments_all <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 1)%>%
   remove_empty(which=c("rows","cols"))
 deployments_all <- deployments_all %>%
   mutate(
-    record_start_utc = as.POSIXct(record_start_utc, format = "%m/%d/%Y %H:%M:%S"),
-    record_end_utc = as.POSIXct(record_end_utc, format = "%m/%d/%Y %H:%M:%S")
-                                  
+    record_start_utc = as.POSIXct(record_start_utc, format = "%m/%d/%y %I:%M %p", tz = "UTC"),
+    record_end_utc = as.POSIXct(record_end_utc, format = "%m/%d/%y %I:%M %p", tz = "UTC"),
+    record_length_hrs = as.numeric(difftime(record_end_utc, record_start_utc, units = "hours")),
+    file_size_mb = round(file_size_bytes / (1024^2), 2)
   )
-deployments_select <-deployments_all[,c(1,10,11)]
+
+deployments_select <-deployments_all[,c(1,11,12, 19, 20, 21, 22, 24, 25)]
 saveRDS(deployments_all, file= here("data/deployments.rds"))
 
 configDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 2) %>%
@@ -85,53 +57,39 @@ configDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 2) %>%
   remove_empty(which=c("rows","cols"))
 saveRDS(configDetails, file = here("data/configDetails.rds"))
 
-inventory <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 4) %>%
+inventory <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 3) %>%
   clean_names() %>%
   remove_empty(which=c("rows","cols"))
 saveRDS(inventory, file = here("data/inventory.rds"))
 
-siteDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 5) %>%
+siteDetails <- read_ods(here("data", "SE_DeployDetails.ODS"), sheet = 4) %>%
   clean_names() %>%
   remove_empty(which=c("rows","cols"))
 saveRDS(siteDetails, file = here("data/siteDetails.rds"))
 
 ```
 
-# 3. Modify in place: BirdNet_SelectionTable
-
-This code will modify Birdnet Selection Tables *in place* and will copy files over to the location identified in the dest_path, above. Note that the copy function does NOT replace existing files (at this time), so caution must be made to not create multiple files.
-
-::: callout-caution
-## This code chunk will modify the existing data in place! Ensure this is needed before you run data!
-:::
-
-```{r birdnet_modify-in-place}
-# Check that birdNET_SelectionTable exists; if not, create it by merging files
-check_birdnet_selectionTables(root_path)
-
-#rename birdNET_SelectionTables to add deploymentID
-rename_birdnet_files(root_path) 
-
-#add deployment_ID column
-add_deploymentID(root_path)
-
-# Copy birdNET_SelectionTables from root_path to raw folder in github directory. Note: This will fail if the files already exist. Eventually fix this.
-copy_birdnet_files(root_path, dest_path)
-
-
-```
-
-# 4. Clean Birdnet Data
+# 3. Clean Birdnet Data
 
 Combine raw Birdnet files, clean up, add environmental data, and save as birdnet_projectID file.
 
+```{ r birdnet_clean_userDefined}
+# path to rawBirdnetFiles
+rawBirdnetFiles <- "bigData/rails/rawBirdnetFiles"
+
+# Project ID
+projectID <- "rails"
+
+```
+
 ```{r birdnet_clean}
+
 # Open deployments 
 latlong <- readRDS(here("data/deployments.rds")) %>%
   select(deployment_id, latitude, longitude)
 
 # merge birdNET_SelectionTables (in 'raw' folder), save as rds in 'output' folder
-data <- birdnet_combine(here(bigDataRawFiles))
+data <- birdnet_combine(here(rawBirdnetFiles))
 
 #Modify birdNET data as tibble 
 birdnet_all <- birdnet_add_datetime(data, tz = "UTC") %>% #add UTC dateTime columns
@@ -143,10 +101,10 @@ birdnet_all <- birdnet_add_datetime(data, tz = "UTC") %>% #add UTC dateTime colu
                                           "deploy_id_date"), sep = "_", remove = FALSE )%>%
   separate("location-site", into = c("location", "site"), sep = "-" ) %>%
   left_join(latlong, by = "deployment_id") %>%
-  select(-date, -month, -mday, -yday, -hour, -minute, -deploy_id_date) 
+  select(-date, -year, -month, -mday, -yday, -hour, -minute, -deploy_id_date) 
 
 birdnet_env <- birdnet_all %>%
-  rename(UTC = datetime_UTC, Latitude = latitude,Longitude = longitude)
+  rename(UTC = datetime_UTC, Latitude = latitude, Longitude = longitude)
 birdnet_all_env <- matchGFS(birdnet_env)
 
 birdnet_all <- birdnet_all_env %>%
@@ -156,12 +114,13 @@ birdnet_all <- birdnet_all_env %>%
 birdnetFileName <- paste("birdnet_", projectID, sep = "" )
 
 saveRDS(birdnet_all, file= here(paste("data/", birdnetFileName,".rds", sep="")))
-write_csv(birdnet_all, file= here(paste(bigDataPath, birdnetFileName,".csv", sep="")))
+# write_csv(birdnet_all, file= here(paste("bigData", birdnetFileName,".csv", sep="")))
 
 head(birdnet_all)
 ```
+#### Need to recheck starting here!!!
 
-# 5. Create Birdnet Binned Data
+# 6. Create Birdnet Binned Data
 
 Create daily and hourly binned data, with environmental data.
 
@@ -186,5 +145,3 @@ birdnet_bins_hour_env <- matchGFS(birdnet_bins_hour)
 
 saveRDS(birdnet_bins_hour_env, file = here(paste("data/", birdnetFileName, "_bins_hour.rds", sep = "")))
 ```
-
-

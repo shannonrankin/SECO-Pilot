@@ -15,19 +15,6 @@ format: html
     -   [ ] Eliminate false positives
     -   [ ] Identify false negatives
     -   [ ] Label Noise?
--   [ ] Start/End for each Recording
-    -   Scan each recording for true START time and true END time
-
-        -   For DD, only include data when both pen recordings were working
-        -   TJE-01(in progress); finished: SPP-DD
-
-    -   Delete unneeded recordings (folder named 'bad')
-
-    -   extract TRUE good data START and END times, add to deployDetails spreadsheet
-
-    -   Add data size and number of files to deployDetails
-
-    -   Once this data is revised, assess recording length in hours (in R deployTable.R)
 
 ### Acoustic Indices
 
@@ -42,6 +29,7 @@ format: html
 -   [ ] Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
 -   [ ] Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
 -   [ ] Analysis: Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
+-   [ ] **Birdnet:** Ideally would run Perch, or at least run Birdnet from R/Python. Note in the reporting that this is recommended in the future to ensure standardization/consistency. (use birdnetR)
 -   [ ] Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
 -   [ ] Manual Review to assess classifier
     -   [ ] Review subset of data, determine if detection was true or false
@@ -119,7 +107,7 @@ format: html
 
 -   \[ \]
 
-### 
+### Insects
 
 ## MoreInfo
 

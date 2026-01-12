@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SD Wetland Dashboard – NOAA quarto simple</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6b88dad93cb0263a6ff95d64af598232.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-7251567434036d3426b7ca514258f76b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6b88dad93cb0263a6ff95d64af598232.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-dashboard/quarto-dashboard.js"></script>
+<script src="../site_libs/quarto-dashboard/stickythead.js"></script>
+
+
+
+<script src="../site_libs/quarto-dashboard/web-components.js" type="module"></script>
+<script src="../site_libs/quarto-dashboard/components.js"></script>
+
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../site_libs/bslib-component-js-0.9.0/components.min.js"></script>
+
+<script src="../site_libs/bslib-component-js-0.9.0/web-components.min.js" type="module"></script>
+
+<link href="../site_libs/bslib-component-css-0.9.0/components.css" rel="stylesheet">
+
+<script src="../site_libs/bslib-tag-require-0.9.0/tag-require.js"></script>
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="../site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="../site_libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="../site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="../site_libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="../site_libs/leaflet-binding-2.2.3/leaflet.js"></script>
+
+<link href="../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="../site_libs/datatables-binding-0.34.0/datatables.js"></script>
+
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="../site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+
+<script src="../site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+
+<link href="../site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+
+<script src="../site_libs/selectize-0.12.0/selectize.min.js"></script>
+
+<link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+</head>
+
+<body class="quarto-dashboard nav-sidebar dashboard-fill fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<header id="quarto-dashboard-header">
+<nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
+  <div class="navbar-container container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>    
+
+
+    <div class="navbar-brand-container">       
+    <a href="#"><img src="images/wildlifeCommunity_ai.jpg" alt="" class="navbar-logo d-inline-block"></a>
+      <div class="navbar-title">
+        <div class="navbar-title-text"><a href="#">SD Wetland Dashboard</a></div>
+        
+        
+      </div>
+    </div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-deployments" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#deployments" data-scrolling="false" href="#deployments" aria-controls="deployments" aria-selected="true"><span class="nav-link-text">Deployments</span></a></li><li class="nav-item" role="presentation"><a id="tab-rails" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#rails" data-scrolling="false" href="#rails" aria-controls="rails" aria-selected="false"><span class="nav-link-text">Rails</span></a></li><li class="nav-item" role="presentation"><a id="tab-biodiversity" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#biodiversity" data-scrolling="false" href="#biodiversity" aria-controls="biodiversity" aria-selected="false"><span class="nav-link-text">Biodiversity</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/shannonrankin/SECO-Pilot/rails-dashboard.qmd"><i class="bi bi-github"></i></a><a class="quarto-dashboard-link" href="https://shannonrankin.github.io/SECO-Pilot"><i class="bi bi-website"></i></a></div></div></div>
+</nav>
+</header>
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+<!-- main -->
+
+
+<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div id="deployments" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-deployments">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 30fr) minmax(3em, 70fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-database " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313ZM13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 8.698Zm0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525Z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">Data Size (TB)</p>
+<p class="value-box-value">0.42</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-file-earmark-music " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M11 6.64a1 1 0 0 0-1.243-.97l-1 .25A1 1 0 0 0 8 6.89v4.306A2.572 2.572 0 0 0 7 11c-.5 0-.974.134-1.338.377-.36.24-.662.628-.662 1.123s.301.883.662 1.123c.364.243.839.377 1.338.377.5 0 .974-.134 1.338-.377.36-.24.662-.628.662-1.123V8.89l2-.5V6.64z"></path>
+<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">Total # of Files</p>
+<p class="value-box-value">87654</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-feather " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.765 3.765 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1c-1.95 1.686-3.168 3.724-3.758 5.423-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88.017.04.035.082.056.122A68.362 68.362 0 0 0 .08 15.198a.528.528 0 0 0 .157.72.504.504 0 0 0 .705-.16 67.606 67.606 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.528.528 0 0 0 0-.739l-.729-.744 1.311.209a.504.504 0 0 0 .443-.15c.222-.23.444-.46.663-.684.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.524.524 0 0 0-.112-.172ZM3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196a.526.526 0 0 0-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.282 1.282 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a6.85 6.85 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524-1.581-.25Zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a7.97 7.97 0 0 1 1.564-.173Z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title"># Species</p>
+<p class="value-box-value">285</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title bslib-navs-card-title">
+
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-4"><li class="nav-item" role="presentation"><a href="#card-tabset-4-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Timeline" aria-selected="true" class="nav-link active">Timeline</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Map" aria-selected="false" class="nav-link">Map</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Deployment Table" aria-selected="false" class="nav-link">Deployment Table</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Recording Specifications" aria-selected="false" class="nav-link">Recording Specifications</a></li></ul></div>
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-4"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-1"><div class="card-body html-fill-item html-fill-container" data-title="Timeline">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="row html-fill-item html-fill-container">
+<div class="col-lg-7 html-fill-item html-fill-container">
+<div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<img src="rails-dashboard_files/figure-html/recordingSite-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="col-lg-5 html-fill-item html-fill-container">
+<div class="card html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<h5 class="card-title">
+About this table
+</h5>
+<p class="card-text">
+Recording specifications varied according to details laid out in this table.
+</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-2"><div class="card-body html-fill-item html-fill-container" data-title="Map">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="row html-fill-item html-fill-container">
+<div class="col-lg-7 html-fill-item html-fill-container">
+<div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div class="leaflet html-widget html-fill-item html-fill-container" id="htmlwidget-c67707cd30e538156052" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-c67707cd30e538156052">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[32.5733189,32.5733189,32.5733189,32.6396792,32.6396792,32.6396792,32.6394237,32.6394237,32.6394237,32.5733189,32.5733189,32.5733189,32.6396792,32.6396792,32.6396792,32.6391897,32.6391897,32.6391897,32.6396792,32.6394237,32.639197,32.639711,32.639598,32.639186,32.638874,32.639026,32.639339,32.639523],[-117.125278,-117.125278,-117.125278,-117.1111495,-117.1111495,-117.1111495,-117.1113785,-117.1113785,-117.1113785,-117.125278,-117.125278,-117.125278,-117.1111495,-117.1111495,-117.1111495,-117.1122522,-117.1122522,-117.1122522,-117.1111495,-117.1113785,-117.11168,-117.111294,-117.11149,-117.112265,-117.112349,-117.112063,-117.111997,-117.111747],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,["TJE-01_48c_20250515","TJE-01_48s+s_20250515","TJE-01_192b_20250515","SPP-1N_48c_20250515","SPP-1N_48s+s_20250515","SPP-1N_192b_20250515","SPP-3S_48c_20250515","SPP-3S_48s+s_20250515","SPP-3S_192b_20250515","TJE-01_48c_20250608","TJE-01_48s+s_20250607","TJE-01_192b_20250608","SPP-1N_48c_20250602","SPP-1N_48s+s_20250602","SPP-1N_192b_20250602","SGR-01_48c_20250602","SGR-01_48s+s_20250602","SGR-01_192b_20250602","SPP-DD01_48c_20250716","SPP-DD02_48c_20250716","SPP-DD03_48c_20250716","SPP-DD04_48c_20250716","SPP-DD05_48c_20250716","SPP-DD06_48c_20250716","SPP-DD07_48c_20250716","SPP-DD08_48c_20250716","SPP-DD09_48c_20250716","SPP-DD10_48c_20250716"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[32.5733189,32.639711],"lng":[-117.125278,-117.1111495]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="col-lg-5 html-fill-item html-fill-container">
+<div class="card html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<h5 class="card-title">
+About this table
+</h5>
+<p class="card-text">
+Recording specifications varied according to details laid out in this table.
+</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-3"><div class="card-body html-fill-item html-fill-container" data-title="Deployment Table">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="row html-fill-item html-fill-container">
+<div class="col-lg-7 html-fill-item html-fill-container">
+<div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div class="datatables html-widget html-fill-item html-fill-container" id="htmlwidget-aacdf95f0208b6923928" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-aacdf95f0208b6923928">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"20250515\" data-max=\"20250716\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"32.5733188\" data-max=\"32.639711\" data-scale=\"7\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-117.125278\" data-max=\"-117.1111495\" data-scale=\"7\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"20250602\" data-max=\"202550529\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption>Deployment of Acoustic Recorders for Rail-Wetland Pilot Study<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"],["TJE-01_48c_20250515","TJE-01_48s+s_20250515","TJE-01_192b_20250515","SPP-1N_48c_20250515","SPP-1N_48s+s_20250515","SPP-1N_192b_20250515","SPP-3S_48c_20250515","SPP-3S_48s+s_20250515","SPP-3S_192b_20250515","TJE-01_48c_20250608","TJE-01_48s+s_20250607","TJE-01_192b_20250608","SPP-1N_48c_20250602","SPP-1N_48s+s_20250602","SPP-1N_192b_20250602","SGR-01_48c_20250602","SGR-01_48s+s_20250602","SGR-01_192b_20250602","SPP-DD01_48c_20250716","SPP-DD02_48c_20250716","SPP-DD03_48c_20250716","SPP-DD04_48c_20250716","SPP-DD05_48c_20250716","SPP-DD06_48c_20250716","SPP-DD07_48c_20250716","SPP-DD08_48c_20250716","SPP-DD09_48c_20250716","SPP-DD10_48c_20250716"],["TJE","TJE","TJE","SPP","SPP","SPP","SPP","SPP","SPP","TJE","TJE","TJE","SPP","SPP","SPP","SGR","SGR","SGR","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD","SPP-DD"],["1","1","1","1N","1N","1N","3S","3S","3S","1","1","1","1N","1N","1N","1","1","1","DD01","DD02","DD03","DD04","DD05","DD06","DD07","DD08","DD09","DD10"],["48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48sunrise+set_def","192bat_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def","48continuous_def"],[20250515,20250515,20250515,20250515,20250515,20250515,20250515,20250515,20250515,20250607,20250607,20250607,20250602,20250602,20250602,20250602,20250602,20250602,20250716,20250716,20250716,20250716,20250716,20250716,20250716,20250716,20250716,20250716],[32.5733189,32.5733189,32.5733189,32.6396792,32.6396792,32.6396792,32.6394237,32.6394237,32.6394237,32.5733189,32.5733189,32.5733189,32.6396792,32.6396792,32.6396792,32.6391897,32.6391897,32.6391897,32.6396792,32.6394237,32.639197,32.639711,32.639598,32.639186,32.638874,32.639026,32.639339,32.639523],[-117.125278,-117.125278,-117.125278,-117.1111495,-117.1111495,-117.1111495,-117.1113785,-117.1113785,-117.1113785,-117.125278,-117.125278,-117.125278,-117.1111495,-117.1111495,-117.1111495,-117.1122522,-117.1122522,-117.1122522,-117.1111495,-117.1113785,-117.11168,-117.111294,-117.11149,-117.112265,-117.112349,-117.112063,-117.111997,-117.111747],[202550529,202550529,202550529,20250602,20250602,20250602,20250602,20250602,20250602,20250712,20250712,20250712,20250617,20250617,20250617,20250617,20250617,20250617,20250813,20250813,20250813,20250813,20250813,20250813,20250813,20250813,20250813,20250813]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>deployment_id<\/th>\n      <th>location<\/th>\n      <th>site<\/th>\n      <th>config_type<\/th>\n      <th>deploy_date<\/th>\n      <th>latitude<\/th>\n      <th>longitude<\/th>\n      <th>retrieve_date<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"dom":"ifrt","language":{"info":"Showing _TOTAL_ entries"},"columnDefs":[{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[5,6,7,8]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"deployment_id","targets":1},{"name":"location","targets":2},{"name":"site","targets":3},{"name":"config_type","targets":4},{"name":"deploy_date","targets":5},{"name":"latitude","targets":6},{"name":"longitude","targets":7},{"name":"retrieve_date","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="col-lg-5 html-fill-item html-fill-container">
+<div class="card html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<h5 class="card-title">
+About this table
+</h5>
+<p class="card-text">
+Recording specifications varied according to details laid out in this table.
+</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-4"><div class="card-body html-fill-item html-fill-container" data-title="Recording Specifications">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="row html-fill-item html-fill-container">
+<div class="col-lg-7 html-fill-item html-fill-container">
+<div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<table class="lightable-classic table table-condensed table-striped caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Initial Recording Specifications</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Recording Type</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Recording Schedule</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Sampling Rate (kHz)</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Record Off (s)</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Record On (s)</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Filter Type</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">High Pass Filter (kHz)</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Low Pass Filter (kHz)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">48continuous_def</td>
+<td style="text-align: left;">continuous</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: left;">00.00.05</td>
+<td style="text-align: left;">00.00.55</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">48sunrise+set_def</td>
+<td style="text-align: left;">sunriseset</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: left;">00.00.05</td>
+<td style="text-align: left;">00.00.55</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">192bat_def</td>
+<td style="text-align: left;">bat</td>
+<td style="text-align: right;">192</td>
+<td style="text-align: left;">00.00.05</td>
+<td style="text-align: left;">00.00.55</td>
+<td style="text-align: left;">bandpass</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">96</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="col-lg-5 html-fill-item html-fill-container">
+<div class="card html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<h5 class="card-title">
+About this table
+</h5>
+<p class="card-text">
+Recording specifications varied according to details laid out in this table.
+</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+<div id="rails" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-rails">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 30fr) minmax(3em, 70fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-hash " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">Total # Rail Detections</p>
+<p class="value-box-value">6331</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-hourglass-bottom " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M2 1.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1-.5-.5zm2.5.5v1a3.5 3.5 0 0 0 1.989 3.158c.533.256 1.011.791 1.011 1.491v.702s.18.149.5.149.5-.15.5-.15v-.7c0-.701.478-1.236 1.011-1.492A3.5 3.5 0 0 0 11.5 3V2h-7z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title"># Rail Calls per Hour</p>
+<p class="value-box-value">4.3</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-percent " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">% Recordings with Rail Calls</p>
+<p class="value-box-value">3.2%</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title bslib-navs-card-title">
+
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-20"><li class="nav-item" role="presentation"><a href="#card-tabset-20-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tab 1" aria-selected="true" class="nav-link active">Tab 1</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Diurnal Detections" aria-selected="false" class="nav-link">Diurnal Detections</a></li></ul></div>
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-20"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-1"><div class="card-body html-fill-item html-fill-container">
+<div class="cell card-body html-fill-item html-fill-container" data-title="Daily Detection">
+<div class="row g-3 html-fill-item html-fill-container">
+<div class="col-lg-7 html-fill-item html-fill-container">
+<img src="data:image/png;base64,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" style="width:100%; height:auto;">
+</div>
+<div class="col-lg-5 html-fill-item html-fill-container">
+<div class="card html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<h5 class="card-title">Detection BoxPlot</h5>
+<p class="card-text">This shows my Detections in a Boxplot</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-2"><div class="card-body html-fill-item html-fill-container" data-title="Diurnal Detections">
+<div class="cell-output-display html-fill-item html-fill-container">
+<img src="rails-dashboard_files/figure-html/RailPolarPlot-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+<div id="biodiversity" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-biodiversity">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 30fr) minmax(3em, 70fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-feather " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.765 3.765 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1c-1.95 1.686-3.168 3.724-3.758 5.423-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88.017.04.035.082.056.122A68.362 68.362 0 0 0 .08 15.198a.528.528 0 0 0 .157.72.504.504 0 0 0 .705-.16 67.606 67.606 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.528.528 0 0 0 0-.739l-.729-.744 1.311.209a.504.504 0 0 0 .443-.15c.222-.23.444-.46.663-.684.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.524.524 0 0 0-.112-.172ZM3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196a.526.526 0 0 0-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.282 1.282 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a6.85 6.85 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524-1.581-.25Zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a7.97 7.97 0 0 1 1.564-.173Z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title"># Species</p>
+<p class="value-box-value">285</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-hash " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">Total # Detections</p>
+<p class="value-box-value">510593</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box bg-purple showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()" data-require-bs-version="5 5" data-full-screen="false">
+<div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+<div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
+<div class="value-box-showcase html-fill-item html-fill-container"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-percent " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path></svg></div>
+<div class="value-box-area html-fill-item html-fill-container">
+<p class="value-box-title">% Recordings with Detections</p>
+<p class="value-box-value">133.5%</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title bslib-navs-card-title">
+
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-25"><li class="nav-item" role="presentation"><a href="#card-tabset-25-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="TJ Top 10 Species" aria-selected="true" class="nav-link active">TJ Top 10 Species</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="TJ Acoustic Scene" aria-selected="false" class="nav-link">TJ Acoustic Scene</a></li></ul></div>
+
+
+
+
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+
+</div>
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-25"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-1"><div class="card-body html-fill-item html-fill-container" data-title="TJ Top 10 Species">
+<div class="cell-output-display html-fill-item html-fill-container">
+<img src="rails-dashboard_files/figure-html/bioBoxplot-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-2"><div class="card-body html-fill-item html-fill-container" data-title="TJ Acoustic Scene">
+<div class="cell-output-display html-fill-item html-fill-container">
+<img src="rails-dashboard_files/figure-html/bioAcScene-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div>
+
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/shannonrankin\.github\.io\/SECO-Pilot\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions"><ul><li><a href="https://github.com/shannonrankin/SECO-Pilot/edit/main/content/rails-dashboard.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/shannonrankin/SECO-Pilot/blob/main/content/rails-dashboard.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/shannonrankin/SECO-Pilot/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (_event) {
+  if (window.bslib.Card) {
+    window.bslib.Card.initializeAllCards();
+  }
+}); 
+</script>
+  
+
+
+
+</body></html>
