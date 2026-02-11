@@ -45,8 +45,8 @@ website:
           contents:
             - href: content/rails-assessment.qmd
               text: "Population Assessment"
-            # - href: content/rails-biodiversity.qmd
-            #   text: "Biodiversity"
+            - href: content/rails-biodiversity.qmd
+              text: "Biodiversity"
             # - href: content/rails-bats.qmd
             #   text: "Bats"
             - href: content/rails-insects.qmd
