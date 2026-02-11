@@ -1,107 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Offboarding.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/adi/ADI_Analysis_Quick_Reference.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/AnalysisMethods.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/compare_indices/Complete_Workflow_Guide.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/Getting-Started.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/aci/ACI_Analysis_Quick_Reference.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/Intro.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-bats.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/code.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-summary.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/organize.html</loc>
-    <lastmod>2025-05-19T21:51:02.043Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/todo.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/acknowledgements.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-assessment-details.html</loc>
+    <lastmod>2026-02-11T16:20:35.201Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Onboarding.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-methods.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/OpenScience.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-dashboard.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Software.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/index.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/PublicationsPresentations.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-biodiversity.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/SharedValues.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/OpenScience.html</loc>
+    <lastmod>2026-02-11T16:20:35.179Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/FieldMethods.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-insects.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/index.html</loc>
-    <lastmod>2025-05-19T21:51:02.047Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-future.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/SoftwareAnalysis.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-assessment.html</loc>
+    <lastmod>2026-02-11T16:20:35.201Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/LabManagement.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/exploreSounds.html</loc>
+    <lastmod>2026-02-11T16:20:35.179Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Hardware.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-intro.html</loc>
+    <lastmod>2026-02-11T16:20:35.202Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Reporting.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/bi/BI_Analysis_Quick_Reference.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/DataManagement.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Inventory.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/rmarkdown.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/publishing.html</loc>
-    <lastmod>2025-05-19T21:51:02.043Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/rendering.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/NMFS_OpenSciDirections/add-content.html</loc>
-    <lastmod>2025-05-19T21:51:02.038Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Resources.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nmfs-ost.github.io/PAM_template_lab_manual/content/Safety.html</loc>
-    <lastmod>2025-05-19T21:51:02.044Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/compare_indices/Comparison_Quick_Reference.html</loc>
+    <lastmod>2026-02-11T16:20:35.448Z</lastmod>
   </url>
 </urlset>
