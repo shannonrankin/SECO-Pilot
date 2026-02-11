@@ -35,10 +35,6 @@ myData_priority_TJE <- loadDetectionData(x=birdnet_top_TJE, source='csv', detect
 
 myData_rails_48c_tje <- loadDetectionData(x=birdnet_top_TJE, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
 
-# prep data to json for use in ojs:
-library(jsonlite)
-myData_json <- jsonlite::toJSON(birdnet_top_TJE, pretty = TRUE, na = "null")
-cat(myData_json, file = "data.json")  # Save as a file for JS to read
 
 birdnet_tje_bins <- readRDS(here("data/birdnet_rails_48c_bins_day.rds")) %>%
   clean_names()
