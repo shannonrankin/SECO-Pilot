@@ -2,11 +2,11 @@
 title: "Biodiversity"
 format: 
   html:
-    include-after-body: |
-      <script type="module">
-        import {Plot} from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
-        import {Inputs} from "https://cdn.jsdelivr.net/npm/@observablehq/inputs@0.10/+esm";
-      </script>
+    <!-- include-after-body: | -->
+    <!--   <script type="module"> -->
+    <!--     import {Plot} from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"; -->
+    <!--     import {Inputs} from "https://cdn.jsdelivr.net/npm/@observablehq/inputs@0.10/+esm"; -->
+    <!--   </script> -->
 bibliography: references.bib
 ---
 
@@ -70,49 +70,6 @@ Diurnal Variation
 
 plotPolarDetections(x=myData_priority_TJE, facet='species',  bin='detection/hour', quantity='count')
 
-```
-
-```{js echo=FALSE}
-<!-- // Load the data -->
-<!-- const data = FileAttachment("data.json").json(); -->
-
-<!-- // Get unique species for the dropdown -->
-<!-- const species = [...new Set(data.map(d => d.common_name))]; -->
-
-<!-- // Create a dropdown -->
-<!-- const dropdown = Inputs.select(species, {label: "Select Species", value: species[0]}); -->
-
-<!-- // Function to filter data by selected species -->
-<!-- function filterData(data, selectedSpecies) { -->
-<!--   return data.filter(d => d.common_name === selectedSpecies); -->
-<!-- } -->
-
-<!-- // Create the plot -->
-<!-- function createPlot(data) { -->
-<!--   return Plot.plot({ -->
-<!--     // Customize your plot here (polar plot example) -->
-<!--     marks: [ -->
-<!--       <!-- Plot.line(data, { --> -->
-<!--       plotPolarDetections(data, {//added by Shannon -->
-<!--         x: "detection/hour", -->
-<!--         y: "count", -->
-<!--         stroke: "species", -->
-<!--         // Add polar plot options as needed -->
-<!--         bin='detection/hour', //added by Shannon -->
-<!--         quantity='count'//added by Shannon -->
-<!--       }) -->
-<!--     ] -->
-<!--   }); -->
-<!-- } -->
-
-<!-- // Render the plot and dropdown -->
-<!-- display(dropdown); -->
-<!-- display(createPlot(filterData(data, dropdown.value))); -->
-
-<!-- // Update plot when dropdown changes -->
-<!-- dropdown.addEventListener("input", () => { -->
-<!--   display(createPlot(filterData(data, dropdown.value))); -->
-<!-- }); -->
 ```
 
 Boxplot
