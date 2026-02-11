@@ -49,3 +49,5 @@ html`<video width="640" height="480" controls key="${selectedVideo.filename}">
 html`<p style="margin-top: 20px; font-style: italic;">${selectedVideo.caption}</p>`
 ```
 
+Spectrogram videos were made using dynaSpec on google colab:
+Araya-Salas, Marcelo and Wilkins, Matthew R. (2020), dynaSpec: dynamic spectrogram visualizations in R. R package version 1.0.0.

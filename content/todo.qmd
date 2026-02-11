@@ -3,111 +3,106 @@ title: "todo"
 format: html
 ---
 
-### Next
+## Next
 
--   [ ] Dashboard errors: work with chatgpt to use two_col_card function in \_common but it is not outputing correctly (rails- boxplot). Keep testing to fix. My text is not showing up correctly. Need a fix with the function.
+### NEXT!!
+
+-   **Diurnal variation (rails-summary.qmd/DiurnalVariation)**
+
+    -   May 27, SD 9am-2pm, UTC 2am to 7am
+
+    -   Change range for TJE so we get more resolution
+
+    -   Why are TJE detections only at night?
+
+    -   Need to manually review that data to see what is up. Also, need to confirm timing on the device– peaks match SPP, but something is very wrong there.
+
+### *High Priority*
+
+-   plotDetectionBoxPlot- need to overlay with effort (to improve understanding of quiet times)
+
+-   Dashboard
+
+    -   Fix Rails, Biodiversity components
+
+        -   Side by Side formatting issues
+
+    -   Value Box Size Issues
+
+    -   User Defined?
+
+-   Detection Distance
+
+    -   Create a simulation
+
+    -   Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
+
+-   Scrolling Spectrograms (youtube)
+
+    -   Check LFRR to see if it works with ojs
+
+    -   If so, review data to identify other good recordings. Include: osprey, helicopter, insects, bats
+
+    -   Sample sounds –\> youtube or other –\> spectrogram videos–\> sample sound video selections
+
+-   Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
+
+-   QAQC
+
+    -   Check if battery or storage limited recording?
+
+    -   QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
+
+    -   Check why some recorders start recording time is next day?
+
+    -   ID \# bad files
+
+### *Lower Priority*
+
+-   Insects
+
+-   Bats
+
+-   Acoustic Indices
+
+    -   Run analyses and test (make sure they work)
+
+    -   Save figure output to Biodiversity page
+
+    -   Look at comparison between results
+
+-   Soundscape
+
+-   Comments
+
+    -   Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
+
+    -   Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
+
+        -   Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
+
+    -   **Birdnet:** Ideally would run Perch, or at least run Birdnet from R/Python. Note in the reporting that this is recommended in the future to ensure standardization/consistency. (use birdnetR)
+
+## Left Undone
+
 -   [ ] Model Birdnet Performance Evaluation:
     -   [ ] Plot confidence scores (x) vs Frequency (n, on y axis)
     -   [ ] Random selection of clips from different confidence intervals
     -   [ ] Use Raven Review mode to review clips
--   [ ] Detection Review
-    -   [ ] DD: measures incl. amplitude for all calls
-    -   [ ] Eliminate false positives
-    -   [ ] Identify false negatives
-    -   [ ] Label Noise?
-
-### Acoustic Indices
-
--   First, complete Start/End for each Recording
--   First, complete Detection Review
-
-### Methods
-
--   [ ] Study Area- map buffer to default at slightly zoomed out, also decrease size of map
--   [ ] Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
--   [ ] Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
--   [ ] Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
--   [ ] Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
--   [ ] Analysis: Add Environmental Data (DRAFT complete for wind, rain... need to add temp?)
--   [ ] **Birdnet:** Ideally would run Perch, or at least run Birdnet from R/Python. Note in the reporting that this is recommended in the future to ensure standardization/consistency. (use birdnetR)
--   [ ] Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
 -   [ ] Manual Review to assess classifier
     -   [ ] Review subset of data, determine if detection was true or false
     -   [ ] Create a plot of all manually reviewed detections where x axis is the confidence scores (from birdnet) and Y is Correct (true positives) or Wrong (false positives).
     -   [ ] What is the best threshold? Assess Precision & Recall and decide what is best for our study case.
     -   [ ] OR, model true detection as a function of model scores. (Do this above).
-
-### Dashboard
-
--   [ ] do it!
-
-### Results- Assessment
-
--   [ ] Review data to fix time series and ensure it is reasonable.
-
-### Data
-
--   [ ] Map to satellite image
--   [ ] Add all photos from phone to images folder on desktop, add photonames to deployDetails/Location_Site table
-
-### QAQC
-
--   [ ] Review recordings to find TRUE start/end time, add that to deployDetails, then create code to modify start/end time in datasets.
--   [ ] Remove any detections before or after recording start/end date/time
--   [ ] Check data for numeric, all caps, all lowercase, and other consistent formatting.
--   [ ] Create a Lat/Long check
--   [ ] Find length of deployment w/in bounds, same for recording deployment
--   [ ] Check if battery or storage limited recording?
--   [ ] QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
--   [ ] confirm that each deployment_ID is unique, and that the components of the deployment_ID match the appropriate column info
--   [ ] If a new upload, check to see if any previous entries are different than the current ones (to ID possible accidental modifications in the ODS file). Create a log of these.
--   [ ] Create a log of all the QAQC outputs with the date, etc.
--   [ ] Check for updates to the other sheets in the ODS workbook
--   [ ] Check that all files have recording percursor (missing on SPP-DD10_48c_20250716)
--   [ ] Add precursor to those files that are missing it
--   [ ] Check start time for all files to ensure it is UTC and 'correct' (close to other deployments)
--   [ ] Check for missing data
--   [ ] Acoustic recording start/end: Using Raven, find official start/end, and add to SE_DeployDetails, also, ID number of bad files
+-   [ ] Detection Review
+    -   [ ] DD: measures incl. amplitude for all calls
+    -   [ ] Eliminate false positives
+    -   [ ] Identify false negatives
+    -   [ ] Label Noise?
+-   [ ] Raw Data
+    -   [ ] Organize Photos/label
+    -   [ ] SCI data
 -   \[ \]
-
-### Results
-
--   [ ] Intro: Scrolling Spectrogram, sample sounds
-
--   [ ] Summary Results:
-
--   [ ] DD: Warning note that further analysis is needed to fill out detection function, and that we need to do this for a wetland habitat (this is not typical habitat)
-
--   [ ] Link to Dashboard
-
--   [ ] Revise dielPlots to work for this data
-
-### Dashboard
-
--   [ ] Value Boxes (Hrs Recording + Tb Data, \# Species Detected)
--   \[ \]
-
-### Bibliography
-
-### Biodiversity
-
-### Bats
-
--   [ ] Review bat recordings to manually classify
-
--   [ ] Merge all detections for a recording
-
--   [ ] Modify *code/bat_kaleidoscope.r* file
-
-    -   [ ] Remove any detections before or after recording start/end date/time
-
-    -   [ ] Add columns for (1) Location, (2) Site
-
--   [ ] save as csv in github data folder
-
--   \[ \]
-
-### Insects
 
 ## MoreInfo
 

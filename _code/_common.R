@@ -373,8 +373,7 @@ rename_birdnet_files <- function(root_path) {
 ###########################################
 # add deploymentID column to birdnet file #
 ###########################################
-
-add_deploymentID <- function(root_path) {
+add_deploymentID <- function(root_path, lowFreq, hiFreq) {
   # Find all renamed BirdNET_SelectionTable_xxx.txt files
   all_files <- list.files(root_path, pattern = "^BirdNET_SelectionTable_.*\\.txt$",
                           recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
@@ -401,6 +400,19 @@ add_deploymentID <- function(root_path) {
         # Add deployment_ID column
         df$deployment_ID <- deploymentID
         
+        # Update Low.Freq..Hz. and High.Freq..Hz. columns if they exist
+        if (!"Low.Freq..Hz." %in% colnames(df)) {
+          warning("Column 'Low.Freq..Hz.' not found in file: ", f)
+        } else {
+          df$Low.Freq..Hz. <- lowFreq
+        }
+        
+        if (!"High.Freq..Hz." %in% colnames(df)) {
+          warning("Column 'High.Freq..Hz.' not found in file: ", f)
+        } else {
+          df$High.Freq..Hz. <- hiFreq
+        }
+        
         # Write file back
         write.table(df, f, sep = "\t", row.names = FALSE, quote = FALSE)
         message(sprintf("Updated file: %s, deployment_ID: %s", f, deploymentID))
@@ -408,6 +420,44 @@ add_deploymentID <- function(root_path) {
     }
   }
 }
+
+
+# add_deploymentID("your/path/here", lowFreq = 50, hiFreq = 10000)
+
+# add_deploymentID <- function(root_path) {
+#   # Find all renamed BirdNET_SelectionTable_xxx.txt files
+#   all_files <- list.files(root_path, pattern = "^BirdNET_SelectionTable_.*\\.txt$",
+#                           recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
+#   
+#   for (f in all_files) {
+#     # Extract xxx part (everything after first "_")
+#     fname <- basename(f)
+#     parts <- unlist(strsplit(fname, "_", fixed = TRUE))
+#     
+#     if (length(parts) >= 3) {
+#       deploymentID <- paste(parts[-(1:2)], collapse = "_")  # drop "BirdNET" + "SelectionTable"
+#       deploymentID <- sub("\\.txt$", "", deploymentID, ignore.case = TRUE)  # remove extension
+#       
+#       # Read file
+#       df <- tryCatch(
+#         read.delim(f, sep = "\t", stringsAsFactors = FALSE),
+#         error = function(e) {
+#           message("Could not read file: ", f, "\nError: ", e$message)
+#           return(NULL)
+#         }
+#       )
+#       
+#       if (!is.null(df)) {
+#         # Add deployment_ID column
+#         df$deployment_ID <- deploymentID
+#         
+#         # Write file back
+#         write.table(df, f, sep = "\t", row.names = FALSE, quote = FALSE)
+#         message(sprintf("Updated file: %s, deployment_ID: %s", f, deploymentID))
+#       }
+#     }
+#   }
+# }
 
 ##################################################
 # Process birdnet selectiontable (add measures)  #
@@ -902,3 +952,562 @@ rename_wav_files <- function(root_path, folder_name, deployDetails, inventory) {
   
   message(glue("Renamed {length(wav_files)} wav files in {folder_name}"))
 }
+
+###############################
+# pair rail detections for DD #
+###############################
+library(tidyverse)
+
+process_dd_rails <- function(dd_rails) {
+  
+  # Step 1: Filter to only DD01 and DD02
+  dd_filtered <- dd_rails %>%
+    filter(site %in% c("DD01", "DD02")) %>%
+    mutate(row_id = row_number())
+  
+  dd01_calls <- dd_filtered %>% filter(site == "DD01")
+  dd02_calls <- dd_filtered %>% filter(site == "DD02")
+  
+  # Step 2: Find pairs within 3 seconds
+  pairs_list <- vector("list", nrow(dd01_calls))
+  
+  for (i in seq_len(nrow(dd01_calls))) {
+    dd01_time <- dd01_calls$utc[i]
+    time_diffs <- abs(as.numeric(difftime(dd02_calls$utc, dd01_time, units = "secs")))
+    matches_idx <- which(time_diffs < time_difference)
+    
+    if (length(matches_idx) > 0) {
+      pairs_list[[i]] <- tibble(
+        dd01_row_id = dd01_calls$row_id[i],
+        dd02_row_id = dd02_calls$row_id[matches_idx],
+        time_diff = time_diffs[matches_idx]
+      )
+    }
+  }
+  
+  all_pairs <- bind_rows(pairs_list)
+  
+  # Step 3: Filter to exact 1:1 pairs
+  if (nrow(all_pairs) > 0) {
+    valid_pair_ids <- all_pairs %>%
+      add_count(dd01_row_id, name = "n_dd01") %>%
+      add_count(dd02_row_id, name = "n_dd02") %>%
+      filter(n_dd01 == 1, n_dd02 == 1) %>%
+      select(dd01_row_id, dd02_row_id)
+    
+    matched_dd01_ids <- valid_pair_ids$dd01_row_id
+    matched_dd02_ids <- valid_pair_ids$dd02_row_id
+  } else {
+    valid_pair_ids <- tibble()
+    matched_dd01_ids <- integer(0)
+    matched_dd02_ids <- integer(0)
+  }
+  
+  # Create NoMatch dataframe
+  dd_rails_NoMatch <- dd_filtered %>%
+    filter(!row_id %in% c(matched_dd01_ids, matched_dd02_ids)) %>%
+    select(-row_id)
+  
+  # Step 4: Process valid pairs
+  if (nrow(valid_pair_ids) > 0) {
+    
+    # Join paired data
+    paired_data <- valid_pair_ids %>%
+      left_join(dd01_calls, by = c("dd01_row_id" = "row_id")) %>%
+      left_join(dd02_calls, by = c("dd02_row_id" = "row_id"), suffix = c(".dd01", ".dd02")) %>%
+      mutate(pair_id = row_number()) %>%
+      rowwise() %>%
+      mutate(
+        # Calculate comparisons for each criterion
+        meanfreq_comp = if (meanfreq.dd01 == meanfreq.dd02) NA else meanfreq.dd01 > meanfreq.dd02,
+        rms_amplitude_comp = if (rms_amplitude.dd01 == rms_amplitude.dd02) NA else rms_amplitude.dd01 > rms_amplitude.dd02,
+        peak_amplitude_comp = if (peak_amplitude.dd01 == peak_amplitude.dd02) NA else peak_amplitude.dd01 > peak_amplitude.dd02,
+        maxdom_comp = if (maxdom.dd01 == maxdom.dd02) NA else maxdom.dd01 > maxdom.dd02,
+        dfrange_comp = if (dfrange.dd01 == dfrange.dd02) NA else dfrange.dd01 > dfrange.dd02,
+        
+        # Calculate source values
+
+        dd01_source_value = {
+          comps <- c(meanfreq_comp, rms_amplitude_comp, peak_amplitude_comp, maxdom_comp, dfrange_comp)
+          n_non_na <- sum(!is.na(comps))
+          if (n_non_na > 0) sum(comps, na.rm = TRUE) / n_non_na else NA_real_
+        },
+        dd02_source_value = {
+          comps <- c(meanfreq_comp, rms_amplitude_comp, peak_amplitude_comp, maxdom_comp, dfrange_comp)
+          n_non_na <- sum(!is.na(comps))
+          if (n_non_na > 0) sum(!comps, na.rm = TRUE) / n_non_na else NA_real_
+        },
+        
+        # Determine pair source
+        pair_source = case_when(
+          is.na(dd01_source_value) | is.na(dd02_source_value) ~ NA_character_,
+          dd01_source_value > dd02_source_value ~ "DD01",
+          dd02_source_value > dd01_source_value ~ "DD02",
+          TRUE ~ NA_character_
+        )
+      ) %>%
+      ungroup()
+    
+    original_cols <- setdiff(names(dd_filtered), "row_id")
+    
+    # Helper function to create output rows
+    create_output <- function(data, suffix, source_val_col) {
+      cols_to_select <- paste0(original_cols, suffix)
+      data %>%
+        select(all_of(cols_to_select), pair_id, pair_source, all_of(source_val_col)) %>%
+        rename_with(~str_remove(., suffix)) %>%
+        rename(source = pair_source, source_value = all_of(source_val_col))
+    }
+    
+    # Create resolved and unresolved outputs
+    resolved <- paired_data %>% filter(!is.na(pair_source))
+    unresolved <- paired_data %>% filter(is.na(pair_source))
+    
+    dd_rails_resolved <- if (nrow(resolved) > 0) {
+      bind_rows(
+        create_output(resolved, ".dd01", "dd01_source_value"),
+        create_output(resolved, ".dd02", "dd02_source_value")
+      ) %>% arrange(pair_id, site)
+    } else tibble()
+    
+    dd_rails_UnidSource <- if (nrow(unresolved) > 0) {
+      bind_rows(
+        create_output(unresolved, ".dd01", "dd01_source_value"),
+        create_output(unresolved, ".dd02", "dd02_source_value")
+      ) %>% arrange(pair_id, site)
+    } else tibble()
+    
+    # Create dd_match_results for paired calls
+    dd_match_results_paired <- bind_rows(
+      paired_data %>%
+        transmute(
+          ID = ID.dd01,
+          site = site.dd01, 
+          begin_path = begin_path.dd01, 
+          file_offset_s = file_offset_s.dd01, 
+          utc = utc.dd01, 
+          pair_id,
+          pair_meanfreq = meanfreq_comp,
+          pair_rms_amplitude = rms_amplitude_comp,
+          pair_peak_amplitude = peak_amplitude_comp,
+          pair_maxdom = maxdom_comp,
+          pair_dfrange = dfrange_comp,
+          pair_source_value = dd01_source_value,
+          pair_source
+        ),
+      paired_data %>%
+        transmute(
+          ID = ID.dd02,
+          site = site.dd02, 
+          begin_path = begin_path.dd02,
+          file_offset_s = file_offset_s.dd02, 
+          utc = utc.dd02, 
+          pair_id,
+          pair_meanfreq = !meanfreq_comp,
+          pair_rms_amplitude = !rms_amplitude_comp,
+          pair_peak_amplitude = !peak_amplitude_comp,
+          pair_maxdom = !maxdom_comp,
+          pair_dfrange = !dfrange_comp,
+          pair_source_value = dd02_source_value,
+          pair_source
+        )
+    )
+    
+  } else {
+    dd_rails_resolved <- tibble()
+    dd_rails_UnidSource <- tibble()
+    dd_match_results_paired <- tibble()
+  }
+  
+  # Create dd_match_results for unpaired calls
+  dd_match_results <- bind_rows(
+    dd_match_results_paired,
+    dd_rails_NoMatch %>%
+      select(ID, site, begin_path, file_offset_s, utc) %>%
+      mutate(pair_id = NA_integer_, 
+             pair_meanfreq = NA, pair_rms_amplitude = NA, 
+             pair_peak_amplitude = NA, pair_maxdom = NA, pair_dfrange = NA,
+             pair_source_value = NA_real_, pair_source = NA_character_)
+  )
+  
+  # Assign to parent environment explicitly
+  assign("dd_rails_NoMatch", dd_rails_NoMatch, envir = parent.frame())
+  assign("dd_rails_UnidSource", dd_rails_UnidSource, envir = parent.frame())
+  assign("dd_rails_resolved", dd_rails_resolved, envir = parent.frame())
+  assign("dd_match_results", dd_match_results, envir = parent.frame())
+  
+  # Return summary
+  cat("Processing complete!\n",
+      "Resolved pairs:", nrow(dd_rails_resolved), "rows\n",
+      "Unidentified source:", nrow(dd_rails_UnidSource), "rows\n",
+      "No match:", nrow(dd_rails_NoMatch), "rows\n",
+      "Match results:", nrow(dd_match_results), "rows\n")
+}
+
+
+#############################################################
+# plot variable distribution for Source vs Non-Source sites #
+#############################################################
+library(tidyverse)
+
+plot_source_distribution <- function(data, variables) {
+  
+  # Filter to only valid pair_source (remove NA)
+  data_filtered <- data %>%
+    filter(!is.na(pair_source))
+  
+  # Create Source vs Non-Source classification
+  data_classified <- data_filtered %>%
+    mutate(
+      source_type = if_else(site.x == pair_source, "Source", "Non-Source")
+    )
+  
+  # Prepare data for plotting (pivot longer if multiple variables)
+  data_long <- data_classified %>%
+    select(source_type, all_of(variables)) %>%
+    pivot_longer(
+      cols = all_of(variables),
+      names_to = "variable",
+      values_to = "value"
+    )
+  
+  # Create the plot
+  p <- ggplot(data_long, aes(x = value, color = source_type, fill = source_type)) +
+    geom_density(alpha = 0.3, linewidth = 1) +
+    scale_color_manual(
+      values = c("Source" = "#0072B2", "Non-Source" = "#D55E00"),
+      name = "Classification"
+    ) +
+    scale_fill_manual(
+      values = c("Source" = "#0072B2", "Non-Source" = "#D55E00"),
+      name = "Classification"
+    ) +
+    labs(
+      y = "Density",
+      x = "Value"
+    ) +
+    theme_minimal() +
+    theme(
+      legend.position = "bottom",
+      strip.text = element_text(size = 11, face = "bold")
+    )
+  
+  # Add faceting if multiple variables
+  if (length(variables) > 1) {
+    p <- p + facet_wrap(~ variable, scales = "free", ncol = 2)
+  } else {
+    p <- p + labs(x = variables)
+  }
+  
+  # Print summary statistics
+  cat("Distribution comparison summary:\n")
+  summary_stats <- data_classified %>%
+    group_by(source_type) %>%
+    summarise(n = n(), .groups = "drop")
+  print(summary_stats)
+  
+  return(p)
+}
+
+# Usage example:
+# plot_source_distribution(dd_merged, c("meanfreq", "rms_amplitude"))
+# plot_source_distribution(dd_merged, "meanfreq")
+
+##########################################
+# Match Detections to Paired Detections  #
+##########################################
+
+match_detections_to_pairs <- function(dd_merged, time_difference = 3, closest_match_only = TRUE) {
+  
+  # Get reference detections (DD01 and DD02 pairs) with their times
+  reference_detections <- dd_merged %>%
+    filter(pair_source %in% c("DD01", "DD02")) %>%
+    select(pair_id, pair_source, utc) %>%
+    distinct()
+  
+  # Get rows to check (DD03-DD10) and track existing pair_ids
+  rows_to_check <- dd_merged %>%
+    filter(!site %in% c("DD01", "DD02")) %>%
+    mutate(had_existing_pair = !is.na(pair_id),
+           original_pair_id = pair_id)
+  
+  # Cross join to find all potential matches within time window
+  potential_matches <- rows_to_check %>%
+    select(ID, site, utc, had_existing_pair, original_pair_id) %>%
+    crossing(reference_detections %>% 
+               select(pair_id, pair_source, ref_utc = utc)) %>%
+    mutate(time_diff = abs(as.numeric(difftime(utc, ref_utc, units = "secs")))) %>%
+    filter(time_diff <= time_difference)
+  
+  # FIRST: Count unique pair_ids matched per detection (before filtering to closest)
+  match_counts <- potential_matches %>%
+    group_by(ID) %>%
+    summarise(
+      n_unique_pairs = n_distinct(pair_id),
+      matched_pair_ids = paste(unique(pair_id), collapse = ", "),
+      had_existing_pair = first(had_existing_pair),
+      .groups = "drop"
+    )
+  
+  # Identify multi-matches for errors dataframe (always, regardless of closest_match_only)
+  multi_matches <- match_counts %>%
+    filter(n_unique_pairs > 1)
+  
+  # Create errors dataframe
+  dd_merged_errors <- multi_matches %>%
+    select(ID, matched_pair_ids, n_matches = n_unique_pairs)
+  
+  # SECOND: Apply closest_match_only filter if requested
+  matches_for_assignment <- potential_matches
+  if (closest_match_only) {
+    matches_for_assignment <- potential_matches %>%
+      group_by(ID) %>%
+      slice_min(time_diff, n = 1, with_ties = FALSE) %>%
+      ungroup()
+  } else {
+    # If not using closest_match_only, exclude multi-matches from assignment
+    matches_for_assignment <- potential_matches %>%
+      filter(!ID %in% multi_matches$ID)
+  }
+  
+  # Get single matches for assignment
+  single_matches <- matches_for_assignment %>%
+    group_by(ID) %>%
+    summarise(
+      pair_id = first(pair_id),
+      pair_source = first(pair_source),
+      had_existing_pair = first(had_existing_pair),
+      .groups = "drop"
+    )
+  
+  # Update dd_merged with single matches to create dd_merged_updated
+  dd_merged_updated <- dd_merged %>%
+    left_join(
+      single_matches %>% 
+        select(ID, new_pair_id = pair_id, new_pair_source = pair_source),
+      by = "ID"
+    ) %>%
+    mutate(
+      pair_id = if_else(!is.na(new_pair_id), new_pair_id, pair_id),
+      pair_source = if_else(!is.na(new_pair_source), new_pair_source, pair_source)
+    ) %>%
+    select(-new_pair_id, -new_pair_source)
+  
+  # Calculate summary statistics
+  n_multi_match <- nrow(multi_matches)
+  n_matched <- nrow(single_matches)
+  n_replaced <- sum(single_matches$had_existing_pair, na.rm = TRUE)
+  n_no_match <- nrow(rows_to_check) - n_matched - n_multi_match
+  
+  # Multi-site check: find pair_ids with duplicate sites in dd_merged_updated
+  multi_site_check <- dd_merged_updated %>%
+    filter(!is.na(pair_id)) %>%
+    group_by(pair_id, site) %>%
+    summarise(n_detections = n(), .groups = "drop") %>%
+    filter(n_detections > 1)
+  
+  n_multi_site <- nrow(multi_site_check)
+  
+  # Print summary
+  cat("=== Detection Matching Summary ===\n")
+  cat("Time difference threshold:", time_difference, "seconds\n")
+  cat("Closest match only:", closest_match_only, "\n\n")
+  cat("Rows that matched more than one unique pair_id:", n_multi_match, "\n")
+  cat("Rows with no matches:", n_no_match, "\n")
+  cat("Rows that matched exactly one pair_id:", n_matched, "\n")
+  cat("Rows with existing pair_id that were replaced:", n_replaced, "\n")
+  cat("Multi-site issues (same site multiple times in one pair_id):", n_multi_site, "\n")
+  
+  if (n_multi_match > 0) {
+    cat("\nNote: When closest_match_only=TRUE, multi-match detections are flagged in errors\n")
+    cat("      but assigned to their closest pair_id in the updated data.\n")
+  }
+  
+  if (n_multi_site > 0) {
+    cat("\nMulti-site details (top 20):\n")
+    print(multi_site_check %>% head(20))
+  }
+  
+  # Return results
+  return(list(
+    dd_merged = dd_merged_updated,
+    dd_merged_errors = dd_merged_errors,
+    summary = list(
+      n_multi_match = n_multi_match,
+      n_no_match = n_no_match,
+      n_matched = n_matched,
+      n_replaced = n_replaced,
+      n_multi_site = n_multi_site
+    ),
+    multi_site_details = multi_site_check
+  ))
+}
+
+# Example usage:
+# results <- match_detections_to_pairs(dd_merged, time_difference = 3, closest_match_only = TRUE)
+# dd_merged_updated <- results$dd_merged
+# dd_merged_errors <- results$dd_merged_errors
+# summary_stats <- results$summary
+
+
+
+###########################################
+# Process Birdnet Data (create Rds File)  #
+###########################################
+process_birdnet_data <- function(dataset, 
+                                 projectID,
+                                 config_type,
+                                 raw_files_path = here("bigData/rails/rawBirdnetFiles"),
+                                 output_path = here("data"),
+                                 local_tz = "America/Los_Angeles") {
+  
+  # Load lat/long data (always from same location)
+  latlong <- readRDS(here("data/deployments.rds")) %>%
+    clean_names() %>%
+    select(deployment_id, latitude, longitude)
+  
+  # Get list of files containing both the dataset and config_type strings
+  all_files <- list.files(raw_files_path, full.names = TRUE)
+  filtered_files <- all_files[grepl(dataset, basename(all_files)) & 
+                                grepl(config_type, basename(all_files))]
+  
+  # Check if any files were found
+  if (length(filtered_files) == 0) {
+    stop(paste0("No files found containing both '", dataset, 
+                "' and '", config_type, "' in ", raw_files_path))
+  }
+  
+  # Create temporary directory and copy/link filtered files
+  temp_dir <- file.path(tempdir(), paste0("birdnet_", dataset, "_", Sys.time() %>% as.numeric()))
+  dir.create(temp_dir, recursive = TRUE)
+  
+  # Copy filtered files to temp directory
+  file.copy(filtered_files, temp_dir)
+  
+  # Combine birdNET files from temp directory
+  data <- birdnet_combine(temp_dir)
+  
+  # Clean up temp directory
+  unlink(temp_dir, recursive = TRUE)
+  
+  # Modify birdNET data as tibble 
+  birdnet_all <- birdnet_add_datetime(data, tz = "UTC") %>% 
+    clean_names() %>%
+    remove_empty(which = c("rows", "cols")) %>%
+    rename(datetime_UTC = datetime) %>% 
+    mutate(datetime_local = with_tz(datetime_UTC, local_tz)) %>%
+    separate(col = deployment_id, 
+             into = c("location-site", "config", "deploy_id_date"), 
+             sep = "_", 
+             remove = FALSE) %>%
+    separate("location-site", 
+             into = c("location", "site"), 
+             sep = "-") %>%
+    left_join(latlong, by = "deployment_id") %>%
+    select(-date, -year, -month, -mday, -yday, -hour, -minute, -deploy_id_date) 
+  
+  # Add environmental data
+  birdnet_env <- birdnet_all %>%
+    rename(UTC = datetime_UTC, Latitude = latitude, Longitude = longitude)
+
+  birdnet_all_env <- matchGFS(birdnet_env)
+
+  birdnet_all <- birdnet_all_env %>%
+    clean_names() %>%
+    remove_empty(which = c("rows", "cols"))
+  
+  # Create filename and save
+  birdnetFileName <- paste0("birdnet_", projectID, "_", dataset, ".rds")
+  saveRDS(birdnet_all, file = file.path(output_path, birdnetFileName))
+  
+  # Return the data (optional, but useful)
+  return(birdnet_all)
+}
+
+# result <- process_birdnet_data(
+#   dataset = "site1", 
+#   projectID = "MyProject",
+#   config_type = "48c",
+#   raw_files_path = here("data/rails/rawBirdnetFiles"),
+#   output_path = here("data"),
+#   local_tz = "America/Los_Angeles")
+# )
+
+#################################################
+# Convert Birnet File to Raven Selection Table  #
+#################################################
+convert_birdnet_to_raven <- function(
+    infile,
+    outfile = NULL,
+    low_freq = 2200,
+    high_freq = 4600
+) {
+  
+  # Read BirdNET table (tab-delimited)
+  df <- read.delim(infile, stringsAsFactors = FALSE, check.names = FALSE)
+  
+  # Rename time columns if present
+  if ("Begin.Time..s." %in% names(df)) {
+    names(df)[names(df) == "Begin.Time..s."] <- "Begin Time (s)"
+  }
+  if ("End.Time..s." %in% names(df)) {
+    names(df)[names(df) == "End.Time..s."] <- "End Time (s)"
+  }
+  
+  # Sanity check
+  required_time_cols <- c("Begin Time (s)", "End Time (s)")
+  if (!all(required_time_cols %in% names(df))) {
+    stop("Required time columns not found after renaming.")
+  }
+  
+  n <- nrow(df)
+  
+  # Add required Raven columns
+  df$Selection <- seq_len(n)
+  df$View <- 1
+  df$Channel <- 1
+  df$`Low Freq (Hz)` <- low_freq
+  df$`High Freq (Hz)` <- high_freq
+  # df$`Low Freq (Hz)` <- 1
+  # df$`High Freq (Hz)` <- 1000
+  
+
+  # Reorder columns to a conventional Raven layout
+  raven_order <- c(
+    "Selection",
+    "View",
+    "Channel",
+    "Begin Time (s)",
+    "End Time (s)",
+    "Low Freq (Hz)",
+    "High Freq (Hz)"
+  )
+  
+  remaining_cols <- setdiff(names(df), raven_order)
+  df <- df[, c(raven_order, remaining_cols)]
+  
+  # Default output filename: append "_raven" before extension
+  if (is.null(outfile)) {
+    outfile <- sub(
+      "(\\.[^.]+)$",
+      "_raven\\1",
+      infile
+    )
+  }
+  
+  # Write tab-delimited file
+  write.table(
+    df,
+    file = outfile,
+    sep = "\t",
+    quote = FALSE,
+    row.names = FALSE
+  )
+  
+  message("Wrote Raven selection table to:\n", outfile)
+}
+
+
+##########################################
+# xxxx  #
+##########################################

@@ -1,7 +1,6 @@
 /*-- scss:defaults --*/
 
 @import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
-
 $font-family: "Atkinson Hyperlegible", sans-serif;
 
 /* Force side-by-side layout for all screen sizes */
@@ -10,3 +9,7 @@ $font-family: "Atkinson Hyperlegible", sans-serif;
   max-width: 50%;
 }
 
+/* Reduce gap between columns in timeline section */
+.tabset-panel .columns {
+  column-gap: 2%;
+}

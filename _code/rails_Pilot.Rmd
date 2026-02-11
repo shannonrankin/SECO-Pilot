@@ -2,7 +2,7 @@
 title: "Instructions for analysing PAM data for SECO Pilot Studies"
 ---
 
-```{r prep echo=TRUE include=FALSE}
+```{r prep echo=FALSE include=FALSE}
 library(here)
 here()
 
@@ -11,21 +11,7 @@ source(here::here("_code/_common.R"))
 
 This RMarkdown file is intended as a 'how to' for working with PAM data for the SECO Pilot Studies.
 
-***To Do:***
-
--   Modify detection distance table
-
-    -   Run
-
-    -   Review data and create a function to identify
-
--   Soundscape
-
--   Biodiversity
-
--   Bats
-
--   Insects
+***To Do:*** See todo.qmd
 
 # New Data
 
@@ -45,8 +31,9 @@ deployments_all <- readRDS(here("data/deployments.rds"))
 ref1 <- deployments_all %>% filter(site == "DD01") %>% select(longitude, latitude) %>% as.numeric()
 ref2 <- deployments_all %>% filter(site == "DD02") %>% select(longitude, latitude) %>% as.numeric()
 
+goodDD <- c("DD01", "DD02", "DD03", "DD04", "DD05", "DD06", "DD07", "DD08", "DD09", "DD10")
 dd <- as_tibble(deployments_all) %>%
-  filter(location == "SPP-DD")%>%
+  filter(site %in% goodDD) %>%
   mutate(
     dist2SPP1 = distHaversine(cbind(longitude, latitude), ref1),
     dist2SPP2 = distHaversine(cbind(longitude, latitude), ref2)
@@ -54,6 +41,120 @@ dd <- as_tibble(deployments_all) %>%
 saveRDS(dd, file=here("data/deployTable_DD.rds"))
 
 ```
+
+# Detection Distance - Population Assessment
+
+There are several steps to preparing the SPP-DD data to estimate the detection function and better understand the calls recorded at and near the Sweetwater Proving Pens.
+
+## Identify Sound Source Site (DD01 vs DD02), Identify Paired Detections
+
+First, for calls detected at the pens (DD01, DD02), we need to determine if the sound source was at DD01 or DD02. Ideally these would be manually validated for accuracy, but for now I've created scripts to determine the likely source. 
+***Note*** I need to redo processing for SPP-DD to ensure measurements are in the 2200-4600 Hz range, then redo the detection distance info. 
+
+```{r rails-source}
+dd_rails <- readRDS(here("data", "birdnet_rails_48c.rds")) %>%
+  mutate(ID = row_number())
+
+# Create dd_match_results 
+time_difference <- 3 #how many seconds between detections on DD01 vs DD02 to allow match?
+process_dd_rails(dd_rails) 
+
+# Merge dd_rails and dd_match_results
+dd_merged <- dd_rails %>%
+  left_join(dd_match_results, by = "ID") %>%
+  rename(site = site.x, utc = utc.x, begin_path = begin_path.x, file_offset_s = file_offset_s.x) %>%
+  select (-site.y, -utc.y, -begin_path.y, -file_offset_s.y)
+  
+
+# Report matching statistics
+n_total <- nrow(dd_rails)
+n_matched <- sum(!is.na(dd_merged$pair_id))
+n_unmatched <- n_total - n_matched
+
+cat("Merge complete!\n",
+    "Total rows in dd_rails:", n_total, "\n",
+    "Rows with matches:", n_matched, "\n",
+    "Rows without matches:", n_unmatched, "\n")
+
+#For now, will only use matched detections (280 rows which means 140 independent detections) for detection function. Below is for some figures for trying to tease apart a script to improve sample size, but I think it will require at least some degree of manual analysis (not making time for now).
+
+# Look at distribution of specific values between DD01 and DD02 (to help determine a cutoff point)
+# Usage example:
+# plot_source_distribution(dd_merged, c("meanfreq", "freq_median", "maxdom", "dfrange", "d_b_rms", "d_b_peak", "rms_amplitude", "peak_amplitude", "median_amplitude"))
+# plot_source_distribution(dd_merged, "d_b_peak")
+
+# Things to consider: dfrange>20 (frequency range, will get most Source), maxdom >20 (maximum dominant frequency, will get most source)
+
+
+```
+
+## Match detections (DD03-DD10) to to Paired Detections
+Next, we need to group our detections with the other detections from nearby recorders. 
+
+```{r rails-dd-match}
+# Identify calls from all recorders that likely match the DD01/DD02 where there were positive matches. 
+
+results <- match_detections_to_pairs(dd_merged, time_difference = 3,
+                                     closest_match_only = TRUE)
+dd_merged_updated <- results$dd_merged
+dd_merged_errors <- results$dd_merged_errors
+summary_stats <- results$summary
+
+```
+
+## Distance Data
+Prepare data for Distance Sampling by creating our distanceData.rds file. Refine dataset to identify paired detections and determine distance to source.
+
+```{r dd-distData}
+# Identify paired detections
+distData <- dd_merged_updated %>%
+   filter(!is.na(pair_source))
+
+# Get unique values of pair_id and the maximum number of unique sites per pair_id
+pair_summary <- distData %>%
+  group_by(pair_id) %>%
+  summarise(
+    unique_sites_count = n_distinct(site),
+    .groups = "drop"
+  ) %>%
+  summarise(
+    unique_pair_ids = n_distinct(pair_id),
+    max_unique_sites = max(unique_sites_count)
+  )
+
+print(pair_summary)
+
+# If this looks good, then determine distance to sound source
+#start by loading dd_deployTable
+dd_deployTable <- readRDS(here("data/deployTable_DD.rds")) %>%
+                            select(site, dist2SPP1,dist2SPP2) %>%
+  rename(dist2DD01 = dist2SPP1, dist2DD02 = dist2SPP2)
+
+# Get distance to source for each site and add groupSize. Note that for now, groupSize is hard-coded as '2' since these are mating pairs. This needs to be identified as a limitation. 
+distData <- dd_merged_updated %>%
+   filter(!is.na(pair_source)) %>%
+  left_join(dd_deployTable, by = "site") %>%
+  mutate(
+    size = 2,
+    object = ID,
+    dist2source = case_when(
+      pair_source == "DD01" ~ dist2DD01,
+      pair_source == "DD02" ~ dist2DD02,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+  select(-dist2DD01, -dist2DD02) %>%
+  {
+    if (any(is.na(.$dist2source))) {
+      missing_sites <- filter(., is.na(dist2source)) %>% pull(site) %>% unique()
+      stop("Missing distance values for sites: ", paste(missing_sites, collapse = ", "))
+    }
+    .
+  }
+saveRDS(distData, file=here("data/distanceData.rds"))
+
+```
+
 
 #Run Detection Explorer
 
@@ -85,20 +186,63 @@ plotAcousticScene(copyCodeHere)
 # For each dataset, run each of the analyses, below. Provide a means for comparison
 
 # Acoustic Complexity Index (ACI, seewave)
-ACI(wave, f, channel = 1, wl = 512, ovlp = 0,  wn = "hamming", flim = NULL, nbwindows = 1)
+#Function below batch-processes ACI analysis and provides plots. Recommend saving to 'outputs/aci' folder.
+# For more information, see the Aci analysis quick reference in the outputs/aci folder.
+source("run_aci_analysis.R")
+
+results <- run_aci_analysis(
+  audio_path = "/path/to/your/recordings",
+  output_path = "/path/to/save/outputs",
+  plot_types = "all"  # or select specific ones
+)
 
 # Acoustic Diversity Index (ADI, SoundEcology)
 # Soundecology Function = "acoustic_diversity". Minimum frequency = 0 kHz, maximum frequency = 10 kHz, FFT = 512, dB threshold = -50, Frequency band width = 1 kHz.
-acoustic_diversity(soundfile, max_freq = 10000, db_threshold = -50, 
-freq_step = 1000, shannon = TRUE)
+source("run_adi_analysis.R")
+
+results <- run_adi_analysis(
+  audio_path = "/path/to/your/recordings",
+  output_path = "/path/to/save/outputs",
+  plot_types = "all"
+)
 
 # Bioacoustic Index (BI, SoundEcology)
 # Soundecology Function = "bioacoustic_index". Minimum frequency = 2 kHz, maximum frequency = 8 kHz, FFT = 512. 
-bioacoustic_index(soundfile, min_freq = 2000, max_freq = 8000, fft_w = 512)
+source("run_bi_analysis.R")
+
+results <- run_bi_analysis(
+  audio_path = "/path/to/your/recordings",
+  output_path = "/path/to/save/outputs",
+  plot_types = "all"
+)
 
 # Acoustic Entropy Index
 # Seewave Function = "H". Minimum frequency = 0 kHz, maximum frequency = Nyquist of recording, FFT = 512.
 H(wave, f, channel = 1, wl = 512, envt="hil", msmooth = NULL, ksmooth = NULL)
+#quantifies the randomness or unpredictability of the distribution of sound energy across frequencies and over time. Uses Shannon entropy, applied to the distribution of sound intensity across frequency bins in a spectrogram. Higher values indicate more even distribution. Lower values suggest dominance in a few frequencies. High H correlates with higher biodiversity, changes in H can indicate shifts in ecosystem health (or manmade noise), and it can also be useful for temporal changes in acoustic activity. 
+source("run_h_analysis.R")
 
+results <- run_h_analysis(
+  audio_path = "/path/to/your/recordings",
+  output_path = "/path/to/save/outputs",
+  plot_types = "all"
+)
 
+# All three values stored
+head(results$h_results %>% select(file, ht, hf, h))
+
+# Compare output from different indices
+source("compare_acoustic_indices.R")
+
+comparison <- compare_acoustic_indices(
+  aci_path = "/path/to/aci_output",
+  bi_path = "/path/to/bi_output",
+  adi_path = "/path/to/adi_output",
+  h_path = "/path/to/h_output",
+  output_path = "/path/to/comparison_output",
+  plot_types = "all",
+  normalize = TRUE
+)
 ```
+
+

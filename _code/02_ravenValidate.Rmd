@@ -1,0 +1,38 @@
+---
+title: "02_ravenValidate"
+output: html_document
+---
+
+```{r prep echo=FALSE include=FALSE}
+library(here)
+here()
+
+source(here::here("_code/_common.R"))
+```
+
+This RMarkdown file is intended as a 'how to' for working with PAM data for the SECO Pilot Studies.
+::: callout-Note
+## Note: Files have not (yet) been validated; Methods are not complete
+:::
+
+
+# Validate for Rails in Raven
+1. Convert original selection files to Raven selection tables. 
+
+```{r validate echo=FALSE include=FALSE}
+#Identify the path to the file you want to modify
+myBirdnetFile <- "E:/Rails/recordings/SGR-01/SGR-01_192b_20250602/birdnetLocal_SGR-01_192b_20250602/BirdNET_SelectionTable_SGR-01_192b_20250602.txt"
+
+convert_birdnet_to_raven(
+  infile = myBirdnetFile
+)
+```
+
+2. Open in Raven
+Open Raven Pro, then open all your sound files (page windows, 60 seconds). Once these have loaded, File --> Open Selection Table. Navigate to the selection table you just created (appended with "_raven"). Once the table has loaded, right-click on the table and choose 'Add Measurements', and then choose to add the preset 'rails'.
+![Raven selection table measurements preset 'rails'.](/images/raven_table_preset_rails.jpg)
+
+** If you manually validate, this would be the time to do it! I did not yet manually validate, so add this later**
+
+Save selection table and close. Note that it takes a LONG time to save the selection table (~ 1hr) as it needs to run the analysis to get some of the measurements.
+

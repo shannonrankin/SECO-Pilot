@@ -34,27 +34,6 @@ San Diego County. PAM has the added potential benefit of extending
 temporal monitoring with minimal interference during the sensitive
 breeding season, providing additional contextual information
 (anthropogenic impacts, biodiversity), and allowing for opportunities to
-study other local species.
+study other local species and the surrounding habitat.
 
--   [Methods](https://github.io/shannonrankin/SECO/rails-methods-intro)
 
-    -   [Study
-        Area](https://github.io/shannonrankin/SECO/rails-studyArea)
-
-    -   [Recorders](https://github.io/shannonrankin/SECO/methods-recorders)
-
-    -   [Analysis
-        Methods](https://github.io/shannonrankin/SECO/rails-methodsAnalysis)
-
--   [Results](https://github.io/shannonrankin/SECO/rails-results)
-
-    -   [Summary](https://github.io/shannonrankin/SECO/rails-summary)
-
-    -   [Population
-        Assessment](https://github.io/shannonrankin/SECO/rails-assessment)
-
-    -   [Biodiversity](https://github.io/shannonrankin/SECO/rails-biodiversity)
-
--   [Future Research](https://github.io/shannonrankin/SECO/rails-future)
-
--   [Recommendations](https://github.io/shannonrankin/SECO/rails-future)

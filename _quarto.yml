@@ -33,27 +33,26 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - href: content/exploreSounds.qmd
-        text: Explore Sounds
-      - section: content/rails-dashboard.qmd
+      - href: content/rails-dashboard.qmd
+        text: Dashboard
+      - section: content/rails-intro.qmd
         text: "Ridgway's Rails"
         contents:
-        - href: content/rails-intro.qmd
-          text: "Intro"
         - href: content/rails-methods.qmd
           text: "Methods"
-        - section: content/rails-results.qmd
-          text: "Results"
+        - section: content/rails-summary.qmd
+          text: "Summary"
           contents:
-            - href: content/rails-summary.qmd
-              text: "Summary"
             - href: content/rails-assessment.qmd
               text: "Population Assessment"
             - href: content/rails-biodiversity.qmd
               text: "Biodiversity"
-            - href: content/rails-bats.qmd
-        - href: content/rails-future.qmd
-          text: "Recommendations"
+            # - href: content/rails-bats.qmd
+            #   text: "Bats"
+            - href: content/rails-insects.qmd
+              text: "Insects"
+            - href: content/rails-future.qmd
+              text: "Recommendations"
       # - section: content/sci-intro.qmd
       #   text: "Pilot Study at San Clemente Islands"
       #     - content/sci-dashboard.qmd
@@ -64,6 +63,8 @@ website:
       #   contents: 
       #     - content/plus_communitySci.qmd
       #     - content/plus_openSci.qmd
+      - href: content/exploreSounds.qmd
+        text: Explore Sounds
 
 
         

@@ -1,9 +1,10 @@
 ---
 title: "Population Assessment"
 format: html
+bibliography: references.bib
 ---
 
-To date, population assessment of Ridgway's Rails has relied on call-response survey methods conducted by an expert ornithologist. While this long time series has been highly effective, recent research suggests that repeated sampling is required to improve the robustness of the results. Unfortunately, there if evidence that this species may habituate to repeated exposure to call-response surveys, which would lead to worsened outcomes.
+To date, population assessment of Ridgway's Rails has relied on call-response survey methods conducted by an expert ornithologist. While this long time series has been highly effective, recent research suggests that repeated sampling is required to improve the robustness of the results. Unfortunately, there is evidence that this species may habituate to repeated exposure to call-response surveys, which would lead to worsened outcomes.
 
 Distance sampling methods using visual or passive acoustic detections has proven successful for a wide range of species. Specifically, passive acoustic monitoring using acoustic recording devices placed throughout the habitat may be used as point transect or spatial capture-recapture models to assess population of cryptic species such as Ridgway's Rails.
 
@@ -15,31 +16,33 @@ library(DT)
 library(tidyverse)
 library(leaflet)
 library(Distance)
+library(dssd)
 here()
 
 source(here::here("_code/_common.R"))
-DDTable <- readRDS(here("data", "deployTable_DD.rds"))
-# distanceData <- readRDS(here("data/distanceData.rds"))
+DDTable <- readRDS(here("data", "deployTable_DD.rds")) 
 
-distData <- readRDS(here("data/distanceData.rds"))%>%
-  rename(
-    distance = dist2source,
-    size = groupSize,
-    object = detection_ID
-  )
+distData <- readRDS(here("data/distanceData.rds")) %>%
+  rename(distance = dist2source)
 
+
+dd_rails <- readRDS(here("data", "birdnet_rails_48c.rds")) %>%
+  filter(
+    location == "SPP",
+    !(site %in% c("1N", "3S", "01"))
+         )
+  
 
 ```
 
-### Detection Range
+## Detection Range
 
-Understanding the effective detection range is fundamental to adopting distance sampling methods for population assessment. The Detection Range Test at the Living Coast Proving Pens provided an opportunity to assess the effective detection range using Audiomoth recorders in this environment. In addition to locating a recorder on each of the proving pens (which we will assume is approximately 1 meters distance from known animals), 8 additional recorders were placed at distance from the pens. This data allowed us to identify the distance at which known calls (from either SPP-1N or SPP-3S) could be detected by the Birdnet Analyzer on the Audiomoth recorders.
+Understanding the effective detection range is fundamental to adopting distance sampling methods for population assessment. The Detection Range Test at the Sweetwater Proving Pens provided an opportunity to assess the effective detection range using Audiomoth recorders in this environment. In addition to locating a recorder on each of the proving pens (which we will assume is approximately 1 meters distance from known animals), 8 additional recorders were placed at distance from the pens.
 
-The map below shows the placement of the recorders on and near the pens (Click on the site to obtain the Site Code), and the table to the right shows the distance of each recorder to to the pen at SPP-01N (DD01) and SPP-03S (DD02). 
+The map below shows the placement of the recorders on or near the Sweetwater Proving Pens (SPP) on and near the pens (#1 North,1N or #3 South, S3; Click on the site location to obtain the Site Code), and the table to the right shows the distance of each recorder to to the pen at SPP-01N (DD01) and SPP-03S (DD02).
 
-::: columns 
+::::: columns
 ::: {.column width="70%"}
-
 ```{r DDmap}
 #| echo: false
 #| warning: true
@@ -52,7 +55,6 @@ leaflet(data = DDTable) %>%
 
 
 ```
-
 :::
 
 ::: {.column width="30%"}
@@ -76,41 +78,29 @@ kable(detTable, caption = "Distance to Proving Pen Recorders", digits = 1) %>%
 
 ```
 :::
-:::
-    
-::: columns
-::: {.column width="40%"}
-    
-The spectrograms on the right show a Ridgway Rail call with color representing the intensity (amplitude) of the call at the DD01 proving pen site (assumed to be at distance 0m from the source), and at a selection of sites with increasing distance from the source.
+:::::
+
+::::: columns
+::: {.column width="60%"}
+The spectrograms on the right show a Ridgway Rail call with color representing the intensity (amplitude) of the call at the DD01 proving pen site at the top (assumed to be at distance 0m from the source), and at a selection of sites with increasing distance from the source.
 
 As expected, the calls of the Ridgway's Rails are loud at the source (DD01, or proving pen SPP-01S), and the intensity of the call decreases with increasing distance, until the call can no longer be detected.
 
-
+Manual examination of this example suggests that loud calls detected at DD01 may not be detected at 100 m from the Audiomoth placed at the pen. This distance is much smaller than the suggested detection range from literature. The pen (fence, screen) and large shrubs may negatively impact sound transmission (effectively decreasing detection range), and the Audiomoth recorders likely have less sensitivity than human ears. Still, the detection distance varies by methods, and this detection range is based on an Audiomoth recorder in this habitat, for animals in these pens. Manual analysis of the entire dataset may be required to obtain sufficient samples to understand the range of detection and/or to develop a functional automated replacement to manual analysis.
 :::
 
-::: {.column width="60%"}
-![](images/DD_Rails_spectrograms.png){width="321"}
+::: {.column width="40%"}
+![](images/DD_Rails_spectrograms.jpg){width="321"}
 :::
+:::::
+
+As there were two potential sources for calls (DD01 and DD02), any call detected on any recorder be from a sound originally produced by animals at either DD01 or DD02. An effort was made to automate the identification of calls attributed to a 'sound source' and then to pair sounds detected on other recorders with the call from the sound source. These efforts were unsuccessful, and manual analysis will be necessary to refine these results.
+
+::: callout-warning
+Warning: The results of this detection function data is invalid and only used as an example!
 :::
 
- 
-The time series, below, shows how the number of calls detected on different recorders decreases with distance from the source (DD01).
-```{r ddTimeSeries}
-#| echo: false
-
-distData %>%
-  # Count detections per Site and time (e.g., per day)
-  count(Site, date = as.Date(datetime_local)) %>%
-  # Plot
-  ggplot(aes(x = date, y = n, color = Site)) +
-  geom_line() +
-  geom_point() +
-  labs(x = "Date", y = "Number of Detections", color = "Site") +
-  theme_minimal()
-
-```
-
-This data was then used to develop a detection function, which provides an estimate of the effective detection range for these calls. This can then be used to inform a survey design of a distance sampling approach to population assessment.
+Still, the preliminary detection function suggests that the detection range is on the order of 150 - 200m. The first large spike in data in \~35m (the distance between DD01, DD02). After manual validation, a valid detection function can then be used to inform a survey design of a distance sampling approach to population assessment.
 
 ```{r detfuncPrep}
 #| echo: false
@@ -124,4 +114,130 @@ df_hn <- ds(data = distData, truncation = 200, key = "hn", adjustment = NULL)
 plot(df_hn)
 ```
 
-The range at which a call can be detected varies not only on the source amplitude of the call, but also the environment through which the call propagates. While the experiment at the proving pens provides an excellent preliminary estimate of detection range (and a preliminary detection function), the true detection range may vary by habitat, and the proving pens are different than typical habitat for Ridgway's Rails. Future research should develop a detection function for Ridgway's Rails in their preferred habitat.
+The range at which a call can be detected varies not only on the source amplitude of the call, but also the recording device and the environment through which the call propagates. If a different recording system is considered, this test should be repeated to obtain a detection function for that system. While the experiment at the proving pens provides an excellent preliminary estimate of detection range (and a preliminary detection function), the true detection range may vary by habitat, and the proving pens are different than typical habitat for Ridgway's Rails. Future research should develop a detection function for Ridgway's Rails in their preferred habitat.
+
+## Distance Sampling for Density Estimation
+
+Distance sampling methods using passive acoustic monitoring to estimate density and abundance is being adopted widely. It has great benefits and real limitations that should be considered.
+
+The primary limitation is that animals must be calling to be detected; calling behavior may vary according to any number of behavioral or environmental conditions, which will ultimately affect the downstream data products (population assessment). The more we know about calling behavior, the better we can align models with actual animal density and abundance.
+
+Ultimately, survey design and statistical approach must consider the research question and data products required. Absolute abundance will require a more robust survey design than density or occupancy models. Regardless, a thoughtful survey design will allow for robust assessment of trends over time as well as geographic variation.
+
+Below we provide a few examples to facilitate a discussion of needs, priorities, and potential.
+
+### Point Transect Density Estimation
+
+::::: columns
+::: {.column width="50%"}
+Point transect survey design is a standard approach to density estimation; these methods are well-developed and adopted broadly. Survey design can be developed using random or standardized placement of recorders in the study area (this is facilitated with the dssd R package as shown below).
+:::
+
+::: {.column width="50%"}
+```{r surveyDesignRandom}
+#| echo: false
+#| include: false
+shapefile.location <- here("data", "TJR_RB_2010.shx")
+region <- dssd::make.region(region.name = "study area",
+                      shape = shapefile.location)
+design <- make.design(region = region, transect.type = "point", design = "random",
+                      truncation = 200)
+points <- generate.transects(design)
+print(points)
+```
+
+```{r surveyDesignPlot}
+#| echo: false
+plot(region, points)
+
+
+```
+:::
+:::::
+
+### Acoustic Spatial Capture Recapture (ASCR)
+
+::::: columns
+::: {.column width="50%"}
+ASCR is an alternative approach to density estimation that can consider additional information related to animal location such as signal strength or time of arrival. ASCR survey design typically considers clustered acoustic recorders where each cluster is distributed such that some calls will be detected on multiple recorders but some calls will not be detected across all recorders (these conditions must be met to apply SCR models). Alternatively, recorders can be placed across the entire study area such that there is overlap in detection across any two or more recorders.
+
+[ascr shiny app](https://cmjt.github.io/ascr_shiny/) [Owl ASCR](https://bioone.org/journals/journal-of-raptor-research/volume-58/issue-1/JRR-23-20/Estimating-Owl-Population-Density-Using-Acoustic-Spatial-Capture-Recapture/10.3356/JRR-23-20.full)
+
+This example shows how a large array of detectors can provide information about the spatial distribution of the detection of calls; over time, this data allows for the assessment of the density of calls in the region using ASCR methods.
+:::
+
+::: {.column width="50%"}
+![](images/ascrExample.jpg){width="365"}
+:::
+:::::
+
+### Habitat Modeling
+
+::::: column
+::: {.column width="40%"}
+Density Surface Models (dsm) for distance sampling data provide spatial models constructed from generalized additive models following methods developed by Hedley & Buckland (2004) and Miller et al. (2013).
+:::
+
+::: {.column width="60%"}
+![](images/dsmExample_spatialEDA-1.png){width="446"}
+:::
+:::::
+
+## Comparative Studies of Call-Response and Acoustic Distance Sampling Studies
+
+Studies of species such as Ridgway's Rails benefit from the animals' tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias [@stevens2024], but other research suggests that animals may habituate and render these methods futile [@zembal2024]. Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?
+
+While Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species' presence. It necessarily relies on the natural vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity.
+
+| Call - Response |   | Passive Acoustics |
+|-----------------------------|------------------|-------------------------|
+| ✅High detection probability |  | ❌ Low detection rate |
+| ❌ Potential impact on animals |  | ✅ Low/No disturbance |
+| ❌ Increased sampling to reduce bias |  | ✅ Increased sampling to reduce bias |
+| ❌ Animals may respond to increased sampling |  | ✅ No impact of increased sampling |
+| ❌ Limited sampling to reduce habituation |  | ✅ Continuous monitoring |
+| ✅ Immediate Results |  | ✅ Data permanence |
+| ❌Observer bias in distance estimation |  | ✅ Multi-species monitoring |
+| ❌ Limited scope (single species) |  | ✅ Better distance modeling |
+|  |  | ❌ Big Data (!!) |
+|  |  |  |
+
+: Benefits and Limitations of Call-Response and PAM Sampling. ✅ identifies beneficial characteristics of sampling method, and ❌ identifies limitation of that sampling method.
+
+## Recommended Next Steps
+
+::: callout
+## Important Note:
+
+This data is preliminary, and manual validation is necessary.
+:::
+
+***Detector/Classifier Improvements:***
+
+-   Manually validate calls (and consider call type), including review to identify false negatives (missed calls).
+
+-   Assess classifier performance, value of confidence scores, and degree of manual validation that should be considered.
+
+-   Validated calls should be added to an open source call library (xeno-canto)
+
+-   Consider developing a local [Perch](https://github.com/google-research/perch) detector/classifier using validated calls (BirdAnalyzer is user friendly, but license not open to all uses).
+
+***Detection Function:***
+
+-   Manual identification of sound source (DD01 vs DD02) and manual matching of known calls to outer recorders (DD03-DD10).
+
+-   Rerun detection function with validated and manually matched calls.
+
+-   This detection function specifically relates to rails in a pen (fence, mesh tarp) in a dry scrub 'wetland' habitat using an Audiomoth recorder with these settings. This detection function may be suitable for developing a survey design, but would not be recommended as a final detection function for use in density or abundance surveys.
+
+    -   May not (necessarily) be valid for rail calls in their natural habitat.
+
+    -   Use of different recording instruments, microphones, recorder settings may affect the detection function.
+
+-   Future studies should identify opportunities to measure detection distance to rail calls in their natural habitat. Ideally these studies would be replicated in several areas and different seasons to understand temporal and geographic variation in detection ranges. Consider coordinating recorders with other studies, such as gps-tagged birds, etc.
+
+***Survey Design:***
+
+-   While distance sampling is increasingly common and there is open-source software readily available for this type of analysis, it is recommended that an expert in these statistical methods be consulted to ensure proper survey design and application of data for species with similar characteristics. Pro-active partnering will ensure assumptions are not violated and that analyses are properly applied to the data.
+
+-   It is highly recommended that at least a full season of overlap between historical call-response surveys and passive acoustic distance sampling surveys.

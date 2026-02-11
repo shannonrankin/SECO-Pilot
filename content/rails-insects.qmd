@@ -1,0 +1,10 @@
+---
+title: "Insects"
+format: html
+---
+
+A number of insect species are highly vocal, broadcasting songs for extended periods, especially at night (cicadas, crickets, etc). Insects such as bees, flies, etc can also be detected at shorter range.
+
+![Repeated nocturnal 'song' at 3.5 kHz attributed to insect singing at Tijuana Estuary.](images/insects_multiple_TJE-01_48c_20250516_040400.jpg)
+
+Acoustic monitoring provides a means of studying temporal and spatial variation in sounds attributed to insects, providing data on availability of insect prey as well as a means of assessing the habitat.

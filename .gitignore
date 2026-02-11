@@ -11,3 +11,4 @@
 # Data
 bigData
 output/wav
+**/*.quarto_ipynb

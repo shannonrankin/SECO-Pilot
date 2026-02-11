@@ -1,0 +1,113 @@
+---
+title: "rails-assessment-details"
+format: html
+---
+Measurements could not be used to automatically differentiate calls from DD01 vs DD02. The Birdnet Analyzer determines the start and end time, but does not determine frequency limits (it does not box the calls). I can try to create auto-boxes from 2200 Hz to 4600 Hz to encompass the calls, or I can manually validate them and create true boxes for them. Then I can try to rerun the analysese to try to automatically differentiate between source calls from DD01 vs DD02. 
+
+```{r assessPrep}
+#| echo: false
+#| include: false
+library(here)
+library(DT)
+library(tidyverse)
+library(leaflet)
+library(Distance)
+here()
+
+source(here::here("_code/_common.R"))
+DDTable <- readRDS(here("data", "deployTable_DD.rds")) 
+
+distData <- readRDS(here("data/distanceData.rds")) %>%
+  rename(distance = dist2source)
+
+
+dd_rails <- readRDS(here("data", "birdnet_rails_48c.rds")) %>%
+  filter(
+    location == "SPP",
+    !(site %in% c("1N", "3S", "01"))
+         )
+ 
+```
+
+
+```{r ddTimeSeries}
+#| echo: false
+## This graph is not giving  me what I need. 
+
+ggplot(distData, aes(x = site)) +
+  geom_bar(fill = "steelblue") +
+  labs(x = "Site", y = "Number of Rows") +
+  facet_wrap(~ pair_source) +
+  theme_minimal()
+```
+
+```{r plot2}
+distData %>%
+  # Count detections per Site and time (e.g., per day)
+  count(site, date = as.Date(datetime_local), pair_source) %>%
+  # Plot
+  ggplot(aes(x = date, y = n, color = site)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Date", y = "Number of Detections", color = "Site") +
+  facet_wrap(~ pair_source) +
+  theme_minimal()
+
+```
+
+
+```{r }
+distData %>%
+  count(site, distance, pair_source) %>%
+  ggplot(aes(x = distance, y = site, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(x = "Distance from Source (m)", y = "Site", fill = "Detections") +
+  facet_wrap(~ pair_source) +
+  theme_minimal()
+
+```
+
+
+```{r }
+# distData %>%
+#   group_by(site, pair_source) %>%
+#   summarise(total_detections = n(), .groups = "drop") %>%
+#   ggplot(aes(x = reorder(site, distance), y = total_detections, group = 1)) +
+#   geom_line() +
+#   geom_point() +
+#   labs(x = "Site (ordered by distance from source)", y = "Total Detections") +
+#   facet_wrap(~ pair_source) +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r }
+distData %>%
+  mutate(distance_bin = cut(distance, breaks = seq(0, max(distance), by = 100))) %>%
+  count(distance_bin, pair_source) %>%
+  ggplot(aes(x = distance_bin, y = n, fill = pair_source)) +
+  geom_boxplot() +
+  labs(x = "Distance from Source (binned)", y = "Number of Detections", fill = "Source") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r }
+distData %>%
+  count(site, pair_source, distance) %>%
+  ggplot(aes(x = distance, y = n, color = site)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "loess", se = FALSE, color = "black") +
+  labs(x = "Distance from Source (m)", y = "Number of Detections", color = "Site") +
+  facet_wrap(~ pair_source) +
+  theme_minimal()
+
+```
+
+
+

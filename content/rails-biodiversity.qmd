@@ -1,11 +1,18 @@
 ---
 title: "Biodiversity"
-format: html
+format: 
+  html:
+    include-after-body: |
+      <script type="module">
+        import {Plot} from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+        import {Inputs} from "https://cdn.jsdelivr.net/npm/@observablehq/inputs@0.10/+esm";
+      </script>
+bibliography: references.bib
 ---
 
-this is a summary of the results for the rails study from TJE
+Passive acoustics can serve to assess overall biodiversity and changes in biodiversity. Here we present alternative visualizations and analyses to serve as an introduction to the possibilities. All results are preliminary and analyses are conducted on recordings from the Tijuana Estuary (TJE).
 
-# Diurnal vocalizations recorded near the Proving Pens
+## Diurnal vocalizations recorded near the Proving Pens
 
 Need to fix this so that I am using the appropriate data here
 
@@ -17,7 +24,7 @@ here()
 
 source(here::here("_code/_common.R"))
 
-birdnet_all <- readRDS(here("data/birdnet_rails.rds"))
+birdnet_all <- readRDS(here("data/birdnet_rails_48c.rds"))
 
 priority <- birdnet_all %>%
   filter(location == "TJE") %>%
@@ -32,9 +39,83 @@ birdnet_top_TJE <- birdnet_all %>%
 
 myData_priority_TJE <- loadDetectionData(x=birdnet_top_TJE, source='csv', detectionType='detection', wide=FALSE,  tz='UTC', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
 
+myData_rails_48c_tje <- loadDetectionData(x=birdnet_top_TJE, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+
+# prep data to json for use in ojs:
+library(jsonlite)
+myData_json <- jsonlite::toJSON(birdnet_top_TJE, pretty = TRUE, na = "null")
+cat(myData_json, file = "data.json")  # Save as a file for JS to read
+
+birdnet_tje_bins <- readRDS(here("data/birdnet_rails_48c_bins_day.rds")) %>%
+  clean_names()
+
+# myData_rails_48c_tje <- loadDetectionData(x=birdnet_top_TJE, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+# 
+# myData_rails_48c_tje_bins <- loadDetectionData(x=birdnet_tje_bins, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
+
+# myData_rails_48c_tje <- loadDetectionData(x=birdnet_rails_48c_tje, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+# 
+# # prep data to json for use in ojs:
+# library(jsonlite)
+# myData_json <- jsonlite::toJSON(myData_rails_48c_spp1Ntje, pretty = TRUE, na = "null")
+# cat(myData_json, file = "data.json")  # Save as a file for JS to read
+
+```
+Diurnal Variation
+
+
+```{r RailPolarPlot}
+#| echo: false
+#| warning: false
+
+plotPolarDetections(x=myData_priority_TJE, facet='species',  bin='detection/hour', quantity='count')
+
 ```
 
-BoxPlot Need to fix this so that I am using the appropriate data here
+```{js echo=FALSE}
+// Load the data
+const data = FileAttachment("data.json").json();
+
+// Get unique species for the dropdown
+const species = [...new Set(data.map(d => d.common_name))];
+
+// Create a dropdown
+const dropdown = Inputs.select(species, {label: "Select Species", value: species[0]});
+
+// Function to filter data by selected species
+function filterData(data, selectedSpecies) {
+  return data.filter(d => d.common_name === selectedSpecies);
+}
+
+// Create the plot
+function createPlot(data) {
+  return Plot.plot({
+    // Customize your plot here (polar plot example)
+    marks: [
+      <!-- Plot.line(data, { -->
+      plotPolarDetections(data, {//added by Shannon
+        x: "detection/hour",
+        y: "count",
+        stroke: "species",
+        // Add polar plot options as needed
+        bin='detection/hour', //added by Shannon
+        quantity='count'//added by Shannon
+      })
+    ]
+  });
+}
+
+// Render the plot and dropdown
+display(dropdown);
+display(createPlot(filterData(data, dropdown.value)));
+
+// Update plot when dropdown changes
+dropdown.addEventListener("input", () => {
+  display(createPlot(filterData(data, dropdown.value)));
+});
+```
+
+Boxplot
 
 ```{r RailBoxplot}
 #| echo: false
@@ -45,7 +126,7 @@ plotDetectionBoxplot(x=myData_priority_TJE,  group='species', facet = 'species',
 
 ```
 
-Acoustic Scene Need to fix this so that I am using the appropriate data here
+Acoustic Scene
 
 ```{r RailAcScene}
 #| echo: false
@@ -56,7 +137,7 @@ plotAcousticScene(x=myData_priority_TJE, combineYears=FALSE) #Note: this would o
 
 ```
 
-# Biodiversity Indices
+## Biodiversity Indices
 
 In theory, long term acoustic recordings may provide a means of assessing biodiversity and habitat quality; or, at the least, changes in these metrics over time and in different regions.
 
@@ -101,8 +182,8 @@ cite:10.1890/07-0004.1
 ```
 
 ## Acoustic Entropy Index (AEI)
-The Acoustic Entropy Index is based on the entropy in both time and space (based on the Shannon Index).
 
+The Acoustic Entropy Index is based on the entropy in both time and space (based on the Shannon Index).
 
 cite: 10.1371/journal.pone.0004065
 

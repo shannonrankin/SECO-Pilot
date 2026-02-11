@@ -1,9 +1,14 @@
 ---
 title: "Summary Results"
 format: html
+bibliography: references.bib
 ---
 
-Passive acoustic detection as a means of monitoring species requires that (1) the animals produce sounds that you can readily attribute to them and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. While their vocal behavior is well described in (cite papers), there is known variation between sites and there is great value in quantifying this variation to inform future studies.
+Passive acoustic detection as a means of monitoring species requires that:
+(1) the animals produce sounds that you can readily attribute to them, and 
+(2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder. 
+
+While their vocal behavior is well described ([@zembal1987], [@massey1987]), understanding variation in relation to the specific methods considered is important to understand the potential (and limitations) of passive acoustic monitoring for population assessment. 
 
 ```{r resultsPrep}
 #| echo: false
@@ -16,58 +21,74 @@ here()
 
 source(here::here("_code/_common.R"))
 
-birdnet_all <- readRDS(here("data/birdnet_rails.rds"))
-
-birdnet_rails <- birdnet_all %>%
-  dplyr::filter(common_name == "Ridgway's Rail")
-
-birdnet_rails_sub <- birdnet_rails %>%
-  filter(location == c('SPP', 'TJE'))
+birdnet_48c <- readRDS(here("data/birdnet_rails_48c.rds"))
+birdnet_48ss <- readRDS(here("data/birdnet_rails_48s.rds"))
 
 
-myData_rails <- loadDetectionData(x=birdnet_rails, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+birdnet_rails_48c <- birdnet_48c %>%
+  dplyr::filter(common_name == "Ridgway's Rail") %>%
+  filter(location %in% c('SPP', 'TJE')) %>%
+  filter(site %in% c('01', '3S', 'DD02'))
+  
 
-myData_rails_sub <- loadDetectionData(x=birdnet_rails_sub, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+birdnet_rails_48ss <- birdnet_48ss %>%
+  dplyr::filter(common_name == "Ridgway's Rail")%>%
+  filter(location %in% c('SPP', 'TJE'))%>%
+  filter(site %in% c('01', '3S', 'DD02'))
+
+
+myData_rails_48c <- loadDetectionData(x=birdnet_rails_48c, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+
+myData_rails_48ss <- loadDetectionData(x=birdnet_rails_48ss, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+
 ```
 
 ::: callout-important
-Warning: *All results are preliminary, data were not acoustically validated! Need to validate recordings and assess species-specific confidence thresholds for detections*
+Warning: *All results are preliminary, data were not acoustically validated!*
 :::
 
-### Daily Variation
+### Temporal Variation 
 
-There was considerable daily variation in detection of calls associated with Ridgway's Rails at both the Proving Pens and at the Tijuana Estuary. The variation in detection of calls were similar between the recorders at the two different proving pens (not shown here). While this data is limited in scope, we do not see a strong correlation between the two sites in relation to the higher number of hours of detections. This suggests that larger environmental variables (such as moon phase or weather conditions) may not be responsible for this variation, but this may be related to site-specific variables.
+There was considerable daily variation in detection of calls associated with Ridgway's Rails at both the Sweetwater Proving Pen #1N (SPP-1N) and at the Tijuana Estuary. Calls from SPP-1N likely included calls sourced from nearby SPP-3S, and this likely explains some of the higher call rate. It is also likely that a higher call rate might be expected due to interaction between the two breeding pairs, as well as interactions with the keepers or false positives due to calling from other birds housed at the Living Coast Discovery Center.  Regardless, call rates from captive animals may not reflect call rate in their natural habitat. 
 
-This data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Future work should include manual review of these data to ensure that calls assigned to Ridgway's Rails are in fact calls from those species. This review will also provide a means of quantifying the accuracy (correct classification) of these models for future research.
+This data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Prelminary review found both false positives and false negatives. Future work should include manual review of these data to ensure that calls assigned to Ridgway's Rails are in fact calls from those species. This manual review can also be used to validate the classifier, and to develop a more accurate local classifier. 
 
+These results suggest that calling behavior may be sufficiently consistent (on a daily basis) to allow for passive acoustic monitoring to assess the populations of Ridgway's rails. This pilot study was conducted in late spring through mid-summer, and there may be additional seasonal variation in calling behavior. 
 
-```{r RailBoxplot}
+```{r RailBoxplot48c}
 #| echo: false
 #| warning: false
 
-
-plotDetectionBoxplot(x=myData_rails_sub, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) at the Sweetwater Proving Pens and Tijuana Estuary")
-
-
+plotDetectionBoxplot(x=myData_rails_48c, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) from continuous recordings at the Sweetwater Proving Pens and Tijuana Estuary")
 
 ```
 
+The Sunset/Sunrise recordings provided extended duration (increased sample size over time), with recordings ranging from one hour before/after sunrise and one hour before/after sunset. The maximum recording time of less than 6 hours resulted in lower # hours/day with detections, but all dates were non-zero.  
+
+```{r RailBoxplot48ss}
+#| echo: false
+#| warning: false
+#| 
+plotDetectionBoxplot(x=myData_rails_48ss, group='species', facet='location', bin='hour/day', combineYears=FALSE, title = "Detection of Ridgeway's Rails (hours/day) from Sunrise/Sunset recordings at the Sweetwater Proving Pens and Tijuana Estuary")
+
+```
+
+
+
 ### Diurnal Variation
 
-There is significant research suggesting that Ridgway's Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Recordings from the Proving Pens also showed calling throughout the day and very little calling at night. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limiting recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, it would also limit additional data provided by passive acoustic monitoring that can provide information related to presence of other species, anthropogenic uses of the area, and potentially other acoustic behaviors that may occur at other times of the day.
+There is significant research suggesting that Ridgway's Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limit recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, but would limit the additional context provided by passive acoustic monitoring. At the minimum it would be useful to include some continuous monitoring with some recorders to better understand any variation in diurnal calling behavior (and how this might impact population assessment).
 
-Again, acoustic detections were not manually reviewed, and it is possible that some of these calls are actually other sounds that were attributed to this species.
+While both locations showed peak calling near dawn and dusk, there were a large number of detections during the day at the Sweetwater Proving Pen (SPP). It is possible that the increased volume of daytime calling was due to this semi-captive environment. There were fewer rail calls at Tijuana Estuary, and little/no calling during the day. Preliminary scanning suggests there may be missed daytime calls. Again, acoustic detections were not manually reviewed and these results should be considered with caution until a review is conducted.
 
 ```{r RailPolarPlot}
 #| echo: false
 #| warning: false
 
-
-
-plotPolarDetections(x=myData_rails, group='species', facet='species', bin='detection/hour', quantity='count')
+plotPolarDetections(x=myData_rails_48c, group='species', facet='location', bin='detection/hour', quantity='count')
 
 ```
 
 
 
-
+A Binational Light Footed Ridgway's Rail Workshop was conducted May 27-29, 2025, with a call-response survey at the Tijuana Estuary \~ 8:30 to 11:30 on Monday May 27. These calls occurred outside the timeframe for either the 48s+s recording configuration (sunrise and sunset), and the continuous recording (48c) ended on May 22. It would be valuable to have overlap in continous recording with future call-response surveys or trainings. 
