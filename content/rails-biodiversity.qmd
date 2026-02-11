@@ -1,12 +1,6 @@
 ---
 title: "Biodiversity"
-format: 
-  html:
-    <!-- include-after-body: | -->
-    <!--   <script type="module"> -->
-    <!--     import {Plot} from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"; -->
-    <!--     import {Inputs} from "https://cdn.jsdelivr.net/npm/@observablehq/inputs@0.10/+esm"; -->
-    <!--   </script> -->
+format: html
 bibliography: references.bib
 ---
 
