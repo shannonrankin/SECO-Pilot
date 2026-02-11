@@ -16,7 +16,7 @@ Need to fix this so that I am using the appropriate data here
 library(here)
 here()
 
-source(here::here("_code/_common.R"))
+source(here("_code/_common.R"))
 
 birdnet_all <- readRDS(here("data/birdnet_rails_48c.rds"))
 
