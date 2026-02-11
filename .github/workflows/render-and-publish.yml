@@ -11,11 +11,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2 
+        - name: Install system dependencies
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
+            libavfilter-dev\
+            libavformat-dev\
+            libavcodec-dev\
+            libavutil-dev\
             libnetcdf-dev \
             libgdal-dev \
             gdal-bin \
