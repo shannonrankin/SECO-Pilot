@@ -1,0 +1,27 @@
+---
+title: "Recommendations for managers"
+---
+
+## Near-term actions
+
+- Agree on the management objective and estimand before deployment.
+- Maintain a small, manually reviewed reference library for every survey.
+- Measure recorder performance and detection range in each representative
+  habitat type.
+- Keep raw audio, classifier outputs, review decisions, and metadata together.
+- Use the same versioned analysis settings across sites and survey periods.
+
+## Study design priorities
+
+Use a staged design: an initial feasibility deployment, a validation study,
+and then a powered monitoring study. Include repeated visits or recording
+windows so that non-detection can be separated from absence. If response to
+restoration is the objective, include reference and treatment conditions and
+sample before and after management.
+
+## Governance and reporting
+
+Archive data and code with persistent identifiers, document deviations from
+the protocol, and publish assumptions in a form that can be audited. A
+managerial decision should be traceable from the question, through the
+sampling design and model, to the evidence and its uncertainty.

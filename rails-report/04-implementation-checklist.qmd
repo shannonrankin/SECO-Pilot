@@ -1,0 +1,19 @@
+---
+title: "Implementation checklist"
+---
+
+Before field deployment, confirm:
+
+- [ ] The target population, estimand, inference area, and decision rule are
+  written down.
+- [ ] Recorder placement, schedule, sample rate, and replication are justified.
+- [ ] Calibration and detection-range protocols are complete.
+- [ ] A representative, manually reviewed validation set is available.
+- [ ] Classifier thresholds and quality-control rules are version controlled.
+- [ ] Storage, battery, metadata, and chain-of-custody procedures are tested.
+- [ ] The analysis plan identifies how imperfect detection will be handled.
+- [ ] Raw recordings and derived data will be archived with the code.
+- [ ] Results will report uncertainty and limitations to decision makers.
+
+This checklist is intentionally conservative: resolving these items costs less
+than discovering after deployment that a key inference cannot be supported.
