@@ -1,79 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/output/adi/ADI_Analysis_Quick_Reference.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/output/compare_indices/Complete_Workflow_Guide.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/output/aci/ACI_Analysis_Quick_Reference.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-bats.html</loc>
-    <lastmod>2026-02-11T19:43:36.885Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-summary.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/todo.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-assessment-details.html</loc>
-    <lastmod>2026-02-11T19:43:36.885Z</lastmod>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-future.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-methods.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-dashboard.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/index.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-biodiversity.html</loc>
-    <lastmod>2026-02-11T19:43:36.885Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/OpenScience.html</loc>
-    <lastmod>2026-02-11T19:43:36.862Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-insects.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-future.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-assessment.html</loc>
-    <lastmod>2026-02-11T19:43:36.885Z</lastmod>
-  </url>
-  <url>
-    <loc>https://shannonrankin.github.io/SECO-Pilot/content/exploreSounds.html</loc>
-    <lastmod>2026-02-11T19:43:36.862Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-intro.html</loc>
-    <lastmod>2026-02-11T19:43:36.886Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/todo.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/OpenScience.html</loc>
+    <lastmod>2026-08-10T22:33:15.062Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/compare_indices/Complete_Workflow_Guide.html</loc>
+    <lastmod>2026-08-10T22:33:15.304Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/adi/ADI_Analysis_Quick_Reference.html</loc>
+    <lastmod>2026-08-10T22:33:15.303Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/index.html</loc>
+    <lastmod>2026-08-10T22:33:15.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/index.html</loc>
+    <lastmod>2026-08-10T22:33:15.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/03-management-recommendations.html</loc>
+    <lastmod>2026-08-10T22:33:15.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/01-study-design.html</loc>
+    <lastmod>2026-08-10T22:33:15.393Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/05-source-components.html</loc>
+    <lastmod>2026-08-10T22:33:15.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/04-implementation-checklist.html</loc>
+    <lastmod>2026-08-10T22:33:15.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/rails-report/02-analysis-and-evidence.html</loc>
+    <lastmod>2026-08-10T22:33:15.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/output/aci/ACI_Analysis_Quick_Reference.html</loc>
+    <lastmod>2026-08-10T22:33:15.303Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/output/bi/BI_Analysis_Quick_Reference.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.303Z</lastmod>
   </url>
   <url>
     <loc>https://shannonrankin.github.io/SECO-Pilot/output/compare_indices/Comparison_Quick_Reference.html</loc>
-    <lastmod>2026-02-11T19:43:37.135Z</lastmod>
+    <lastmod>2026-08-10T22:33:15.303Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-assessment-details.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-biodiversity.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/exploreSounds.html</loc>
+    <lastmod>2026-08-10T22:33:15.063Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-bats.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-dashboard.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://shannonrankin.github.io/SECO-Pilot/content/rails-summary.html</loc>
+    <lastmod>2026-08-10T22:33:15.082Z</lastmod>
   </url>
 </urlset>

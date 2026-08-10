@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Population Assessment – NOAA quarto simple</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -24,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -54,19 +59,18 @@ div.csl-indent {
 <link href="../images/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fee42ce5f5446a63fa5f2fe8a7b20fb8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-51ba4b3df330bf5761d2041595991b21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-fee42ce5f5446a63fa5f2fe8a7b20fb8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9d05c3b93482457fae26d525096cf719.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-612548984914e709aadf8c54b7dc3026.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-9d05c3b93482457fae26d525096cf719.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -326,6 +330,12 @@ div.csl-indent {
  <span class="menu-text">Dashboard</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../rails-report/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rails manager report (HTML/PDF)</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../content/rails-intro.html" class="sidebar-item-text sidebar-link">
@@ -439,8 +449,8 @@ div.csl-indent {
 <div class="column" style="width:70%;">
 <div class="cell">
 <div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-f7a6228659ff03c030d9" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-f7a6228659ff03c030d9">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[32.6396792,32.6394237,32.639197,32.639711,32.639598,32.639186,32.638874,32.639026,32.639339,32.639523],[-117.1111495,-117.1113785,-117.11168,-117.111294,-117.11149,-117.112265,-117.112349,-117.112063,-117.111997,-117.111747],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,["DD01","DD02","DD03","DD04","DD05","DD06","DD07","DD08","DD09","DD10"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[32.638874,32.639711],"lng":[-117.112349,-117.1111495]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-0cc646f2b4a2200e6487" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0cc646f2b4a2200e6487">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[32.6396792,32.6394237,32.639197,32.639711,32.639598,32.639186,32.638874,32.639026,32.639339,32.639523],[-117.1111495,-117.1113785,-117.11168,-117.111294,-117.11149,-117.112265,-117.112349,-117.112063,-117.111997,-117.111747],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,["DD01","DD02","DD03","DD04","DD05","DD06","DD07","DD08","DD09","DD10"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[32.638874,32.639711],"lng":[-117.112349,-117.1111495]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div><div class="column" style="width:30%;">
@@ -608,7 +618,7 @@ Warning
 </section>
 <section id="comparative-studies-of-call-response-and-acoustic-distance-sampling-studies" class="level2">
 <h2 class="anchored" data-anchor-id="comparative-studies-of-call-response-and-acoustic-distance-sampling-studies">Comparative Studies of Call-Response and Acoustic Distance Sampling Studies</h2>
-<p>Studies of species such as Ridgway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias <span class="citation" data-cites="stevens2024">(<a href="#ref-stevens2024" role="doc-biblioref">Stevens et al. 2024</a>)</span>, but other research suggests that animals may habituate and render these methods futile <span class="citation" data-cites="zembal2024">(<a href="#ref-zembal2024" role="doc-biblioref">Zembal, Hoffman, and Stahl 2024</a>)</span>. Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?</p>
+<p>Studies of species such as Ridgway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias <span class="citation" data-cites="stevens2024">(<a href="#ref-stevens2024" role="doc-biblioref">Stevens et al. 2024</a>)</span>, but other research suggests that animals may habituate and render these methods futile <span class="citation" data-cites="zembal2024">(<a href="#ref-zembal2024" role="doc-biblioref">Zembal et al. 2024</a>)</span>. Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?</p>
 <p>While Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species’ presence. It necessarily relies on the natural vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity.</p>
 <table class="caption-top table">
 <caption>Benefits and Limitations of Call-Response and PAM Sampling. ✅ identifies beneficial characteristics of sampling method, and ❌ identifies limitation of that sampling method.</caption>
@@ -721,12 +731,12 @@ Warning
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-stevens2024" class="csl-entry" role="listitem">
-Stevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, Lauren Kershek, Giselle Block, Sandra Hamilton, and Rebecca Kolstrom. 2024. <span>“Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway<span>’</span>s Rail.”</span> <em>Biodiversity and Conservation</em> 33 (13): 3703–26. <a href="https://doi.org/10.1007/s10531-024-02919-5">https://doi.org/10.1007/s10531-024-02919-5</a>.
+Stevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, et al. 2024. <span>“Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway<span>’</span>s Rail.”</span> <em>Biodiversity and Conservation</em> 33 (13): 3703–26. <a href="https://doi.org/10.1007/s10531-024-02919-5">https://doi.org/10.1007/s10531-024-02919-5</a>.
 </div>
 <div id="ref-zembal2024" class="csl-entry" role="listitem">
-Zembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. <span>“Light-Footed Ridgeway’s (Clapper) Rail in California.”</span> <a href="https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf">https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf</a>.
+Zembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. <em>Light-Footed Ridgeway’s (Clapper) Rail in California</em>. <a href="https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf">https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

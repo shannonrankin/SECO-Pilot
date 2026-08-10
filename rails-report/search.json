@@ -1,0 +1,162 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "",
+    "text": "0.1 Decisions this report supports\nThis report translates the Ridgway’s Rail section of the Sound Ecology Pilot Studies repository into a decision aid for managers. It describes what passive acoustic monitoring (PAM) can contribute to future studies, what the pilot demonstrated, and which design decisions should be resolved before committing to a larger survey.\nManagers can use this report to:\nThe pilot is best treated as a methods study, not as a final population estimate. Detection probability, call classification, habitat effects, and availability of independent detections all need to be quantified before inference is extended beyond the sampled locations.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#decisions-this-report-supports",
+    "href": "index.html#decisions-this-report-supports",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "",
+    "text": "decide whether PAM is appropriate for a monitoring objective;\nselect a recording and analysis design that matches that objective;\ndistinguish pilot evidence from results that require validation; and\nplan a defensible, reproducible field study.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-the-report",
+    "href": "index.html#how-to-use-the-report",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "0.2 How to use the report",
+    "text": "0.2 How to use the report\nThe chapters provide a concise management narrative. The final chapter is a crosswalk to the complete interactive components in the repository, including the dashboard, methods, population assessment, biodiversity, insects, bats, sound exploration, and future-research pages. Those pages retain the detailed figures, code, and exploratory results.\nFor a printable copy, select Download PDF in the book navigation or use the PDF link in the top-right menu.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "01-study-design.html",
+    "href": "01-study-design.html",
+    "title": "2  Study design and monitoring objectives",
+    "section": "",
+    "text": "2.1 Start with the management question\nPAM is most useful when the management question is explicit. A study intended to map occupancy has different requirements from one intended to estimate density, evaluate habitat, or measure response to restoration. Define the estimand, the time period, the spatial frame, and the decision threshold before selecting recorder settings.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Study design and monitoring objectives</span>"
+    ]
+  },
+  {
+    "objectID": "01-study-design.html#what-the-pilot-tested",
+    "href": "01-study-design.html#what-the-pilot-tested",
+    "title": "2  Study design and monitoring objectives",
+    "section": "2.2 What the pilot tested",
+    "text": "2.2 What the pilot tested\nThe Ridgway’s Rail pilot combined deployments at the Tijuana Estuary and Sweetwater Proving Pens with several recording schedules. Continuous 48-kHz recording supported temporal analyses; sunrise/sunset sampling extended coverage over a longer period; and high-frequency overnight sampling supported bat detection. This contrast is valuable for planning, because it makes the trade-off between temporal coverage, storage, battery life, and taxonomic coverage explicit.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Study design and monitoring objectives</span>"
+    ]
+  },
+  {
+    "objectID": "01-study-design.html#recommended-design-sequence",
+    "href": "01-study-design.html#recommended-design-sequence",
+    "title": "2  Study design and monitoring objectives",
+    "section": "2.3 Recommended design sequence",
+    "text": "2.3 Recommended design sequence\n\nDefine the target population and the inference area.\nPilot recorder placement, calibration, and detection range in representative habitat.\nCollect a validation set of manually reviewed calls.\nSpecify the sampling schedule and replication needed for the estimand.\nPre-register quality-control rules, classifier thresholds, and exclusion criteria.\n\nSpatial and temporal replication should be planned together. Sites should represent the habitat and management conditions to which results will be generalized, while repeated recordings provide information about imperfect detection.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Study design and monitoring objectives</span>"
+    ]
+  },
+  {
+    "objectID": "02-analysis-and-evidence.html",
+    "href": "02-analysis-and-evidence.html",
+    "title": "3  Analysis and strength of evidence",
+    "section": "",
+    "text": "3.1 Detection and classification\nThe pilot used BirdNET-assisted screening and manual review to identify candidate rail vocalizations. Classifier confidence is a screening measure, not a prevalence estimate. Future work should estimate sensitivity and specificity using a validation set that spans sites, recorder configurations, background noise, and call types.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Analysis and strength of evidence</span>"
+    ]
+  },
+  {
+    "objectID": "02-analysis-and-evidence.html#population-assessment",
+    "href": "02-analysis-and-evidence.html#population-assessment",
+    "title": "3  Analysis and strength of evidence",
+    "section": "3.2 Population assessment",
+    "text": "3.2 Population assessment\nDetection-range work and distance-based approaches are promising routes to abundance or density estimation. They are not interchangeable: point-transect detection functions require suitable distance information, while acoustic spatial capture-recapture requires identifiable detections and a model appropriate to the sensor array. A future study should choose one estimand and design the field data around its assumptions.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Analysis and strength of evidence</span>"
+    ]
+  },
+  {
+    "objectID": "02-analysis-and-evidence.html#community-and-soundscape-indicators",
+    "href": "02-analysis-and-evidence.html#community-and-soundscape-indicators",
+    "title": "3  Analysis and strength of evidence",
+    "section": "3.3 Community and soundscape indicators",
+    "text": "3.3 Community and soundscape indicators\nBiodiversity, acoustic complexity, acoustic diversity, bioacoustic, and entropy indices can provide context about wetland communities and habitat condition. These indices should be treated as supporting indicators until their relationship to management outcomes is calibrated. They should not replace species-level validation when the decision concerns Ridgway’s Rails.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Analysis and strength of evidence</span>"
+    ]
+  },
+  {
+    "objectID": "02-analysis-and-evidence.html#evidence-limits",
+    "href": "02-analysis-and-evidence.html#evidence-limits",
+    "title": "3  Analysis and strength of evidence",
+    "section": "3.4 Evidence limits",
+    "text": "3.4 Evidence limits\nThe pilot results reveal operational patterns and useful design questions. They do not, by themselves, establish population trend, causal effects of management, or transferability to unsampled wetlands. Report uncertainty and validation performance alongside every future estimate.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Analysis and strength of evidence</span>"
+    ]
+  },
+  {
+    "objectID": "03-management-recommendations.html",
+    "href": "03-management-recommendations.html",
+    "title": "4  Recommendations for managers",
+    "section": "",
+    "text": "4.1 Near-term actions",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recommendations for managers</span>"
+    ]
+  },
+  {
+    "objectID": "03-management-recommendations.html#near-term-actions",
+    "href": "03-management-recommendations.html#near-term-actions",
+    "title": "4  Recommendations for managers",
+    "section": "",
+    "text": "Agree on the management objective and estimand before deployment.\nMaintain a small, manually reviewed reference library for every survey.\nMeasure recorder performance and detection range in each representative habitat type.\nKeep raw audio, classifier outputs, review decisions, and metadata together.\nUse the same versioned analysis settings across sites and survey periods.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recommendations for managers</span>"
+    ]
+  },
+  {
+    "objectID": "03-management-recommendations.html#study-design-priorities",
+    "href": "03-management-recommendations.html#study-design-priorities",
+    "title": "4  Recommendations for managers",
+    "section": "4.2 Study design priorities",
+    "text": "4.2 Study design priorities\nUse a staged design: an initial feasibility deployment, a validation study, and then a powered monitoring study. Include repeated visits or recording windows so that non-detection can be separated from absence. If response to restoration is the objective, include reference and treatment conditions and sample before and after management.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recommendations for managers</span>"
+    ]
+  },
+  {
+    "objectID": "03-management-recommendations.html#governance-and-reporting",
+    "href": "03-management-recommendations.html#governance-and-reporting",
+    "title": "4  Recommendations for managers",
+    "section": "4.3 Governance and reporting",
+    "text": "4.3 Governance and reporting\nArchive data and code with persistent identifiers, document deviations from the protocol, and publish assumptions in a form that can be audited. A managerial decision should be traceable from the question, through the sampling design and model, to the evidence and its uncertainty.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recommendations for managers</span>"
+    ]
+  },
+  {
+    "objectID": "04-implementation-checklist.html",
+    "href": "04-implementation-checklist.html",
+    "title": "5  Implementation checklist",
+    "section": "",
+    "text": "Before field deployment, confirm:\n\nThe target population, estimand, inference area, and decision rule are written down.\nRecorder placement, schedule, sample rate, and replication are justified.\nCalibration and detection-range protocols are complete.\nA representative, manually reviewed validation set is available.\nClassifier thresholds and quality-control rules are version controlled.\nStorage, battery, metadata, and chain-of-custody procedures are tested.\nThe analysis plan identifies how imperfect detection will be handled.\nRaw recordings and derived data will be archived with the code.\nResults will report uncertainty and limitations to decision makers.\n\nThis checklist is intentionally conservative: resolving these items costs less than discovering after deployment that a key inference cannot be supported.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Implementation checklist</span>"
+    ]
+  },
+  {
+    "objectID": "05-source-components.html",
+    "href": "05-source-components.html",
+    "title": "6  Crosswalk to the complete Rails section",
+    "section": "",
+    "text": "The following pages are the complete source components summarized in this report. They remain the authoritative location for interactive figures, exploratory analyses, and implementation details.\n\n\n\nComponent\nPurpose\n\n\n\n\nDashboard\nDeployment, recording, and rail-detection overview\n\n\nIntroduction\nScope and motivation for the pilot\n\n\nMethods\nStudy area, recorders, detection, distance, and index methods\n\n\nSummary\nTemporal and diurnal results\n\n\nPopulation assessment\nDetection range, density, ASCR, and habitat questions\n\n\nAssessment details\nSupporting assessment notes and exploratory analysis\n\n\nBiodiversity\nCommunity and acoustic-index analyses\n\n\nBats\nHigh-frequency monitoring component\n\n\nInsects\nInsect monitoring component\n\n\nFuture research\nSurvey-design and management recommendations\n\n\nSound exploration\nExamples of recorded sounds and review context\n\n\nRails sound examples\nShared sound-analysis material used by the Rails pages\n\n\n\nThe source files for these pages are in content/. Data and analysis scripts are retained in data/ and _code/ so that future studies can reproduce or extend the workflow.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Crosswalk to the complete Rails section</span>"
+    ]
+  }
+]
