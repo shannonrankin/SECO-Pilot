@@ -35,6 +35,8 @@ website:
         text: Home
       - href: content/rails-dashboard.qmd
         text: Dashboard
+      - href: rails-report/index.html
+        text: "Rails manager report (HTML/PDF)"
       - section: content/rails-intro.qmd
         text: "Ridgway's Rails"
         contents:

@@ -1,0 +1,36 @@
+---
+title: "Study design and monitoring objectives"
+---
+
+## Start with the management question
+
+PAM is most useful when the management question is explicit. A study intended
+to map occupancy has different requirements from one intended to estimate
+density, evaluate habitat, or measure response to restoration. Define the
+estimand, the time period, the spatial frame, and the decision threshold before
+selecting recorder settings.
+
+## What the pilot tested
+
+The Ridgway's Rail pilot combined deployments at the Tijuana Estuary and
+Sweetwater Proving Pens with several recording schedules. Continuous 48-kHz
+recording supported temporal analyses; sunrise/sunset sampling extended
+coverage over a longer period; and high-frequency overnight sampling supported
+bat detection. This contrast is valuable for planning, because it makes the
+trade-off between temporal coverage, storage, battery life, and taxonomic
+coverage explicit.
+
+## Recommended design sequence
+
+1. Define the target population and the inference area.
+2. Pilot recorder placement, calibration, and detection range in representative
+   habitat.
+3. Collect a validation set of manually reviewed calls.
+4. Specify the sampling schedule and replication needed for the estimand.
+5. Pre-register quality-control rules, classifier thresholds, and exclusion
+   criteria.
+
+Spatial and temporal replication should be planned together. Sites should
+represent the habitat and management conditions to which results will be
+generalized, while repeated recordings provide information about imperfect
+detection.

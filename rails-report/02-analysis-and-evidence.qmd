@@ -1,0 +1,35 @@
+---
+title: "Analysis and strength of evidence"
+---
+
+## Detection and classification
+
+The pilot used BirdNET-assisted screening and manual review to identify
+candidate rail vocalizations. Classifier confidence is a screening measure,
+not a prevalence estimate. Future work should estimate sensitivity and
+specificity using a validation set that spans sites, recorder configurations,
+background noise, and call types.
+
+## Population assessment
+
+Detection-range work and distance-based approaches are promising routes to
+abundance or density estimation. They are not interchangeable: point-transect
+detection functions require suitable distance information, while acoustic
+spatial capture-recapture requires identifiable detections and a model
+appropriate to the sensor array. A future study should choose one estimand and
+design the field data around its assumptions.
+
+## Community and soundscape indicators
+
+Biodiversity, acoustic complexity, acoustic diversity, bioacoustic, and
+entropy indices can provide context about wetland communities and habitat
+condition. These indices should be treated as supporting indicators until
+their relationship to management outcomes is calibrated. They should not
+replace species-level validation when the decision concerns Ridgway's Rails.
+
+## Evidence limits
+
+The pilot results reveal operational patterns and useful design questions.
+They do not, by themselves, establish population trend, causal effects of
+management, or transferability to unsampled wetlands. Report uncertainty and
+validation performance alongside every future estimate.

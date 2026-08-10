@@ -1,0 +1,26 @@
+---
+title: "Crosswalk to the complete Rails section"
+---
+
+The following pages are the complete source components summarized in this
+report. They remain the authoritative location for interactive figures,
+exploratory analyses, and implementation details.
+
+| Component | Purpose |
+|---|---|
+| [Dashboard](../../content/rails-dashboard.html) | Deployment, recording, and rail-detection overview |
+| [Introduction](../../content/rails-intro.html) | Scope and motivation for the pilot |
+| [Methods](../../content/rails-methods.html) | Study area, recorders, detection, distance, and index methods |
+| [Summary](../../content/rails-summary.html) | Temporal and diurnal results |
+| [Population assessment](../../content/rails-assessment.html) | Detection range, density, ASCR, and habitat questions |
+| [Assessment details](../../content/rails-assessment-details.html) | Supporting assessment notes and exploratory analysis |
+| [Biodiversity](../../content/rails-biodiversity.html) | Community and acoustic-index analyses |
+| [Bats](../../content/rails-bats.html) | High-frequency monitoring component |
+| [Insects](../../content/rails-insects.html) | Insect monitoring component |
+| [Future research](../../content/rails-future.html) | Survey-design and management recommendations |
+| [Sound exploration](../../content/exploreSounds.html) | Examples of recorded sounds and review context |
+| [Rails sound examples](../../content/_rails-sounds.qmd) | Shared sound-analysis material used by the Rails pages |
+
+The source files for these pages are in [`content/`](../../content/). Data and
+analysis scripts are retained in [`data/`](../../data/) and [`_code/`](../../_code/)
+so that future studies can reproduce or extend the workflow.

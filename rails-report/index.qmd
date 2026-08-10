@@ -1,0 +1,34 @@
+---
+title: "Executive summary"
+---
+
+This report translates the Ridgway's Rail section of the Sound Ecology Pilot
+Studies repository into a decision aid for managers. It describes what passive
+acoustic monitoring (PAM) can contribute to future studies, what the pilot
+demonstrated, and which design decisions should be resolved before committing
+to a larger survey.
+
+## Decisions this report supports
+
+Managers can use this report to:
+
+1. decide whether PAM is appropriate for a monitoring objective;
+2. select a recording and analysis design that matches that objective;
+3. distinguish pilot evidence from results that require validation; and
+4. plan a defensible, reproducible field study.
+
+The pilot is best treated as a methods study, not as a final population
+estimate. Detection probability, call classification, habitat effects, and
+availability of independent detections all need to be quantified before
+inference is extended beyond the sampled locations.
+
+## How to use the report
+
+The chapters provide a concise management narrative. The final chapter is a
+crosswalk to the complete interactive components in the repository, including
+the dashboard, methods, population assessment, biodiversity, insects, bats,
+sound exploration, and future-research pages. Those pages retain the detailed
+figures, code, and exploratory results.
+
+For a printable copy, select **Download PDF** in the book navigation or use
+the PDF link in the top-right menu.
