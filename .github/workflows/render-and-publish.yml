@@ -42,7 +42,7 @@ jobs:
           tinytex: true 
 
       - name: Render Rails manager report
-        run: quarto render rails-report --output-dir _site/rails-report
+        run: cd rails-report && quarto render --output-dir ../_site/rails-report
 
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
