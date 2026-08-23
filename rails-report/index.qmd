@@ -12,23 +12,17 @@ to a larger survey.
 
 Managers can use this report to:
 
-1. decide whether PAM is appropriate for a monitoring objective;
+1. Decide whether PAM is appropriate for a monitoring objective;
 2. select a recording and analysis design that matches that objective;
-3. distinguish pilot evidence from results that require validation; and
-4. plan a defensible, reproducible field study.
+3. Distinguish pilot evidence from results that require validation; and
+4. Plan a defensible, reproducible field study.
 
-The pilot is best treated as a methods study, not as a final population
-estimate. Detection probability, call classification, habitat effects, and
-availability of independent detections all need to be quantified before
-inference is extended beyond the sampled locations.
+The pilot is best treated as a methods study and serves to inform future studies. Detection probability, call classification, habitat effects, and
+availability of independent detections all require validation as there are known discrepancies. 
 
 ## How to use the report
 
-The chapters provide a concise management narrative. The final chapter is a
-crosswalk to the complete interactive components in the repository, including
-the dashboard, methods, population assessment, biodiversity, insects, bats,
-sound exploration, and future-research pages. Those pages retain the detailed
-figures, code, and exploratory results.
+The chapters provide a concise management narrative. An html (web) version of this report as well as a downloadable pdf, data products, code, and figures are available in the public github repository. Raw audio and raw detection data may be available upon request.
 
 For a printable copy, select **Download PDF** in the book navigation or use
 the PDF link in the top-right menu.

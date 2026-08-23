@@ -15,3 +15,4 @@ renv/library/
 bigData
 output/wav
 **/*.quarto_ipynb
+.positai

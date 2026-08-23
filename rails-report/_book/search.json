@@ -1,0 +1,322 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "",
+    "text": "0.1 Decisions this report supports\nThis report translates the Ridgway’s Rail section of the Sound Ecology Pilot Studies repository into a decision aid for managers. It describes what passive acoustic monitoring (PAM) can contribute to future studies, what the pilot demonstrated, and which design decisions should be resolved before committing to a larger survey.\nManagers can use this report to:\nThe pilot is best treated as a methods study and serves to inform future studies. Detection probability, call classification, habitat effects, and availability of independent detections all require validation as there are known discrepancies.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#decisions-this-report-supports",
+    "href": "index.html#decisions-this-report-supports",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "",
+    "text": "Decide whether PAM is appropriate for a monitoring objective;\nselect a recording and analysis design that matches that objective;\nDistinguish pilot evidence from results that require validation; and\nPlan a defensible, reproducible field study.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-the-report",
+    "href": "index.html#how-to-use-the-report",
+    "title": "Ridgway’s Rail Passive Acoustic Monitoring",
+    "section": "0.2 How to use the report",
+    "text": "0.2 How to use the report\nThe chapters provide a concise management narrative. An html (web) version of this report as well as a downloadable pdf, data products, code, and figures are available in the public github repository. Raw audio and raw detection data may be available upon request.\nFor a printable copy, select Download PDF in the book navigation or use the PDF link in the top-right menu.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Executive summary</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html",
+    "href": "05-rails-biodiversity.html",
+    "title": "6  Biodiversity",
+    "section": "",
+    "text": "6.1 Diurnal vocalizations recorded near the Proving Pens\nPassive acoustics can serve to assess overall biodiversity and changes in biodiversity. Here we present alternative visualizations and analyses to serve as an introduction to the possibilities. All results are preliminary and analyses are conducted on recordings from the Tijuana Estuary (TJE).\nPassive acoustic recordings collected to study a priority species can also be used to study other resident or migrating species. This example shows the top ten species detected during the pilot study recordings in the Tijuana River Estuary.\nThese detections were not manually validated, so this figure is to be used as an example not a truth. While classifications were bound geographically (the classifier was ‘tuned’ to the San Diego region), they were not bounded temporally. Discounting temporal bounds provides more flexibility to accommodate temporal changes in the presence of migrating species (this was done to accommodate potential changes due to climate change). Unfotunately, this lead to likely false positives for migrating species that were likely not present (example: Dunlin). Future classifications should balance these needs by providing modestly wide temporal bounds (to accommodate potential changes in migrating times).\nDiurnal Variation\nBoxplot\nAcoustic Scene",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html#biodiversity-indices",
+    "href": "05-rails-biodiversity.html#biodiversity-indices",
+    "title": "6  Biodiversity",
+    "section": "6.2 Biodiversity Indices",
+    "text": "6.2 Biodiversity Indices\nIn theory, long term acoustic recordings may provide a means of assessing biodiversity and habitat quality; or, at the least, changes in these metrics over time and in different regions.\nAcoustic indices are quantitative metrics reflecting changes in the amplitude and frequency content of the soundscape over time (Sueur, 2018). Biodiversity indices, on their own, are of marginal value. Their value lies in their ability to quantify variation in the soundscape that may be indicative of a change in the habitat or biodiversity over time or space.\nMany methods are sensitive to spectrogram dimensions and standard methods are required for interpretation. Here we provide examples of biodiversity indices for consideration; selection of specific measures will vary depending on research objectives.\ncite: 10.1111/2041-210X.13254",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html#acoustic-complexity-index",
+    "href": "05-rails-biodiversity.html#acoustic-complexity-index",
+    "title": "6  Biodiversity",
+    "section": "6.3 Acoustic Complexity Index",
+    "text": "6.3 Acoustic Complexity Index\nThe Acoustic Complexity Index (ACI) uses a linear scale of sound intensity from sound spectrograms to analyze a soundscape. It is sensitive to irregularites in the biological soundscape (and other discrete sounds) while filtering out persistant anthropogenic sounds.\ncite: 10.1016/j.ecolind.2010.11.005, 10.1016/j.ecoinf.2011.07.004\n\n# Seewave Function = \"ACI\"\n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html#acoustic-diversity-index",
+    "href": "05-rails-biodiversity.html#acoustic-diversity-index",
+    "title": "6  Biodiversity",
+    "section": "6.4 Acoustic Diversity Index",
+    "text": "6.4 Acoustic Diversity Index\nThe Acoustic Diversity Index (ADI) uses the Shannon Index to measure the distribution of sound energy across frequency bins and was intended to serve as a proxy for habitat quality.\ncite: 10.1007/s10980-011-9636-9\n\n# Soundecology Function = \"acoustic_diversity\". \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html#bioacoustic-index",
+    "href": "05-rails-biodiversity.html#bioacoustic-index",
+    "title": "6  Biodiversity",
+    "section": "6.5 Bioacoustic Index",
+    "text": "6.5 Bioacoustic Index\nIntended to serve as a measure of birdsong complexity (and a proxy for relative bird abundance), it is a product of the amplitude and the number of occupied frequency bands, relative to the quietest 1 kHz frequency band.\ncite:10.1890/07-0004.1\n\n# Soundecology Function = \"bioacoustic_index\". \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "05-rails-biodiversity.html#acoustic-entropy-index-aei",
+    "href": "05-rails-biodiversity.html#acoustic-entropy-index-aei",
+    "title": "6  Biodiversity",
+    "section": "6.6 Acoustic Entropy Index (AEI)",
+    "text": "6.6 Acoustic Entropy Index (AEI)\nThe Acoustic Entropy Index is based on the entropy in both time and space (based on the Shannon Index).\ncite: 10.1371/journal.pone.0004065\n\n# Seewave Function = \"H\". Minimum frequency = 0 kHz, maximum frequency = Nyquist of recording, FFT = 512. \n# Build in rails_Pilot.Rmd, then output here",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Biodiversity</span>"
+    ]
+  },
+  {
+    "objectID": "06-rails-insects.html",
+    "href": "06-rails-insects.html",
+    "title": "7  Insects",
+    "section": "",
+    "text": "A number of insect species are highly vocal, broadcasting songs for extended periods, especially at night (cicadas, crickets, etc). Insects such as bees, flies, etc can also be detected at shorter range.\n\n\n\nRepeated nocturnal ‘song’ at 3.5 kHz attributed to insect singing at Tijuana Estuary.\n\n\nAcoustic monitoring provides a means of studying temporal and spatial variation in sounds attributed to insects, providing data on availability of insect prey as well as a means of assessing the habitat.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Insects</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html",
+    "href": "07-rails-future.html",
+    "title": "8  Future Research",
+    "section": "",
+    "text": "9 Future of PAM research for Ridgeway’s Rails and Southern California Wetland Habitats\nHistorical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgway’s Rails in southern California. This survey design primarily relied on playback of duetting calls to elicit a response from local breeding pairs(Zembal et al. 2024); however, specific field methods varied throughout the field season. Notably, (Thompson et al. 2024) noted that these playback methods work well when used sparingly. A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias(Stevens et al. 2024). While historical call-response surveys have proven to be an effective approach to monitoring Ridgway’s Rails, recent advances in PAM monitoring using acoustic recorders may provide a more standardized approach to monitoring Ridgeway’s Rails populations that may ultimately lead to more robust estimation of population trends.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#management-needs-will-define-role-of-pam",
+    "href": "07-rails-future.html#management-needs-will-define-role-of-pam",
+    "title": "8  Future Research",
+    "section": "9.1 Management Needs will Define Role of PAM",
+    "text": "9.1 Management Needs will Define Role of PAM\nDefine Primary management needs, and identify secondary research questions that might be met by PAM",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#pilot-study",
+    "href": "07-rails-future.html#pilot-study",
+    "title": "8  Future Research",
+    "section": "9.2 Pilot Study",
+    "text": "9.2 Pilot Study\nThis pilot study provides initial data to show a proof of concept and to collect preliminary data useful for developing a potential survey design.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#call-response-vs-pam",
+    "href": "07-rails-future.html#call-response-vs-pam",
+    "title": "8  Future Research",
+    "section": "9.3 Call-Response vs PAM",
+    "text": "9.3 Call-Response vs PAM\nEven though both methods rely on using animal calls to detect the presence of Ridgway’s rails, it is almost certain that these two methods would provide different population estimates. One is not inherently better than the other; they each have their strengths and limitations.\n\nBenefits and Limitations of Call-Response and PAM Sampling. ✅ identifies beneficial characteristics of sampling method, and ❌ identifies limitation of that sampling method.\n\n\n\n\n\n\n\nCall - Response\n\nPassive Acoustics\n\n\n\n\n✅High detection probability\n\n❌ Low detection rate\n\n\n❌ Potential impact on animals\n\n✅ Low/No disturbance\n\n\n❌ Increased sampling to reduce bias\n\n✅ Increased sampling to reduce bias\n\n\n❌ Animals may respond to increased sampling\n\n✅ No impact of increased sampling\n\n\n❌ Limited sampling to reduce habituation\n\n✅ Continuous monitoring\n\n\n✅ Immediate Results\n\n✅ Data permanence\n\n\n❌Observer bias in distance estimation\n\n✅ Multi-species monitoring\n\n\n❌ Limited scope (single species)\n\n✅ Better distance modeling\n\n\n❌ Observer bias in detection & classification\n\n❌ Big Data (!!)\n\n\n\n\n❌ Variability: Animal Behavior\n\n\n\nIn a perfect world, a 3-year study incorporating both methods would be conducted to make data-informed decisions. In reality this is rarely possible, and decisions must be made with imperfect data. Regardless, it is imperative that some sampling overlap be conducted in different habitats (or regions) to provide some level of ‘validation’ that will aid in interpreting the variation in results.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#survey-design",
+    "href": "07-rails-future.html#survey-design",
+    "title": "8  Future Research",
+    "section": "9.4 Survey Design",
+    "text": "9.4 Survey Design\nAcoustic distance sampling methods are well documented, and there are standard software platforms for survey design and data analysis. Still, we highly recommend proactive consultation with a distance sampling statistician prior to implementing a survey design (and ideally for the first set of analysis).",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#methods",
+    "href": "07-rails-future.html#methods",
+    "title": "8  Future Research",
+    "section": "9.5 Methods",
+    "text": "9.5 Methods\nThis pilot study used low-cost Audiomoth recorders. As with everything, there are trade-offs with different instruments. It may be that a higher quality recorder may provide a larger detection range or extended recording duration; a larger detection range may require fewer recorders total and an extended recording duration may require fewer field efforts to replace instruments. The total cost estimate should consider these ancillary costs. While consideration of a different recorder will require additional data collection to estimate the detection function, the Sweetwater Proving Pens make this an easy opportunity.\nMany bird species are vocal during the morning chorus and (less robustly) near sunset; many passive acoustic studies limit their recordings to these hours in order to extend their recording duration and reduce data sizes. Acoustic data is very rich data, with the potential to provide valuable information on other species of interest, potential impacts due to man-made noise, and other information about the environment. Increasingly, passive acoustics is being used to study insects, biodiversity, and habitat health. I strongly advise for some level of continuous recording in order to provide additional context about the ecosystem.\nPersonal Privacy considerations: wetlands occur in highly populated regions in southern California, and recording stations stationed near trails, etc. may record conversations. It is worth considering if there are privacy considerations that should be taken into account, and if signs should be posted.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#anthropogenic-impacts",
+    "href": "07-rails-future.html#anthropogenic-impacts",
+    "title": "8  Future Research",
+    "section": "9.6 Anthropogenic Impacts",
+    "text": "9.6 Anthropogenic Impacts\nAntropogenic noise was frequent in these recordings, and there is great potential for negative impacts on animals and the habitat. Noise may lead to masking of vocalizations (so that sounds cannot be detected over the noise), and animals may change their vocal behavior to accommodate increased noise levels. High noise levels may also interfere with their ability to identify the presence of a predator or detect prey. Continous passive acoustic recordings, especially from different regions with different noise impacts, can provide sufficient data to identify changes in vocal behavior due to noise.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#biodiversity",
+    "href": "07-rails-future.html#biodiversity",
+    "title": "8  Future Research",
+    "section": "9.7 Biodiversity",
+    "text": "9.7 Biodiversity\nOnly a very small fraction of the acoustic data collected during this pilot study was examined. This data can be used to assess the potential for studying other bird species (such as threatened or invasive species, or the presence of predators) as well as bats and insects. Several high frequency recordings (192 kHz) are provided as part of this pilot study; these data can provide information related to the presence of bat species feeding in these habitats.\nThere are several Biodiversity Indices that may provide a means of assessing long term trends. ‘Soundscape’ levels are increasingly used to assess the level of noise within different frequency bands, and this can be a useful way to assess changes in the environment.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "07-rails-future.html#open-science",
+    "href": "07-rails-future.html#open-science",
+    "title": "8  Future Research",
+    "section": "9.8 Open Science",
+    "text": "9.8 Open Science\nOpen science is a global movement to make scientific research and its outcomes freely accessible to everyone. It accelerates scientific progress and strengthens trust in research. This repository is publicly available, and the code and preliminary detection data are provided within this repository. I largely relied on open source software so that results are reproducible. I would recommend that future studies involving PAM extend the use of Open Science to include developing publicly available acoustic classifiers specific to this region, and considering the use of participatory science in data collection and analysis.\n\n\n\n\nStevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, et al. 2024. “Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway’s Rail.” Biodiversity and Conservation 33 (13): 3703–26. https://doi.org/10.1007/s10531-024-02919-5.\n\n\nThompson, Andrew R., Rasmus Swalethorp, Michaela Alksne, et al. 2024. “State of the California Current Ecosystem Report in 2022: A Tale of Two La Niñas.” Frontiers in Marine Science 11 (February). https://doi.org/10.3389/fmars.2024.1294011.\n\n\nZembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. Light-Footed Ridgeway’s (Clapper) Rail in California. https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Future Research</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html",
+    "href": "01-intro.html",
+    "title": "2  Introduction",
+    "section": "",
+    "text": "The habitat of the endangered light-footed Ridgway’s rail (Rallus obsoletus levipes) includes wetlands and lagoons in southern California and northern Baja California, Mexico. This species is threatened by habitat degradation and loss, pollution, sea level rise, and non-native species.\nHistorical call-response surveys conducted since 1979 have provided a long time-series monitoring of breeding pairs of Ridgway’s Rails in southern California. This survey design primarily relies on playback of duetting calls to elicit a response from local breeding pairs Zembal et al. (2024). A recent statistical examination of call-response survey design recommended repeated sampling to decrease sampling bias (Stevens et al. 2024); however, Zembal et al. (2024) noted that these playback methods work well when used sparingly. While historical call-response surveys have proven to be an effective approach to monitoring Ridgway’s Rails, recent advances in Passive Acoustic Monitoring (PAM) using autonomous acoustic recorders may provide a more standardized approach to monitoring Ridgway’s Rails populations that may ultimately lead to more robust estimation of population trends.\nThis pilot study serves to identify the potential for PAM surveys as an alternative approach to monitoring the populations of Ridgway’s Rails in San Diego County. PAM has the added potential benefit of extending temporal monitoring with minimal interference during the sensitive breeding season, providing additional contextual information (anthropogenic impacts, biodiversity), and allowing for opportunities to study other local species and the surrounding habitat.\n\n\n\n\nStevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, et al. 2024. “Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway’s Rail.” Biodiversity and Conservation 33 (13): 3703–26. https://doi.org/10.1007/s10531-024-02919-5.\n\n\nZembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. Light-Footed Ridgeway’s (Clapper) Rail in California. https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html",
+    "href": "02-methods.html",
+    "title": "3  Methods",
+    "section": "",
+    "text": "3.1 Study Area\nPlease see right-hand sidebar to navigate to specific methods.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html#study-area",
+    "href": "02-methods.html#study-area",
+    "title": "3  Methods",
+    "section": "",
+    "text": "This pilot study used Audiomoth recorders to monitor a single location in Tijuana River National Estuarine Research Reserve (TRNERR) as well as a series of acoustic experiments at the Ridgway Rail proving pens at the San Diego Bay National Wildlife Refuge near the Living Coast Discovery Center.\nBy zooming into the markers at the top of the map to see the spatial variation of the recorders at and around the proving pens.\n\n\n\n\n\n\n\n\n\n\n3.1.1 Tijuana Estuary\n\n\nRecorders were attached to a post situated near a small waterway at the Tijuana River National Estuarine Research Reserve (TRNERR). This site was located near a calling Ridgway’s Rail (calls were heard during our deployment, as identified by Justyn Stahl, Jeff Crooks, and Aiyana Reissman).\nThree Audiomoth recorders were attached to allow for three different approaches to sampling (see below for more information). The three recorders were placed vertically along the post and the microphone was directed towards the waterway (the image on the right shows the back of the audiomoths zip-tied to the post).\nA Binational Light Footed Ridgway’s Rail Workshop was conducted May 27-29, 2025, with a call-response survey at the Tijuana Estuary ~ 8:30 to 11:30 on Monday May 27. These calls occurred outside the timeframe for either the 48s+s recording configuration (sunrise and sunset), and the continuous recording (48c) ended on May 22.\n\n\n\n\nAudiomoth recorders attached to Solar Post near bridget at Tijuana Estuary\n\n\n\n\n\n\n3.1.2 Sweetwater Proving Pens\n\n\nThe Proving Pens at the Living Coast Discovery Center in the Sweetwater watershed are used for breeding and raising young Ridgway’s Rails to support expanding the population of these endangered species. During this experiment, a breeding pair and their chicks were in Proving Pen #1 (SPP-1N), and a pair (no chicks) were in Proving Pen #3 (SPP-3S). Recordings provided high quality recordings within close proximity to known Ridgway’s Rails, proving voucher (‘ground truth’) data that can be used to improve automated detectors and validate the systems.\n\n\n\n\nAudiomoth recorders attached to LFRR Proving Pens at Living Coast Discovery Center\n\n\n\n\nAt the Living Coast Proving Pens, We used three alternative survey designs:\n\nSampling Design Test: Set of 3 recorders at each proving pen to provide 3 alternative sampling designs (similar to recorders at Tijuana Estuary), see image on the right\nPreliminary Detection Range Test: Single recorder at each proving pen, plus a single recorder posted 118m from SPP-1N and 87m from SPP-3S. This provided a preliminary test to determine the distribution of recorders for the subsequent survey design\nDetection Range Test: The final survey design included deployment of a single recorder at SPP-1N and SPP-3S as well as 8 additional recorders deployed in the surrounding region to provide data to estimate detection range of calls attributed to the Ridgway’s Rails in the proving pens.\n\n\n\n3.1.3 Deployment Table\nThe table below includes all audiomoth deployments for the Tijuana Estuary (TJE) and the Sweetwater Proving Pens (SPP), including the exact location (latitude, longitude), deployment and retrieval dates, and the recording configuration. Details on the recording configurations are provided below.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html#recorders",
+    "href": "02-methods.html#recorders",
+    "title": "3  Methods",
+    "section": "3.2 Recorders",
+    "text": "3.2 Recorders\nPilot Studies use the low cost Audiomoth Recorder; temporary use of these recorders could be provided at no-cost to the pilot study. Alternatives to the Audiomoth may provide improved recording quality, longer recording durations, multiple recording sensors (for localization), or more complicated sampling options. Ultimately, identification of the most appropriate recording setup will depend on the specific study area and research needs.\n\n3.2.1 Sampling Methods\nThe initial pilot study included 1 recording site at Tijuana Estuary (TJE), and 2 primary recording sites at the Living Coast Proving Pens (SPP-1N, SPP-3S), and each site had a set of three recorders each with different sampling regimes:\n\n\n\nInitial Recording Specifications\n\n\nRecording Type\nRecording Schedule\nSampling Rate (kHz)\nRecord Off (s)\nRecord On (s)\nFilter Type\nHigh Pass Filter (kHz)\nLow Pass Filter (kHz)\n\n\n\n\n48c\ncontinuous\n48\n00.00.05\n00.00.55\nNA\nNA\nNA\n\n\n48s+s\nsunriseset\n48\n00.00.05\n00.00.55\nNA\nNA\nNA\n\n\n192b\nbat\n192\n00.00.05\n00.00.55\nbandpass\n12\n96\n\n\n\n\n\nEach recording configuration provided valuable information to inform future studies:\n\n48 kHz Continuous Recording: Continuous recordings provide additional context to activities during the day and night with a trade-off between storage capacity.\n48 kHz Sunrise and Sunset: Previous research suggests that Ridgway’s Rails are most vocally active during sunrise and sunset, and this more limited recording configuration allowed the recording duration to be extended. The limited recording period has reduced context, especially related to anthropogenic impacts and potential prey activity.\n192 kHz Sunset to Sunrise (bat): This high frequency recording allows for detection of bat echolocation. While bat species were not the primary focus of this pilot study, they are an important species in wetland habitats and provide valuable information related to biodiversity and health of the ecosystem. Due to the high sample rate, these recordings were storage limited and of shorter duration.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html#analysis-methods",
+    "href": "02-methods.html#analysis-methods",
+    "title": "3  Methods",
+    "section": "3.3 Analysis Methods",
+    "text": "3.3 Analysis Methods\n\n3.3.1 Bird Detection and Classification\nData were first scanned to determine the appropriate Recording Start and Recording End, as the beginning of most recordings contained excessive noise.\nBirdnet Analyzer v2.4 was used to batch analyze recordings for each deployment; detections were saved as csv files and formatted as Raven selection tables. Settings include: Minimum confidence = .25, Sensitivity = 1, Overlap = 0, Merge consecutive detections = 1, Audio speed modification = 1, minimum bandpass = 0 Hz, Maximum bandpass = 15 kHz; species list based on location (33N, -117W) and year-round with minimum occurrence probability of 0.03 for a species to be included.\nBirdnet provides a confidence score associated with each detection based on the original model development (not this specific dataset). These scores are not probabilities but do positively relate to predication accuracy (though this relationship varies by species). Manual validation was not conducted on these results, but this validation is required to translate these scores to a predication accuracy.\n\n##Note: All results are preliminary, data were not acoustically validated!\n\n\n\n\n\n\nConfidence values for Ridgway’s Rails were based on model development (not this specific application of the model). A minimum threshold of 25% were included. Future analysis should validate these classifications and remove false positives from the dataset.\n\n\n\n\nPreliminary data were analyzed using R programming language and preliminary results are provided to assess the potential use of PAM for studying Ridgway’s Rails. Preliminary data products and R code are made publicly available in this repository.\n\n_code/01_modifyNewDataInPlace.Rmd\n_code/02ravenValidate.Rmd\n_code/03ingestData.Rmd\n_code/04_Distance.Rmd (Under Construction)\n\n\n\n3.3.2 Distance Sampling\nA subset of data from the Detection Range Test at the Sweetwater Proving Pens was examined to provide a preliminary estimate the detection range of Ridgway’s Rails calls from the semi-captive animals in the proving pens. This sample detection data was analyzed using the distance R package to develop a (preliminary) detection function. This data provides an initial assessment of the detection range to inform future studies.\nManual validation of the data was not completed but is necessary to ensure accuracy of the detection function. The proving pens and surrounding habitat are different than the natural wetland habitat of Ridway’s Rails, and this detection function may vary from natural habitats. That said, we do believe this may serve as an approximation for natural habitats. Consideration of these limitations should be made prior to implementing a proper distance sampling survey.\n\n\n3.3.3 Bat Detection and Classification\nBats produce high frequency echolocation for communication, navigation, and foraging. Detection of these sounds requires a high sampling rate, which in turn has high storage requirements. High frequency sampling was conducted at both sites (Tijuana Estuary and the Sweetwater Proving Pens), although recordings were shorter in duration.\nHigh-frequency (192 kHz) recordings were analyzed using a trial evaluation of Kaleidoscope Pro software to detect echolocation clicks from bat species using the Western North America catalog. Again, manual analysis was not conducted to evaluate the classifier performance, and all results are preliminary. To reduce the number of potentially false detections, all potential bat detections were filtered to eliminate detections with less than 10 echolocation clicks, with a high variability in species detections within events, and with species detections with low classification probabilities. While this approach likely reduces the number of false detections and inaccurate classifications, it should be considered preliminary until a thorough manual evaluation of the data can be conducted.\nNote: Bat analysis was not completed",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html#biodiversity-analysis",
+    "href": "02-methods.html#biodiversity-analysis",
+    "title": "3  Methods",
+    "section": "3.4 Biodiversity Analysis",
+    "text": "3.4 Biodiversity Analysis\nTBD",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "02-methods.html#soundscape-analysis",
+    "href": "02-methods.html#soundscape-analysis",
+    "title": "3  Methods",
+    "section": "3.5 Soundscape Analysis",
+    "text": "3.5 Soundscape Analysis\nTBD",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methods</span>"
+    ]
+  },
+  {
+    "objectID": "03-rails-summary.html",
+    "href": "03-rails-summary.html",
+    "title": "4  Summary Results",
+    "section": "",
+    "text": "Passive acoustic detection as a means of monitoring species requires that: (1) the animals produce sounds that you can readily attribute to them, and (2) that you have a basic understanding of the variation in both the sounds they produce and the sounds that you detect on your recorder.\nWhile their vocal behavior is well described ((Zembal and Massey 1987), (Massey and Zembal 1987)), understanding variation in relation to the specific methods considered is important to understand the potential (and limitations) of passive acoustic monitoring for population assessment.\n\n\n\n\n\n\nImportant\n\n\n\nWarning: All results are preliminary, data were not acoustically validated!\n\n\n\n4.0.1 Temporal Variation\nThere was considerable daily variation in detection of calls associated with Ridgway’s Rails at both the Sweetwater Proving Pen #1N (SPP-1N) and at the Tijuana Estuary. Calls from SPP-1N likely included calls sourced from nearby SPP-3S, and this likely explains some of the higher call rate. It is also likely that a higher call rate might be expected due to interaction between the two breeding pairs, as well as interactions with the keepers or false positives due to calling from other birds housed at the Living Coast Discovery Center. Regardless, call rates from captive animals may not reflect call rate in their natural habitat.\nThis data is preliminary and has not been manually reviewed to confirm detections (add missed calls, remove false positives). Prelminary review found both false positives and false negatives. Future work should include manual review of these data to ensure that calls assigned to Ridgway’s Rails are in fact calls from those species. This manual review can also be used to validate the classifier, and to develop a more accurate local classifier.\nThese results suggest that calling behavior may be sufficiently consistent (on a daily basis) to allow for passive acoustic monitoring to assess the populations of Ridgway’s rails. This pilot study was conducted in late spring through mid-summer, and there may be additional seasonal variation in calling behavior.\n\n\n\n\n\n\n\n\n\nThe Sunset/Sunrise recordings provided extended duration (increased sample size over time), with recordings ranging from one hour before/after sunrise and one hour before/after sunset. The maximum recording time of less than 6 hours resulted in lower # hours/day with detections, but all dates were non-zero.\n\n\n\n\n\n\n\n\n\n\n\n4.0.2 Diurnal Variation\nThere is significant research suggesting that Ridgway’s Rails call more frequently during the pre-dawn and dusk time periods, and our results agree. Traditional call-response surveys are conducted at dusk (typically) or pre-dawn (rarely) to align with this known increase in calling behavior. Future passive acoustic surveys could limit recording periods to one hour before/after sunrise and sunset. While this would extend the duration between recorder turnover, but would limit the additional context provided by passive acoustic monitoring. At the minimum it would be useful to include some continuous monitoring with some recorders to better understand any variation in diurnal calling behavior (and how this might impact population assessment).\nWhile both locations showed peak calling near dawn and dusk, there were a large number of detections during the day at the Sweetwater Proving Pen (SPP). It is possible that the increased volume of daytime calling was due to this semi-captive environment. There were fewer rail calls at Tijuana Estuary, and little/no calling during the day. Preliminary scanning suggests there may be missed daytime calls. Again, acoustic detections were not manually reviewed and these results should be considered with caution until a review is conducted.\n\n\n\n\n\n\n\n\n\nA Binational Light Footed Ridgway’s Rail Workshop was conducted May 27-29, 2025, with a call-response survey at the Tijuana Estuary ~ 8:30 to 11:30 on Monday May 27. These calls occurred outside the timeframe for either the 48s+s recording configuration (sunrise and sunset), and the continuous recording (48c) ended on May 22. It would be valuable to have overlap in continous recording with future call-response surveys or trainings.\n\n\n\n\nMassey, Barbara W, and Richard Zembal. 1987. “Vocalizations of the Light-Footed Clapper Rail.” Journal of Field Ornithology 58.\n\n\nZembal, Richard, and Barbara W Massey. 1987. “Seasonality of Vocalizations by Light-Footed Clapper Rails.” Journal of Field Ornithology 58.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Summary Results</span>"
+    ]
+  },
+  {
+    "objectID": "04-rails-assessment.html",
+    "href": "04-rails-assessment.html",
+    "title": "5  Population Assessment",
+    "section": "",
+    "text": "5.1 Detection Range\nTo date, population assessment of Ridgway’s Rails has relied on call-response survey methods conducted by an expert ornithologist. While this long time series has been highly effective, recent research suggests that repeated sampling is required to improve the robustness of the results. Unfortunately, there is evidence that this species may habituate to repeated exposure to call-response surveys, which would lead to worsened outcomes.\nDistance sampling methods using visual or passive acoustic detections has proven successful for a wide range of species. Specifically, passive acoustic monitoring using acoustic recording devices placed throughout the habitat may be used as point transect or spatial capture-recapture models to assess population of cryptic species such as Ridgway’s Rails.\nUnderstanding the effective detection range is fundamental to adopting distance sampling methods for population assessment. The Detection Range Test at the Sweetwater Proving Pens provided an opportunity to assess the effective detection range using Audiomoth recorders in this environment. In addition to locating a recorder on each of the proving pens (which we will assume is approximately 1 meters distance from known animals), 8 additional recorders were placed at distance from the pens.\nThe map below shows the placement of the recorders on or near the Sweetwater Proving Pens (SPP) on and near the pens (#1 North,1N or #3 South, S3; Click on the site location to obtain the Site Code), and the table to the right shows the distance of each recorder to to the pen at SPP-01N (DD01) and SPP-03S (DD02).\nAs there were two potential sources for calls (DD01 and DD02), any call detected on any recorder be from a sound originally produced by animals at either DD01 or DD02. An effort was made to automate the identification of calls attributed to a ‘sound source’ and then to pair sounds detected on other recorders with the call from the sound source. These efforts were unsuccessful, and manual analysis will be necessary to refine these results.\nStill, the preliminary detection function suggests that the detection range is on the order of 150 - 200m. The first large spike in data in ~35m (the distance between DD01, DD02). After manual validation, a valid detection function can then be used to inform a survey design of a distance sampling approach to population assessment.\nThe range at which a call can be detected varies not only on the source amplitude of the call, but also the recording device and the environment through which the call propagates. If a different recording system is considered, this test should be repeated to obtain a detection function for that system. While the experiment at the proving pens provides an excellent preliminary estimate of detection range (and a preliminary detection function), the true detection range may vary by habitat, and the proving pens are different than typical habitat for Ridgway’s Rails. Future research should develop a detection function for Ridgway’s Rails in their preferred habitat.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Population Assessment</span>"
+    ]
+  },
+  {
+    "objectID": "04-rails-assessment.html#detection-range",
+    "href": "04-rails-assessment.html#detection-range",
+    "title": "5  Population Assessment",
+    "section": "",
+    "text": "Distance to Proving Pen Recorders\n\n\n\n\n\n\n\n\n\nDistance to Site\n\n\n\nSite\nDD01\nDD02\n\n\n\n\nDD01\n0.0\n35.6\n\n\nDD02\n35.6\n0.0\n\n\nDD03\n73.2\n37.9\n\n\nDD04\n14.0\n32.9\n\n\nDD05\n33.2\n22.0\n\n\nDD06\n118.1\n87.2\n\n\nDD07\n143.8\n109.6\n\n\nDD08\n112.3\n78.0\n\n\nDD09\n88.0\n58.7\n\n\nDD10\n58.6\n36.3\n\n\n\n\n\n\n\n\n\nThe spectrograms on the right show a Ridgway Rail call with color representing the intensity (amplitude) of the call at the DD01 proving pen site at the top (assumed to be at distance 0m from the source), and at a selection of sites with increasing distance from the source.\nAs expected, the calls of the Ridgway’s Rails are loud at the source (DD01, or proving pen SPP-01S), and the intensity of the call decreases with increasing distance, until the call can no longer be detected.\nManual examination of this example suggests that loud calls detected at DD01 may not be detected at 100 m from the Audiomoth placed at the pen. This distance is much smaller than the suggested detection range from literature. The pen (fence, screen) and large shrubs may negatively impact sound transmission (effectively decreasing detection range), and the Audiomoth recorders likely have less sensitivity than human ears. Still, the detection distance varies by methods, and this detection range is based on an Audiomoth recorder in this habitat, for animals in these pens. Manual analysis of the entire dataset may be required to obtain sufficient samples to understand the range of detection and/or to develop a functional automated replacement to manual analysis.\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nWarning: The results of this detection function data is invalid and only used as an example!",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Population Assessment</span>"
+    ]
+  },
+  {
+    "objectID": "04-rails-assessment.html#distance-sampling-for-density-estimation",
+    "href": "04-rails-assessment.html#distance-sampling-for-density-estimation",
+    "title": "5  Population Assessment",
+    "section": "5.2 Distance Sampling for Density Estimation",
+    "text": "5.2 Distance Sampling for Density Estimation\nDistance sampling methods using passive acoustic monitoring to estimate density and abundance is being adopted widely. It has great benefits and real limitations that should be considered.\nThe primary limitation is that animals must be calling to be detected; calling behavior may vary according to any number of behavioral or environmental conditions, which will ultimately affect the downstream data products (population assessment). The more we know about calling behavior, the better we can align models with actual animal density and abundance.\nUltimately, survey design and statistical approach must consider the research question and data products required. Absolute abundance will require a more robust survey design than density or occupancy models. Regardless, a thoughtful survey design will allow for robust assessment of trends over time as well as geographic variation.\nBelow we provide a few examples to facilitate a discussion of needs, priorities, and potential.\n\n5.2.1 Point Transect Density Estimation\n\n\nPoint transect survey design is a standard approach to density estimation; these methods are well-developed and adopted broadly. Survey design can be developed using random or standardized placement of recorders in the study area (this is facilitated with the dssd R package as shown below).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n5.2.2 Acoustic Spatial Capture Recapture (ASCR)\n\n\nASCR is an alternative approach to density estimation that can consider additional information related to animal location such as signal strength or time of arrival. ASCR survey design typically considers clustered acoustic recorders where each cluster is distributed such that some calls will be detected on multiple recorders but some calls will not be detected across all recorders (these conditions must be met to apply SCR models). Alternatively, recorders can be placed across the entire study area such that there is overlap in detection across any two or more recorders.\nascr shiny app Owl ASCR\nThis example shows how a large array of detectors can provide information about the spatial distribution of the detection of calls; over time, this data allows for the assessment of the density of calls in the region using ASCR methods.\n\n\n\n\n\n\n5.2.3 Habitat Modeling\n\n\nDensity Surface Models (dsm) for distance sampling data provide spatial models constructed from generalized additive models following methods developed by Hedley & Buckland (2004) and Miller et al. (2013).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Population Assessment</span>"
+    ]
+  },
+  {
+    "objectID": "04-rails-assessment.html#comparative-studies-of-call-response-and-acoustic-distance-sampling-studies",
+    "href": "04-rails-assessment.html#comparative-studies-of-call-response-and-acoustic-distance-sampling-studies",
+    "title": "5  Population Assessment",
+    "section": "5.3 Comparative Studies of Call-Response and Acoustic Distance Sampling Studies",
+    "text": "5.3 Comparative Studies of Call-Response and Acoustic Distance Sampling Studies\nStudies of species such as Ridgway’s Rails benefit from the animals’ tendency to respond vocally to nearby calls. Research suggests that repeated sampling will decrease sampling bias (Stevens et al. 2024), but other research suggests that animals may habituate and render these methods futile (Zembal et al. 2024). Call-response studies provide a measure of the number of animals in a region (abundance), but most call-response studies do not consider how variation in their sampling affects their population estimation. For example, is their ability to detect animals dependent on temporal, environmental or geographic variables? Does the call-response increase their risk by alerting predators to their location? Would an increase in sampling (to decrease bias or to improve seasonal sampling) lead to a decrease in the efficacy of sampling?\nWhile Passive acoustic monitoring (PAM) also relies on the vocal activity of species to study their populations, it is inherently a non-invasive way to remotely sense species’ presence. It necessarily relies on the natural vocal behavior of these species, and therefore is more appropriate for species that can be easily detected and identified to species based on sounds that they voluntarily make. Instead of the single (or limited) call-response sampling, PAM recorders can be deployed year-round to monitor seasonal changes in vocal activity.\n\nBenefits and Limitations of Call-Response and PAM Sampling. ✅ identifies beneficial characteristics of sampling method, and ❌ identifies limitation of that sampling method.\n\n\n\n\n\n\n\nCall - Response\n\nPassive Acoustics\n\n\n\n\n✅High detection probability\n\n❌ Low detection rate\n\n\n❌ Potential impact on animals\n\n✅ Low/No disturbance\n\n\n❌ Increased sampling to reduce bias\n\n✅ Increased sampling to reduce bias\n\n\n❌ Animals may respond to increased sampling\n\n✅ No impact of increased sampling\n\n\n❌ Limited sampling to reduce habituation\n\n✅ Continuous monitoring\n\n\n✅ Immediate Results\n\n✅ Data permanence\n\n\n❌Observer bias in distance estimation\n\n✅ Multi-species monitoring\n\n\n❌ Limited scope (single species)\n\n✅ Better distance modeling\n\n\n\n\n❌ Big Data (!!)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Population Assessment</span>"
+    ]
+  },
+  {
+    "objectID": "04-rails-assessment.html#recommended-next-steps",
+    "href": "04-rails-assessment.html#recommended-next-steps",
+    "title": "5  Population Assessment",
+    "section": "5.4 Recommended Next Steps",
+    "text": "5.4 Recommended Next Steps\n\n\n\n\n\n\nNoneImportant Note:\n\n\n\nThis data is preliminary, and manual validation is necessary.\n\n\nDetector/Classifier Improvements:\n\nManually validate calls (and consider call type), including review to identify false negatives (missed calls).\nAssess classifier performance, value of confidence scores, and degree of manual validation that should be considered.\nValidated calls should be added to an open source call library (xeno-canto)\nConsider developing a local Perch detector/classifier using validated calls (BirdAnalyzer is user friendly, but license not open to all uses).\n\nDetection Function:\n\nManual identification of sound source (DD01 vs DD02) and manual matching of known calls to outer recorders (DD03-DD10).\nRerun detection function with validated and manually matched calls.\nThis detection function specifically relates to rails in a pen (fence, mesh tarp) in a dry scrub ‘wetland’ habitat using an Audiomoth recorder with these settings. This detection function may be suitable for developing a survey design, but would not be recommended as a final detection function for use in density or abundance surveys.\n\nMay not (necessarily) be valid for rail calls in their natural habitat.\nUse of different recording instruments, microphones, recorder settings may affect the detection function.\n\nFuture studies should identify opportunities to measure detection distance to rail calls in their natural habitat. Ideally these studies would be replicated in several areas and different seasons to understand temporal and geographic variation in detection ranges. Consider coordinating recorders with other studies, such as gps-tagged birds, etc.\n\nSurvey Design:\n\nWhile distance sampling is increasingly common and there is open-source software readily available for this type of analysis, it is recommended that an expert in these statistical methods be consulted to ensure proper survey design and application of data for species with similar characteristics. Pro-active partnering will ensure assumptions are not violated and that analyses are properly applied to the data.\nIt is highly recommended that at least a full season of overlap between historical call-response surveys and passive acoustic distance sampling surveys.\n\n\n\n\n\nStevens, Bryan S., Courtney J. Conway, Kimberly A. Sawyer, et al. 2024. “Developing a Range-Wide Sampling Framework for Endangered Species: A Case Study with Light-Footed Ridgway’s Rail.” Biodiversity and Conservation 33 (13): 3703–26. https://doi.org/10.1007/s10531-024-02919-5.\n\n\nZembal, Richard, Susan M. Hoffman, and Justyn Stahl. 2024. Light-Footed Ridgeway’s (Clapper) Rail in California. https://www.researchgate.net/profile/Richard-Zembal/publication/387270261_Light-footed_Ridgway's_Clapper_Rail_in_California_2024_Season_Final_Report_to_US_Fish_and_Wildlife_Service_and_California_Department_of_Fish_and_Wildlife_Light-footed_Ridgway's_Clapper_Rail_in_Califor/links/6765c029c1b0135465eadb86/Light-footed-Ridgways-Clapper-Rail-in-California-2024-Season-Final-Report-to-US-Fish-and-Wildlife-Service-and-California-Department-of-Fish-and-Wildlife-Light-footed-Ridgways-Clapper-Rail-in-Californi.pdf.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Population Assessment</span>"
+    ]
+  }
+]

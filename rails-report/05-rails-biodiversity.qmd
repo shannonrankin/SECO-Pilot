@@ -1,0 +1,90 @@
+---
+title: "Biodiversity"
+format: html
+bibliography: references.bib
+---
+
+Passive acoustics can serve to assess overall biodiversity and changes in biodiversity. Here we present alternative visualizations and analyses to serve as an introduction to the possibilities. All results are preliminary and analyses are conducted on recordings from the Tijuana Estuary (TJE).
+
+## Diurnal vocalizations recorded near the Proving Pens
+
+Passive acoustic recordings collected to study a priority species can also be used to study other resident or migrating species. This example shows the top ten species detected during the pilot study recordings in the Tijuana River Estuary.
+
+These detections were not manually validated, so this figure is to be used as an ***example*** not a truth. While classifications were bound geographically (the classifier was 'tuned' to the San Diego region), they were not bounded temporally. Discounting temporal bounds provides more flexibility to accommodate temporal changes in the presence of migrating species (this was done to accommodate potential changes due to climate change). Unfotunately, this lead to likely false positives for migrating species that were likely not present (example: Dunlin). Future classifications should balance these needs by providing *modestly* wide temporal bounds (to accommodate potential changes in migrating times).
+
+```{r RailPrep}
+#| echo: false
+#| include: false
+library(here)
+here()
+
+source(here("../_code/_common.R"))
+
+birdnet_all <- readRDS(here("../data/birdnet_rails_48c.rds"))
+
+priority <- birdnet_all %>%
+  filter(location == "TJE") %>%
+  count(common_name, sort = TRUE) %>% 
+  slice_head(n = 10) %>%
+  pull(common_name) %>% 
+  union("Ridgway's Rail") 
+
+birdnet_top_TJE <- birdnet_all %>%
+  filter(location == "TJE") %>%
+  filter(common_name %in% priority)
+
+myData_priority_TJE <- loadDetectionData(x=birdnet_top_TJE, source='csv', detectionType='detection', wide=FALSE,  tz='UTC', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
+
+myData_rails_48c_tje <- loadDetectionData(x=birdnet_top_TJE, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+
+
+birdnet_tje_bins <- readRDS(here("../data/birdnet_rails_48c_bins_day.rds")) %>%
+  clean_names()
+
+# myData_rails_48c_tje <- loadDetectionData(x=birdnet_top_TJE, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+# 
+# myData_rails_48c_tje_bins <- loadDetectionData(x=birdnet_tje_bins, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'))
+
+# myData_rails_48c_tje <- loadDetectionData(x=birdnet_rails_48c_tje, source = 'csv', detectionType='detection', wide=FALSE, tz='Etc/GMT-7', columnMap=list(UTC='utc', species='common_name', Latitude='latitude', Longitude='longitude'), extraCols= c('site', 'location'))
+# 
+# # prep data to json for use in ojs:
+# library(jsonlite)
+# myData_json <- jsonlite::toJSON(myData_rails_48c_spp1Ntje, pretty = TRUE, na = "null")
+# cat(myData_json, file = "data.json")  # Save as a file for JS to read
+
+```
+
+Diurnal Variation
+
+```{r RailPolarPlot}
+#| echo: false
+#| warning: false
+
+plotPolarDetections(x=myData_priority_TJE, facet='species',  bin='detection/hour', quantity='count')
+
+```
+
+Boxplot
+
+```{r RailBoxplot}
+#| echo: false
+#| warning: false
+
+
+plotDetectionBoxplot(x=myData_priority_TJE,  group='species', facet = 'species', bin='hour/day', combineYears = FALSE, title = "Time Series BoxPlot showing the top 10 species detected at Tijuana Estuary")
+
+```
+
+Acoustic Scene
+
+```{r RailAcScene}
+#| echo: false
+#| warning: false
+
+
+plotAcousticScene(x=myData_priority_TJE, combineYears=FALSE) #Note: this would only be good for TJ
+
+```
+
+
+

@@ -8,7 +8,9 @@ Passive acoustics can serve to assess overall biodiversity and changes in biodiv
 
 ## Diurnal vocalizations recorded near the Proving Pens
 
-Need to fix this so that I am using the appropriate data here
+Passive acoustic recordings collected to study a priority species can also be used to study other resident or migrating species. This example shows the top ten species detected during the pilot study recordings in the Tijuana River Estuary.
+
+These detections were not manually validated, so this figure is to be used as an ***example*** not a truth. While classifications were bound geographically (the classifier was 'tuned' to the San Diego region), they were not bounded temporally. Discounting temporal bounds provides more flexibility to accommodate temporal changes in the presence of migrating species (this was done to accommodate potential changes due to climate change). Unfotunately, this lead to likely false positives for migrating species that were likely not present (example: Dunlin). Future classifications should balance these needs by providing *modestly* wide temporal bounds (to accommodate potential changes in migrating times).
 
 ```{r RailPrep}
 #| echo: false
@@ -51,8 +53,8 @@ birdnet_tje_bins <- readRDS(here("data/birdnet_rails_48c_bins_day.rds")) %>%
 # cat(myData_json, file = "data.json")  # Save as a file for JS to read
 
 ```
-Diurnal Variation
 
+Diurnal Variation
 
 ```{r RailPolarPlot}
 #| echo: false

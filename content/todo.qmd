@@ -7,105 +7,106 @@ format: html
 
 ### NEXT!!
 
--   **Diurnal variation (rails-summary.qmd/DiurnalVariation)**
+- Videos of spectrogram/calls to help for review.
 
-    -   May 27, SD 9am-2pm, UTC 2am to 7am
+- **Diurnal variation (rails-summary.qmd/DiurnalVariation)**
 
-    -   Change range for TJE so we get more resolution
+  - May 27, SD 9am-2pm, UTC 2am to 7am
 
-    -   Why are TJE detections only at night?
+  - Change range for TJE so we get more resolution
 
-    -   Need to manually review that data to see what is up. Also, need to confirm timing on the device– peaks match SPP, but something is very wrong there.
+  - Why are TJE detections only at night?
 
--   
+  - Need to manually review that data to see what is up. Also, need to confirm timing on the device– peaks match SPP, but something is very wrong there.
 
+- Discuss 'Helicopter capital of the world', and how this noise might impact detection & classification (masking, etc). Navy helicopter training facility nearby.
 
 ### *High Priority*
 
--   plotDetectionBoxPlot- need to overlay with effort (to improve understanding of quiet times)
+- plotDetectionBoxPlot- need to overlay with effort (to improve understanding of quiet times)
 
--   Dashboard
+- Dashboard
 
-    -   Fix Rails, Biodiversity components
+  - Fix Rails, Biodiversity components
 
-        -   Side by Side formatting issues
+    - Side by Side formatting issues
 
-    -   Value Box Size Issues
+  - Value Box Size Issues
 
-    -   User Defined?
+  - User Defined?
 
--   Detection Distance
+- Detection Distance
 
-    -   Create a simulation
+  - Create a simulation
 
-    -   Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
+  - Detection Function: create test dataframe (from real data) with these columns: Distance, SightingID, GroupSize (always 2?), see [these](https://workshops.distancesampling.org/duke-spatial-2015/practicals/1-detection-functions-solutions.html) examples
 
--   Scrolling Spectrograms (youtube)
+- Scrolling Spectrograms (youtube)
 
-    -   Check LFRR to see if it works with ojs
+  - Check LFRR to see if it works with ojs
 
-    -   If so, review data to identify other good recordings. Include: osprey, helicopter, insects, bats
+  - If so, review data to identify other good recordings. Include: osprey, helicopter, insects, bats
 
-    -   Sample sounds –\> youtube or other –\> spectrogram videos–\> sample sound video selections
+  - Sample sounds –\> youtube or other –\> spectrogram videos–\> sample sound video selections
 
--   Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
+- Analysis: For each species, sort by confidence score (high to low) and review manually to determine species-specific confidence scores (see <https://connormwood.com/wp-content/uploads/2024/02/wood-kahl-2024-guidelines-for-birdnet-scores.pdf)>
 
--   QAQC
+- QAQC
 
-    -   Check if battery or storage limited recording?
+  - Check if battery or storage limited recording?
 
-    -   QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
+  - QAQC for truncated recording or bad files, create a check for each recorder/storage card to ID possible problem cards/recorders
 
-    -   Check why some recorders start recording time is next day?
+  - Check why some recorders start recording time is next day?
 
-    -   ID \# bad files
+  - ID \# bad files
 
 ### *Lower Priority*
 
--   Insects
+- Insects
 
--   Bats
+- Bats
 
--   Acoustic Indices
+- Acoustic Indices
 
-    -   Run analyses and test (make sure they work)
+  - Run analyses and test (make sure they work)
 
-    -   Save figure output to Biodiversity page
+  - Save figure output to Biodiversity page
 
-    -   Look at comparison between results
+  - Look at comparison between results
 
--   Soundscape
+- Soundscape
 
--   Comments
+- Comments
 
-    -   Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
+  - Recorders- Create prelim list of recorders, pros/cons, and links to comparative studies. Possibly put this in recommendations or in separate section re: recorders?
 
-    -   Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
+  - Analysis: Future: Need to validate recordings for specific species (Rails, at the least) and then calculate species-specific confidence thresholds using birdnetTools\<birdnet_calc_threshold.
 
-        -   Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
+    - Analysis: Then, Create a **wetland_bird_detectionTable** of species detected and add confidence intervals, order by confidence interval (high to low), and highlight endangered species (Rails, etc)
 
-    -   **Birdnet:** Ideally would run Perch, or at least run Birdnet from R/Python. Note in the reporting that this is recommended in the future to ensure standardization/consistency. (use birdnetR)
+  - **Birdnet:** Ideally would run Perch, or at least run Birdnet from R/Python. Note in the reporting that this is recommended in the future to ensure standardization/consistency. (use birdnetR)
 
 ## Left Undone
 
--   [ ] Model Birdnet Performance Evaluation:
-    -   [ ] Plot confidence scores (x) vs Frequency (n, on y axis)
-    -   [ ] Random selection of clips from different confidence intervals
-    -   [ ] Use Raven Review mode to review clips
--   [ ] Manual Review to assess classifier
-    -   [ ] Review subset of data, determine if detection was true or false
-    -   [ ] Create a plot of all manually reviewed detections where x axis is the confidence scores (from birdnet) and Y is Correct (true positives) or Wrong (false positives).
-    -   [ ] What is the best threshold? Assess Precision & Recall and decide what is best for our study case.
-    -   [ ] OR, model true detection as a function of model scores. (Do this above).
--   [ ] Detection Review
-    -   [ ] DD: measures incl. amplitude for all calls
-    -   [ ] Eliminate false positives
-    -   [ ] Identify false negatives
-    -   [ ] Label Noise?
--   [ ] Raw Data
-    -   [ ] Organize Photos/label
-    -   [ ] SCI data
--   \[ \]
+- [ ] Model Birdnet Performance Evaluation:
+  - [ ] Plot confidence scores (x) vs Frequency (n, on y axis)
+  - [ ] Random selection of clips from different confidence intervals
+  - [ ] Use Raven Review mode to review clips
+- [ ] Manual Review to assess classifier
+  - [ ] Review subset of data, determine if detection was true or false
+  - [ ] Create a plot of all manually reviewed detections where x axis is the confidence scores (from birdnet) and Y is Correct (true positives) or Wrong (false positives).
+  - [ ] What is the best threshold? Assess Precision & Recall and decide what is best for our study case.
+  - [ ] OR, model true detection as a function of model scores. (Do this above).
+- [ ] Detection Review
+  - [ ] DD: measures incl. amplitude for all calls
+  - [ ] Eliminate false positives
+  - [ ] Identify false negatives
+  - [ ] Label Noise?
+- [ ] Raw Data
+  - [ ] Organize Photos/label
+  - [ ] SCI data
+- \[ \]
 
 ## MoreInfo
 

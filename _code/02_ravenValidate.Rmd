@@ -21,7 +21,7 @@ This RMarkdown file is intended as a 'how to' for working with PAM data for the 
 
 ```{r validate echo=FALSE include=FALSE}
 #Identify the path to the file you want to modify
-myBirdnetFile <- "E:/Rails/recordings/SGR-01/SGR-01_192b_20250602/birdnetLocal_SGR-01_192b_20250602/BirdNET_SelectionTable_SGR-01_192b_20250602.txt"
+myBirdnetFile <- "E:/Rails/recordings/SPP-DD/SPP-DD01_48c_20250716/birdnetLocal_SPP-DD01_48c_20250716/Appended_BirdNET_SelectionTable_SPP-DD01_48c_20250716.txt"
 
 convert_birdnet_to_raven(
   infile = myBirdnetFile
@@ -29,10 +29,80 @@ convert_birdnet_to_raven(
 ```
 
 2. Open in Raven
-Open Raven Pro, then open all your sound files (page windows, 60 seconds). Once these have loaded, File --> Open Selection Table. Navigate to the selection table you just created (appended with "_raven"). Once the table has loaded, right-click on the table and choose 'Add Measurements', and then choose to add the preset 'rails'.
+Open Raven Pro, then open all your sound files (page windows, 60 seconds). Once these have loaded, File --> Open Selection Table. Navigate to the selection table you just created (appended with "_raven"). Once the table has loaded, right-click on the table and choose 'Add Annotation', label that column 'validation'. On the left sidepanel, select 'Review', and for 'Annotations', filter by species.code and 'ridrai1' to filter by Ridgway's rails. You can choose to either 'Show' or 'Hide' the thumbnails. Then click 'Apply' at the bottom. Use the navigation panel on the left to move forward through the Ridgway Rail detections. For calls that are identified as correct, add a 'T' and click 'enter' in the validation. If calls are known FALSE, then add an 'F' and click 'enter' in the validation. For unknown, go to the spectrogram, use the mouse select the detection (and maybe a buffer around it for context), then select File --> 'Save Active Selection As'... and save a copy of the wav file in a 'validation' folder for that recording (name it as the detection #, or use PRE## or POST## if you are selecting a sound outside the detection window). Once you have gone through your detections, save your table (with same name, same location). You may want an expert opinion for these unknown detections (move onto the next step).
 ![Raven selection table measurements preset 'rails'.](/images/raven_table_preset_rails.jpg)
 
 ** If you manually validate, this would be the time to do it! I did not yet manually validate, so add this later**
 
-Save selection table and close. Note that it takes a LONG time to save the selection table (~ 1hr) as it needs to run the analysis to get some of the measurements.
+3. Modify validation example wav files for expert review
+These instructions are to prepare the validated calls for external review. This will include (1) renaming files to append the recording ID, (2) creating a video for each call, and (3) creating a spreadsheet for review.
 
+```{r prepXpertReview}
+library(fs)
+library(purrr)
+library(stringr)
+
+# User defined Info
+folder_path <- "E:/Rails/recordings/TJE-01/TJE-01_48c_20250515/validation"  
+
+prefix <- "TJE-01_48c_20250515_" 
+
+#Get all .wav files
+
+wav_files <- dir_ls(folder_path, glob = "*.wav")
+
+#Rename each file
+
+walk(wav_files, ~ {
+  new_name <- path(folder_path, str_c(prefix, path_file(.x)))
+  file_move(.x, new_name)
+})
+
+print(glue::glue("Renamed {length(wav_files)} files with prefix '{prefix}'."))
+
+#Next, create a csv for expert checklibrary(tidyverse)
+library(writexl)
+
+# 1️⃣ Define your user path
+user_path <- "E:/Rails/recordings/SPP-DD/SPP-DD01_48c_20250716/validation"   # <-- change this
+
+# 2️⃣ Create dataframe
+df <- user_path %>%
+  list.files(full.names = FALSE) %>% 
+  tibble(file = .) %>%
+  mutate(
+    `rail_T-F` = NA_character_,
+    `call-type` = NA_character_,
+    comments = NA_character_
+  )
+
+# 3️⃣ Write to Excel in the same folder
+write_xlsx(df, path = file.path(user_path, "validation.xlsx"))
+```
+dynaSpec to create videos
+Note: dynaSpec (in R) does not work with windows, so we can use a google colab to create these videos.
+Open these files in [dynaSpec google colab](https://colab.research.google.com/github/maRce10/dynaSpec/blob/master/dynaSpec.ipynb#scrollTo=8LIMh9wgFPZi), and where it says 'In the code below, replace 'my_file.wav' with the name of the sound file you uploaded: Copy in this code (below) and replace the 'my_file' with your filename (for both the wav and the mp4 output).
+
+If you use these spectrograms, cite: Araya-Salas, Marcelo and Wilkins, Matthew R. (2020), dynaSpec: dynamic spectrogram visualizations in R. R package version 1.0.0.
+```{r dynaSpec}
+my_wave <- read_sound_file("my_file.wav")
+
+scrolling_spectro(
+  wave = my_wave,
+  fix.time = FALSE,
+  wl = 1096,
+  t.display = 4,
+  ovlp = 70,
+  pal = reverse.gray.colors.1,
+  grid = FALSE,
+  flim = c(1, 9),
+  width = 1200,
+  height = 500,
+  res = 200,
+  fps = 30,
+  collevels = seq(-70, 0, 5),
+  file.name = "my_file.mp4",
+  lcol = "#07889B99"
+)
+
+```

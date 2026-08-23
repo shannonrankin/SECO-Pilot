@@ -1,24 +1,27 @@
 project:
   type: book
   output-dir: _book
+bibliography: references.bib
 
 book:
   title: "Ridgway's Rail Passive Acoustic Monitoring"
   subtitle: "A manager's report for designing future scientific studies"
-  author: "Sound Ecology Pilot Studies"
+  author: "Shannon Rankin: Sound Ecology Pilot Studies"
   date: last-modified
   repo-url: https://github.com/shannonrankin/SECO-Pilot
   repo-actions: [source, issue]
   downloads: [pdf]
   chapters:
     - index.qmd
-    - 01-study-design.qmd
-    - 02-analysis-and-evidence.qmd
-    - 03-management-recommendations.qmd
-    - 04-implementation-checklist.qmd
-    - 05-source-components.qmd
+    - 01-intro.qmd
+    - 02-methods.qmd
+    - 03-rails-summary.qmd
+    - 04-rails-assessment.qmd
+    - 05-rails-biodiversity.qmd
+    - 06-rails-insects.qmd
+    - 07-rails-future.qmd
 
-bibliography: ../bibliography.bib
+
 
 format:
   html:
